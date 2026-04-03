@@ -11,7 +11,7 @@
     --dark-emerald: #003835;
     --dark-emerald-BF: #003835BF;
     --dark-emerald-80: #00383580;
-
+    --teal-ink: #001C23;
     --primary-dark: #0a0a0a;
     --secondary-dark: #1a1a1a;
     --tertiary-dark: #2a2a2a;
@@ -156,7 +156,7 @@ section h2 {
 section p {
 	font-size: 14pt;
 	line-height: 1.6;
-	color: var(--dark-emerald);
+	color: var(--teal-ink);
 	font-family: 'Space Grotesk', sans-serif;
 	font-weight: 500;
 }
@@ -203,6 +203,8 @@ footer {
     margin-bottom: 0.25rem;
     letter-spacing: 0.5px;
 }
+
+
 
 /* Role / studio line */
 .project-card .text-muted {
