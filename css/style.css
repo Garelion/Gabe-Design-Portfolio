@@ -11,7 +11,7 @@
     --dark-emerald: #003835;
     --dark-emerald-BF: #003835BF;
     --dark-emerald-80: #00383580;
-    --teal-ink: #001C23;
+
     --primary-dark: #0a0a0a;
     --secondary-dark: #1a1a1a;
     --tertiary-dark: #2a2a2a;
@@ -105,7 +105,7 @@ nav.navbar-main a {
 
 .hero-title {
 	font-family: 'IBM Plex Sans', sans-serif;
-	font-size: 18pt;
+	font-size: 20pt;
 	margin-bottom: 0.5rem;
 	letter-spacing: 3px;
 	font-weight: 700;
@@ -113,11 +113,11 @@ nav.navbar-main a {
 }
 
 .hero-name{
-    font-size: 20pt;
+    font-size: 24pt;
 }
 
 .bio {
-    font-size: 12pt;
+    font-size: 14pt;
 	margin: 0;
     color: var(--dark-emerald-BF);
     letter-spacing: 1.5px;
@@ -125,6 +125,10 @@ nav.navbar-main a {
 	font-weight: 500;
     font-style: italic;
     text-align: start;
+}
+
+a {
+    color: var(--primary-orange);
 }
 
 .section-card {
@@ -156,7 +160,7 @@ section h2 {
 section p {
 	font-size: 14pt;
 	line-height: 1.6;
-	color: var(--teal-ink);
+	color: var(--dark-emerald);
 	font-family: 'Space Grotesk', sans-serif;
 	font-weight: 500;
 }
@@ -203,8 +207,6 @@ footer {
     margin-bottom: 0.25rem;
     letter-spacing: 0.5px;
 }
-
-
 
 /* Role / studio line */
 .project-card .text-muted {
