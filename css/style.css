@@ -1,0 +1,272 @@
+
+
+
+:root {
+    --lime-green: #D7E23C;
+    --easter-green: #A4DF56;
+    --accent-green: #35a361;
+    --primary-green: #00954A;
+    --mid-green: #007D58;
+    --deep-green: #114024;
+    --dark-emerald: #003835;
+    --dark-emerald-BF: #003835BF;
+    --dark-emerald-80: #00383580;
+
+    --primary-dark: #0a0a0a;
+    --secondary-dark: #1a1a1a;
+    --tertiary-dark: #2a2a2a;
+    --accent-steel: #3d4451;
+    --accent-blue: #2c3e50;
+    --text-light: #ffffff;
+    --text-gray: #b8b8b8;
+    --text-dim: #6b6b6b;
+    --border-sharp: #333333;
+    
+    --primary-orange: #FF8521;
+    --primary-orange-80: #FF852180;
+    --blood-orange: #DD460B;
+    --primary-red: #ff4444;
+}
+
+
+
+
+
+body {
+	background: var(--dark-emerald);
+	color: #e0f2e9;
+	margin: 0;
+	min-height: 100vh;
+	letter-spacing: 0.5px;
+}
+
+header {
+	background: var(--primary-green);
+	color: #f1f1f1;
+	padding: 2.5rem 1rem 0.8rem 1rem;
+	text-align: center;
+	box-shadow: 0 2px 12px rgba(16, 28, 18, 0.25);
+	border-bottom: 2px solid var(--mid-green);
+	border-radius: 0;
+}
+
+
+
+nav.navbar-main {
+	display: flex;
+	justify-content: center;
+	gap: 2.5rem;
+    border-radius: 2.5px;
+	border-bottom: 2px solid var(--primary-green);
+	font-family: 'Inter Tight', sans-serif;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+    padding-top: 0.5rem;
+}
+
+nav.navbar-main a {
+	color: var(--dark-emerald-BF);
+	text-decoration: none;
+	padding: 0.25rem 1.2rem;
+	border-radius: 2px;
+	transition: background 0.18s, color 0.18s;
+	font-size: 1.08rem;
+	position: relative;
+	display: inline-block;
+}
+
+nav.navbar-main a:hover,
+nav.navbar-main a:focus {
+	background: var(--accent-green);
+	color: var(--lime-green);
+	outline: none;
+}
+
+nav.navbar-main a.active {
+	background: var(--dark-emerald-BF);
+	color: whitesmoke;
+    box-shadow: 0 2px 12px rgba(28, 20, 16, 0.25);
+}
+
+nav.navbar-main a {
+	background: var(--easter-green);
+
+}
+
+.green-ruler {
+    width: 100%;
+    height: 0.2rem;
+    background: var(--easter-green);
+    margin: 0.5rem 0;
+    border-top: 1.5px solid var(--lime-green);
+    opacity: 0.50 !important;
+}
+
+.hero-title {
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 18pt;
+	margin-bottom: 0.5rem;
+	letter-spacing: 3px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.hero-name{
+    font-size: 20pt;
+}
+
+.bio {
+    font-size: 12pt;
+	margin: 0;
+    color: var(--dark-emerald-BF);
+    letter-spacing: 1.5px;
+	font-family: 'Inter Tight', sans-serif;
+	font-weight: 500;
+    font-style: italic;
+    text-align: start;
+}
+
+.section-card {
+	max-width: 820px;
+	margin: 2.5rem auto;
+	padding: 2.5rem 2.5rem 2rem 2.5rem;
+	background: var(--mid-green);
+	border-radius: 0;
+	box-shadow: 0 4px 22px rgba(16, 28, 18, 0.8);
+	border-bottom: 2px solid var(--deep-green);
+}
+
+section {
+	margin-bottom: 2.5rem;
+}
+
+section h2 {
+	color: white;
+	font-size: 1.7rem;
+	margin-bottom: 0.5rem;
+	border-left: 4px solid white;
+	padding-left: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-family: 'IBM Plex Sans', sans-serif;
+	letter-spacing: 2.5px;
+}
+
+section p {
+	font-size: 14pt;
+	line-height: 1.6;
+	color: var(--dark-emerald);
+	font-family: 'Space Grotesk', sans-serif;
+	font-weight: 500;
+}
+
+footer {
+	background: var(--primary-green);
+	color: white;
+	text-align: center;
+	padding: 1.5rem 1rem;
+	border-top: 2px solid var(--mid-green);
+	border-radius: 0;
+	margin-top: 3rem;
+	font-size: 10pt;
+	letter-spacing: 1px;
+	font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ==============================
+   Project Card Component
+   ============================== */
+
+.project-card {
+    background: var(--dark-emerald);
+    border: 1px solid var(--mid-green);
+    border-left: 6px solid var(--primary-green);
+    border-radius: 0;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover state (subtle, not flashy) */
+.project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+
+/* Project title */
+.project-card h3 {
+    font-family: 'Inter Tight', 'IBM Plex Sans', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.5px;
+}
+
+/* Role / studio line */
+.project-card .text-muted {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-gray) !important;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Project description */
+.project-card p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #dcebe4;
+    margin-bottom: 1rem;
+}
+
+/* Responsibility list */
+.project-card ul {
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.project-card ul li {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #e6f2ec;
+    margin-bottom: 0.5rem;
+}
+
+/* Optional media container */
+.project-card .project-media {
+    margin-top: 1.25rem;
+    border: 1px solid var(--mid-green);
+    background: #000;
+}
+
+/* Stack spacing for multiple cards */
+.project-card + .project-card {
+    margin-top: 2.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+	main {
+		margin: 1.5rem 1rem;
+		padding: 1.2rem;
+	}
+	header {
+		padding: 2rem 0.5rem 1rem 0.5rem;
+	}
+}
+
+@media (max-width: 600px) {
+	header h1 {
+		font-size: 2rem;
+	}
+	main {
+		padding: 0.7rem;
+	}
+	section h2 {
+		font-size: 1.1rem;
+	}
+}
