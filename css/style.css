@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+
 :root {
     --lime-green: #D7E23C;
     --easter-green: #A4DF56;
@@ -13,6 +16,7 @@
     --dark-emerald-BF: #003835BF;
     --dark-emerald-80: #00383580;
     --teal-ink: #001C23;
+    --teal-ink-80: #001C2380;
     --primary-dark: #0a0a0a;
     --secondary-dark: #1a1a1a;
     --tertiary-dark: #2a2a2a;
@@ -42,7 +46,7 @@ body {
 header {
 	background: var(--primary-green);
 	color: #f1f1f1;
-	padding: 2.5rem 1rem 0.8rem 1rem;
+	padding: 2rem 1rem 0.8rem 1rem;
 	text-align: center;
 	box-shadow: 0 2px 12px rgba(16, 28, 18, 0.25);
 	border-bottom: 2px solid var(--mid-green);
@@ -94,6 +98,7 @@ nav.navbar-main a:focus {
 
 nav.navbar-main a.active {
 	background: var(--dark-emerald-BF);
+    border-color: var(--teal-ink-80);
 	color: whitesmoke;
     box-shadow: 0 2px 12px rgba(16, 26, 33, 0.25);
 }
@@ -263,7 +268,7 @@ footer {
 
 .bi {
     color: var(--easter-green);
-    font-size: 1.1rem;
+    font-size: inherit;
     vertical-align: top !important;
 }
 
@@ -300,11 +305,22 @@ footer {
     color: var(--dark-emerald);
 }
 
-.project-links .bi{
-    color: inherit !important;
+.project-links .bi { color: inherit !important; }
+
+.btn-gameurl .bi { font-size: 16pt; color: inherit !important; }
+
+
+.btn-gameurl .btn-icon {
+    width: 1.15em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.btn-itch {
+
+.fa-brands, .fab { font-size: 18pt; color: inherit !important; }
+
+.btn-gameurl {
     background-color: var(--teal-ink);
     display: inline-flex;
     align-items: center;
@@ -315,20 +331,38 @@ footer {
     color: var(--easter-green);
     text-decoration: none;
     padding: 0.4rem 0.75rem;
+    line-height: 1;
     border-radius: 3px;
-    border: 2px solid var(--easter-green-80);
+    border: 2.5px solid var(--easter-green-80);
     background-clip: padding-box;
     transition: background 0.18s ease, color 0.18s ease;
+    animation: itch-glow 3.5s ease-in-out infinite;
 }
 
-.btn-itch:hover,
-.btn-itch:focus {
+@keyframes itch-glow {
+    0%, 100% {
+        border-color: var(--primary-orange);
+    }
+    50% {
+        border-color: var(--easter-green);
+    }
+}
+
+.btn-gameurl:hover,
+.btn-gameurl:focus {
     background: var(--text-light);
     color: var(--dark-emerald);
 }
 
-.btn-itch .bi {
-    color: inherit !important;
+.btn-gameurl:hover {
+    animation: none;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-gameurl {
+        animation: none;
+    }
 }
 
 /* Optional media container */
