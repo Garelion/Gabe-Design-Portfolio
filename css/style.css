@@ -53,7 +53,40 @@ header {
 	border-radius: 0;
 }
 
+.green-ruler {
+    width: 100%;
+    height: 0.18rem;
+    background: var(--dark-emerald-80);
+    margin: 0.5rem 0;
+    border-top: 0.12rem solid var(--lime-green);
+    opacity: 0.45 !important;
+}
+
 .w-95 { width: 95% !important; }
+
+.hero-title {
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 20pt;
+	margin-bottom: 0.5rem;
+	letter-spacing: 3px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.hero-name {
+    font-size: 24pt;
+}
+
+.bio {
+    font-size: 14pt;
+	margin: 0;
+    color: var(--teal-ink);
+    letter-spacing: 1.5px;
+	font-family: 'Inter Tight', sans-serif;
+	font-weight: 500;
+    font-style: italic;
+    text-align: start;
+}
 
 nav.navbar-main {
 	display: flex;
@@ -83,11 +116,9 @@ nav.navbar-main a {
     display: inline-flex;
     align-items: center;
 
-
     padding: calc(0.25rem + 2px) 1.2rem;
 
 }
-
 
 nav.navbar-main a:hover,
 nav.navbar-main a:focus {
@@ -104,60 +135,9 @@ nav.navbar-main a.active {
 }
 
 
+a { color: var(--primary-orange); }
 
-.green-ruler {
-    width: 100%;
-    height: 0.18rem;
-    background: var(--dark-emerald-80);
-    margin: 0.5rem 0;
-    border-top: 0.12rem solid var(--lime-green);
-    opacity: 0.45 !important;
-}
-
-
-.hero-title {
-	font-family: 'IBM Plex Sans', sans-serif;
-	font-size: 20pt;
-	margin-bottom: 0.5rem;
-	letter-spacing: 3px;
-	font-weight: 700;
-	text-transform: uppercase;
-}
-
-.hero-name{
-    font-size: 24pt;
-}
-
-.bio {
-    font-size: 14pt;
-	margin: 0;
-    color: var(--teal-ink);
-    letter-spacing: 1.5px;
-	font-family: 'Inter Tight', sans-serif;
-	font-weight: 500;
-    font-style: italic;
-    text-align: start;
-}
-
-a {
-    color: var(--primary-orange);
-}
-
-.shiny-text{
-   color: var(--lime-green);
-   font-weight: 600; 
-}
-
-
-.section-card {
-    width: min(95%, 1100px); 
-    margin: 2.5rem auto;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
-    background: var(--mid-green);
-    box-shadow: 0 4px 22px rgba(13, 16, 32, 0.5);
-    border-bottom: 2px solid var(--deep-green);
-}
-
+.shiny-text{ color: var(--lime-green); font-weight: 600; }
 
 section {
 	margin-bottom: 2.5rem;
@@ -181,6 +161,15 @@ section p {
 	color: var(--teal-ink);
 	font-family: 'Space Grotesk', sans-serif;
 	font-weight: 500;
+}
+
+.section-card {
+    width: min(95%, 1100px); 
+    margin: 2.5rem auto;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--mid-green);
+    box-shadow: 0 4px 22px rgba(13, 16, 32, 0.5);
+    border-bottom: 2px solid var(--deep-green);
 }
 
 footer {
@@ -210,9 +199,8 @@ footer {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
 .project-card:hover {
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 5px 20px rgba(0, 7, 44, 0.38);
 }
 
 /* Project title */
