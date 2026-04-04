@@ -1,6 +1,3 @@
-
-
-
 :root {
     --lime-green: #D7E23C;
     --easter-green: #A4DF56;
@@ -12,6 +9,7 @@
     --mid-green: #007D58;
     --deep-green: #114024;
     --dark-emerald: #003835;
+    --dark-emerald-E6: #003835E6;
     --dark-emerald-BF: #003835BF;
     --dark-emerald-80: #00383580;
     --teal-ink: #001C23;
@@ -61,7 +59,7 @@ nav.navbar-main {
 	display: flex;
 	justify-content: center;
 	gap: 2.5rem;
-    border-radius: 2.5px;
+    
 	border-bottom: 2px solid var(--primary-green);
 	font-family: 'Inter Tight', sans-serif;
 	font-weight: 700;
@@ -71,15 +69,25 @@ nav.navbar-main {
 }
 
 nav.navbar-main a {
-	color: var(--dark-emerald-BF);
-	text-decoration: none;
-	padding: 0.25rem 1.2rem;
-	border-radius: 2px;
-	transition: background 0.18s, color 0.18s;
-	font-size: 1.08rem;
-	position: relative;
-	display: inline-block;
+    color: var(--dark-emerald-BF);
+    text-decoration: none;
+
+    border-radius: 3px; /* use an integer */
+    border: 2px solid var(--dark-emerald-80);
+
+    background: var(--easter-green);
+    background-clip: padding-box;
+
+    transition: background 0.18s, color 0.18s;
+    font-size: 1.08rem;
+    display: inline-flex;
+    align-items: center;
+
+
+    padding: calc(0.25rem + 2px) 1.2rem;
+
 }
+
 
 nav.navbar-main a:hover,
 nav.navbar-main a:focus {
@@ -91,13 +99,10 @@ nav.navbar-main a:focus {
 nav.navbar-main a.active {
 	background: var(--dark-emerald-BF);
 	color: whitesmoke;
-    box-shadow: 0 2px 12px rgba(28, 20, 16, 0.25);
+    box-shadow: 0 2px 12px rgba(16, 26, 33, 0.25);
 }
 
-nav.navbar-main a {
-	background: var(--easter-green);
 
-}
 
 .green-ruler {
     width: 100%;
@@ -136,12 +141,17 @@ a {
     color: var(--primary-orange);
 }
 
+.shiny-text{
+   color: var(--lime-green);
+   font-weight: 600; 
+}
+
 .section-card {
     width: min(95%, 1100px); 
     margin: 2.5rem auto;
     padding: clamp(1.5rem, 3vw, 2.5rem);
     background: var(--mid-green);
-    box-shadow: 0 4px 22px rgba(16, 28, 18, 0.8);
+    box-shadow: 0 4px 22px rgba(13, 16, 32, 0.5);
     border-bottom: 2px solid var(--deep-green);
 }
 
@@ -193,7 +203,7 @@ footer {
     border-left: 6px solid var(--easter-green-E6);
     border-radius: 0;
     padding: 1.75rem 2rem;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 18px rgba(2, 7, 53, 0.25);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -205,12 +215,12 @@ footer {
 
 /* Project title */
 .project-card h3 {
-    font-family: 'Inter Tight', 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: 600;
     color: #ffffff;
     margin-bottom: 0.25rem;
-    letter-spacing: 0.5px;
+    letter-spacing: 1.5px;
 }
 
 /* Role / studio line */
@@ -243,6 +253,26 @@ footer {
     line-height: 1.5;
     color: #e6f2ec;
     margin-bottom: 0.5rem;
+}
+
+.project-card ul li i {
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+.project-card ul li {
+    margin-bottom: 0.75rem;
+}
+
+.bi {
+    color: var(--easter-green);
+    font-size: 1.1rem;
+    vertical-align: top !important;
+}
+
+.nav-icon {
+    color: inherit !important;
+    vertical-align: 0.025em !important;
 }
 
 /* Optional media container */
