@@ -7,6 +7,7 @@
     <title>Personal Work - Game Designer Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
@@ -43,21 +44,88 @@
         <div class="section-card">
             <h2>Personal & Experimental Work</h2>
 
+        <div class="project-card mt-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <h3 class="mb-0">Island Explorers</h3>
+            <a href="https://username.itch.io/island-explorers" target="_blank" rel="noopener" class="btn-itch">
+                <i class="bi bi-controller"></i>
+                Play on itch.io
+            </a>
+        </div>
+            <p class="text-muted">Systems Designer</p>
 
+            <div>
+                <p>
+                    Island Explorers is a 2D top-down light survival game, developed by a team of 
+                    three, myself included, for a class assignment during my Bachelor's at Full Sail.
+                </p>
 
-            <div class="project-card mt-4">
-                <h3>Island Explorers</h3>
-                <p class="text-muted">Systems Designer</p>
-                <div container>
-                    <p>Island Explorers is a 2D top-down light survival game, developed by a team of 3, myself included, for a class assignment during my bachelor's at Full Sail. This is a game where the player must use all available resources to survive and improve their tools to last as long as possible.</p>
-                    <p>Designed and Implemented:</p>
-                    <ul>
-                        <li>Inventory system</li>
-                        <li>Crafting system</li>
-                        <li>Player controls and animations</li>
-                    </ul>
+                <p>Designed and Implemented:</p>
+                <ul>
+                    <li>Inventory system</li>
+                    <li>Crafting system</li>
+                    <li>Player controls and animations</li>
+                </ul>
+
+                <div class="row g-3 align-items-center">
+                    <!-- Video -->
+                    <div class="col-md-6">
+                        <div class="project-media">
+                        <div class="media-frame">
+                        <video autoplay loop muted playsinline preload="metadata"
+                                poster="assets/imgs/island-preview.png">
+                            <source src="assets/vids/island-explorers-preview.mp4" type="video/mp4">
+                        </video>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Carousel -->
+                    <div class="col-md-6">
+                        <div class="media-frame">
+                        <div id="islandCarousel" class="carousel slide project-carousel h-100"
+                            data-bs-ride="carousel" data-bs-touch="true">
+
+                            <!-- Indicators -->
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#islandCarousel" data-bs-slide-to="0" class="active"></button>
+                                <button type="button" data-bs-target="#islandCarousel" data-bs-slide-to="1"></button>
+                                <button type="button" data-bs-target="#islandCarousel" data-bs-slide-to="2"></button>
+                            </div>
+
+                            <!-- Slides -->
+                            <div class="carousel-inner h-100">
+                                <div class="carousel-item active h-100">
+                                    <img src="assets/imgs/island-hotbar.png" alt="Inventory and HUD" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/island-crafting-menu.jpg" alt="Crafting system UI" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/islander-tool.jpg" alt="Player tool interaction" class="d-block w-100 h-100">
+                                </div>
+                        </div>
+
+                    <!-- Prev/Next Controls -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#islandCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#islandCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
+                </div>
+                
+
+                
+                
             </div>
+        </div>
 
             <div class="project-card mt-4">
                 <h3>Scraps Level</h3>

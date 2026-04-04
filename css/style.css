@@ -7,7 +7,7 @@
     --accent-green: #3cb76d;
     --primary-green: #00954A;
     --mid-green: #007D58;
-    --deep-green: #114024;
+    --deep-green: #124825;
     --dark-emerald: #003835;
     --dark-emerald-E6: #003835E6;
     --dark-emerald-BF: #003835BF;
@@ -31,10 +31,6 @@
     --primary-red: #ff4444;
 }
 
-
-
-
-
 body {
 	background: var(--dark-emerald);
 	color: #e0f2e9;
@@ -53,7 +49,7 @@ header {
 	border-radius: 0;
 }
 
-
+.w-95 { width: 95% !important; }
 
 nav.navbar-main {
 	display: flex;
@@ -106,12 +102,13 @@ nav.navbar-main a.active {
 
 .green-ruler {
     width: 100%;
-    height: 0.2rem;
-    background: var(--easter-green);
+    height: 0.18rem;
+    background: var(--dark-emerald-80);
     margin: 0.5rem 0;
-    border-top: 1.5px solid var(--lime-green);
-    opacity: 0.50 !important;
+    border-top: 0.12rem solid var(--lime-green);
+    opacity: 0.45 !important;
 }
+
 
 .hero-title {
 	font-family: 'IBM Plex Sans', sans-serif;
@@ -145,6 +142,7 @@ a {
    color: var(--lime-green);
    font-weight: 600; 
 }
+
 
 .section-card {
     width: min(95%, 1100px); 
@@ -207,10 +205,9 @@ footer {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover state (subtle, not flashy) */
+
 .project-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* Project title */
@@ -238,7 +235,7 @@ footer {
     font-size: 14pt;
     line-height: 1.6;
     color: #dcebe4;
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
 }
 
 /* Responsibility list */
@@ -275,16 +272,179 @@ footer {
     vertical-align: 0.025em !important;
 }
 
+
+
+.project-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    color: var(--easter-green);
+    text-decoration: none;
+
+    padding: 0.4rem 0.75rem;
+    border-radius: 3px;
+    border: 2px solid var(--dark-emerald-80);
+    background-clip: padding-box;
+
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.project-links a:hover,
+.project-links a:focus {
+    background: var(--text-light);
+    color: var(--dark-emerald);
+}
+
+.project-links .bi{
+    color: inherit !important;
+}
+
+.btn-itch {
+    background-color: var(--teal-ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--easter-green);
+    text-decoration: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 3px;
+    border: 2px solid var(--easter-green-80);
+    background-clip: padding-box;
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.btn-itch:hover,
+.btn-itch:focus {
+    background: var(--text-light);
+    color: var(--dark-emerald);
+}
+
+.btn-itch .bi {
+    color: inherit !important;
+}
+
 /* Optional media container */
 .project-card .project-media {
-    margin-top: 1.25rem;
-    border: 1px solid var(--mid-green);
+    margin-top: 0.5rem;
+    border: 2px solid var(--teal-green);
     background: #000;
 }
+
+
+
+.project-media {
+    margin: 0.5rem auto;
+    max-width: 640px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.project-media video,
+.project-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 
 /* Stack spacing for multiple cards */
 .project-card + .project-card {
     margin-top: 2.5rem;
+}
+
+
+/* ==============================
+   Fixed-Ratio Media Containers
+   ============================== */
+
+.media-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+    border-radius: 3px;
+    border: 2px solid var(--teal-ink);
+}
+
+/* Media fills frame WITHOUT cropping */
+.media-frame img,
+.media-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* critical */
+    display: block;
+}
+
+.media-frame video {
+    background-color: var(--easter-green-80);
+}
+
+.project-carousel {
+    background: #000;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+.project-carousel img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Dot indicators */
+.project-carousel .carousel-indicators {
+    margin-bottom: 0.4rem;
+}
+
+.project-carousel .carousel-indicators button {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--easter-green-80);
+    border: none;
+    opacity: 0.6;
+}
+
+.project-carousel .carousel-indicators .active {
+    background-color: var(--easter-green);
+    opacity: 1;
+}
+
+/* Align with video height visually */
+.project-media,
+.project-carousel {
+    max-height: 360px;
+}
+
+/* Make the carousel fill its 16:9 frame completely */
+.project-carousel,
+.carousel-inner,
+.carousel-item {
+    height: 100%;
+}
+
+/* Images fill the slide without distortion */
+.carousel-item img {
+    object-fit: contain;   /* shows entire image, may add letterboxing */
+    /* object-fit: cover;  -- use this if you prefer filling without gaps */
+}
+
+/* Improve control button visibility on dark backgrounds */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 1rem;
+    background-size: 50%;
 }
 
 /* Responsive adjustments */
