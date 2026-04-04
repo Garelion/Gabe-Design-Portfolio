@@ -4,7 +4,10 @@
 :root {
     --lime-green: #D7E23C;
     --easter-green: #A4DF56;
-    --accent-green: #35a361;
+    --easter-green-E6: #A4DF56E6;
+    --easter-green-BF: #A4DF56BF;
+    --easter-green-80: #A4DF5680;
+    --accent-green: #3cb76d;
     --primary-green: #00954A;
     --mid-green: #007D58;
     --deep-green: #114024;
@@ -21,9 +24,11 @@
     --text-gray: #b8b8b8;
     --text-dim: #6b6b6b;
     --border-sharp: #333333;
-    
+    --lavander-dreams: #AD80D7;
+    --sky-blue: #57A3F8;
     --primary-orange: #FF8521;
     --primary-orange-80: #FF852180;
+    --mid-orange: #EA5C00;
     --blood-orange: #DD460B;
     --primary-red: #ff4444;
 }
@@ -119,7 +124,7 @@ nav.navbar-main a {
 .bio {
     font-size: 14pt;
 	margin: 0;
-    color: var(--dark-emerald-BF);
+    color: var(--teal-ink);
     letter-spacing: 1.5px;
 	font-family: 'Inter Tight', sans-serif;
 	font-weight: 500;
@@ -185,7 +190,7 @@ footer {
 .project-card {
     background: var(--dark-emerald);
     border: 1px solid var(--mid-green);
-    border-left: 6px solid var(--primary-green);
+    border-left: 6px solid var(--easter-green-E6);
     border-radius: 0;
     padding: 1.75rem 2rem;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
@@ -211,7 +216,7 @@ footer {
 /* Role / studio line */
 .project-card .text-muted {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.95rem;
+    font-size: 13.5pt;
     color: var(--text-gray) !important;
     margin-bottom: 1rem;
     display: block;
@@ -220,7 +225,7 @@ footer {
 /* Project description */
 .project-card p {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.05rem;
+    font-size: 14pt;
     line-height: 1.6;
     color: #dcebe4;
     margin-bottom: 1rem;
@@ -234,7 +239,7 @@ footer {
 
 .project-card ul li {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1rem;
+    font-size: 14pt;
     line-height: 1.5;
     color: #e6f2ec;
     margin-bottom: 0.5rem;
