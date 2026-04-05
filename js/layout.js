@@ -1,3 +1,8 @@
+
+
+
+
+
 // Handle font loading to prevent layout shift
 function initFontLoading() {
     let timeout = setTimeout( () => {
@@ -17,6 +22,5 @@ function initFontLoading() {
 
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    initSharedComponents();
     initFontLoading();
 });
