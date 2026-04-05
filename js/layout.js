@@ -1,5 +1,10 @@
 // Handle font loading to prevent layout shift
 function initFontLoading() {
+    let timeout = setTimeout( () => {
+        document.documentElement.classList.add('fonts-loaded');
+    }, 500);
+
+
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(() => {
             document.documentElement.classList.add('fonts-loaded');
