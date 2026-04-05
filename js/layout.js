@@ -1,8 +1,3 @@
-
-
-
-
-
 // Handle font loading to prevent layout shift
 function initFontLoading() {
     let timeout = setTimeout( () => {
