@@ -1,5 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap');
 
+html {
+    visibility: hidden;
+}
 
+html.fonts-loaded {
+    visibility: visible;
+}
+
+/* Fallback: show content after 300ms even if fonts haven't loaded */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        animation: show-content 0s 0.1s forwards;
+    }
+}
+
+@keyframes show-content {
+    to {
+        visibility: visible;
+    }
+}
 
 :root {
     --lime-green: #D7E23C;
@@ -10,11 +30,13 @@
     --accent-green: #3cb76d;
     --primary-green: #00954A;
     --mid-green: #007D58;
-    --deep-green: #114024;
+    --deep-green: #124825;
     --dark-emerald: #003835;
+    --dark-emerald-E6: #003835E6;
     --dark-emerald-BF: #003835BF;
     --dark-emerald-80: #00383580;
     --teal-ink: #001C23;
+    --teal-ink-80: #001C2380;
     --primary-dark: #0a0a0a;
     --secondary-dark: #1a1a1a;
     --tertiary-dark: #2a2a2a;
@@ -29,188 +51,239 @@
     --primary-orange: #FF8521;
     --primary-orange-80: #FF852180;
     --mid-orange: #EA5C00;
+    --blood-orange-80: #DD460B80;
     --blood-orange: #DD460B;
     --primary-red: #ff4444;
 }
 
-
-
-
-
 body {
-	background: var(--dark-emerald);
-	color: #e0f2e9;
-	margin: 0;
-	min-height: 100vh;
-	letter-spacing: 0.5px;
+    background: var(--dark-emerald);
+    color: #e0f2e9;
+    margin: 0;
+    min-height: 100vh;
+    letter-spacing: 0.5px;
 }
 
 header {
-	background: var(--primary-green);
-	color: #f1f1f1;
-	padding: 2.5rem 1rem 0.8rem 1rem;
-	text-align: center;
-	box-shadow: 0 2px 12px rgba(16, 28, 18, 0.25);
-	border-bottom: 2px solid var(--mid-green);
-	border-radius: 0;
-}
-
-
-
-nav.navbar-main {
-	display: flex;
-	justify-content: center;
-	gap: 2.5rem;
-    border-radius: 2.5px;
-	border-bottom: 2px solid var(--primary-green);
-	font-family: 'Inter Tight', sans-serif;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-    padding-top: 0.5rem;
-}
-
-nav.navbar-main a {
-	color: var(--dark-emerald-BF);
-	text-decoration: none;
-	padding: 0.25rem 1.2rem;
-	border-radius: 2px;
-	transition: background 0.18s, color 0.18s;
-	font-size: 1.08rem;
-	position: relative;
-	display: inline-block;
-}
-
-nav.navbar-main a:hover,
-nav.navbar-main a:focus {
-	background: var(--text-light);
-	color: var(--dark-emerald);
-	outline: none;
-}
-
-nav.navbar-main a.active {
-	background: var(--dark-emerald-BF);
-	color: whitesmoke;
-    box-shadow: 0 2px 12px rgba(28, 20, 16, 0.25);
-}
-
-nav.navbar-main a {
-	background: var(--easter-green);
-
+    background: var(--primary-green);
+    color: #f1f1f1;
+    padding: 2rem 1rem 0.8rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(16, 28, 18, 0.25);
+    border-bottom: 2px solid var(--mid-green);
+    border-radius: 0;
 }
 
 .green-ruler {
     width: 100%;
-    height: 0.2rem;
-    background: var(--easter-green);
+    height: 0.18rem;
+    background: var(--dark-emerald-80);
     margin: 0.5rem 0;
-    border-top: 1.5px solid var(--lime-green);
-    opacity: 0.50 !important;
+    border-top: 0.12rem solid var(--lime-green);
+    opacity: 0.45 !important;
+}
+
+.w-95 {
+    width: 95% !important;
+}
+
+
+.tiny-pt {
+    font-size: 6pt !important;
+}
+
+.xsmall-pt {
+    font-size: 7pt !important;
+}
+
+.script-pt {
+    font-size: 8pt !important;
+}
+
+.footnote-pt {
+    font-size: 9pt !important;
+}
+
+.small-pt {
+    font-size: 10pt !important;
+}
+
+.normal-pt {
+    font-size: 11pt !important;
+}
+
+.large-pt {
+    font-size: 12pt !important;
+}
+
+.xlarge-pt {
+    font-size: 14pt !important;
+}
+
+.big-pt {
+    font-size: 16pt !important;
+}
+
+.huge-pt {
+    font-size: 18pt !important;
 }
 
 .hero-title {
-	font-family: 'IBM Plex Sans', sans-serif;
-	font-size: 20pt;
-	margin-bottom: 0.5rem;
-	letter-spacing: 3px;
-	font-weight: 700;
-	text-transform: uppercase;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 20pt;
+    margin-bottom: 0.5rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-.hero-name{
+.hero-name {
     font-size: 24pt;
 }
 
 .bio {
     font-size: 14pt;
-	margin: 0;
+    margin: 0;
     color: var(--teal-ink);
     letter-spacing: 1.5px;
-	font-family: 'Inter Tight', sans-serif;
-	font-weight: 500;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
     font-style: italic;
     text-align: start;
 }
+
+nav.navbar-main {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+
+    border-bottom: 2px solid var(--primary-green);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-top: 0.5rem;
+}
+
+nav.navbar-main a {
+    color: var(--dark-emerald-BF);
+    text-decoration: none;
+
+    border-radius: 3px;
+    /* use an integer */
+    border: 2px solid var(--dark-emerald-80);
+
+    background: var(--easter-green);
+    background-clip: padding-box;
+
+    transition: background 0.18s, color 0.18s;
+    font-size: 1.08rem;
+    display: inline-flex;
+    align-items: center;
+
+    padding: calc(0.25rem + 2px) 1.2rem;
+
+}
+
+nav.navbar-main a:hover,
+nav.navbar-main a:focus {
+    background: var(--text-light);
+    color: var(--dark-emerald);
+    outline: none;
+}
+
+nav.navbar-main a.active {
+    background: var(--dark-emerald-BF);
+    border-color: var(--teal-ink-80);
+    color: whitesmoke;
+    box-shadow: 0 2px 12px rgba(16, 26, 33, 0.25);
+}
+
 
 a {
     color: var(--primary-orange);
 }
 
-.section-card {
-    width: min(95%, 1100px); 
-    margin: 2.5rem auto;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
-    background: var(--mid-green);
-    box-shadow: 0 4px 22px rgba(16, 28, 18, 0.8);
-    border-bottom: 2px solid var(--deep-green);
+a:hover {
+    color: var(--lime-green);
 }
 
+.shiny-text {
+    color: var(--lime-green);
+    font-weight: 600;
+}
 
 section {
-	margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
 }
 
 section h2 {
-	color: white;
-	font-size: 1.7rem;
-	margin-bottom: 0.5rem;
-	border-left: 4px solid white;
-	padding-left: 0.75rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	font-family: 'IBM Plex Sans', sans-serif;
-	letter-spacing: 2.5px;
+    color: white;
+    font-size: 1.7rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid white;
+    padding-left: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'IBM Plex Sans', sans-serif;
+    letter-spacing: 2.5px;
 }
 
 section p {
-	font-size: 14pt;
-	line-height: 1.6;
-	color: var(--teal-ink);
-	font-family: 'Space Grotesk', sans-serif;
-	font-weight: 500;
+    font-size: 14pt;
+    line-height: 1.6;
+    color: var(--teal-ink);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+}
+
+.section-card {
+    width: min(95%, 1100px);
+    margin: 2.5rem auto;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--mid-green);
+    box-shadow: 0 4px 22px rgba(13, 16, 32, 0.5);
+    border-bottom: 2px solid var(--deep-green);
 }
 
 footer {
-	background: var(--primary-green);
-	color: white;
-	text-align: center;
-	padding: 1.5rem 1rem;
-	border-top: 2px solid var(--mid-green);
-	border-radius: 0;
-	margin-top: 3rem;
-	font-size: 10pt;
-	letter-spacing: 1px;
-	font-family: 'Space Grotesk', sans-serif;
+    background: var(--primary-green);
+    color: white;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border-top: 2px solid var(--mid-green);
+    border-radius: 0;
+    margin-top: 3rem;
+    font-size: 10pt;
+    letter-spacing: 1px;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 /* ==============================
    Project Card Component
    ============================== */
-
 .project-card {
     background: var(--dark-emerald);
     border: 1px solid var(--mid-green);
     border-left: 6px solid var(--easter-green-E6);
     border-radius: 0;
     padding: 1.75rem 2rem;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 18px rgba(2, 7, 53, 0.25);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover state (subtle, not flashy) */
 .project-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 5px 20px rgba(0, 7, 44, 0.38);
 }
 
 /* Project title */
 .project-card h3 {
-    font-family: 'Inter Tight', 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: 600;
     color: #ffffff;
     margin-bottom: 0.25rem;
-    letter-spacing: 0.5px;
+    letter-spacing: 1.5px;
 }
 
 /* Role / studio line */
@@ -228,7 +301,7 @@ footer {
     font-size: 14pt;
     line-height: 1.6;
     color: #dcebe4;
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
 }
 
 /* Responsibility list */
@@ -245,37 +318,439 @@ footer {
     margin-bottom: 0.5rem;
 }
 
+.project-card ul li i {
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+.project-card ul li {
+    margin-bottom: 0.75rem;
+}
+
+.bi {
+    color: var(--easter-green);
+    font-size: inherit;
+    vertical-align: top !important;
+}
+
+.nav-icon {
+    color: inherit !important;
+    vertical-align: 0.025em !important;
+}
+
+.project-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    color: var(--easter-green);
+    text-decoration: none;
+
+    padding: 0.4rem 0.75rem;
+    border-radius: 3px;
+    border: 2px solid var(--dark-emerald-80);
+    background-clip: padding-box;
+
+    transition: background 0.18s ease, color 0.18s ease;
+}
+
+.project-links a:hover,
+.project-links a:focus {
+    background: var(--text-light);
+    color: var(--dark-emerald);
+}
+
+.project-links .bi {
+    color: inherit !important;
+}
+
+.btn-gameurl .bi {
+    font-size: 16pt;
+    color: inherit !important;
+}
+
+
+.btn-gameurl .btn-icon {
+    width: 1.15em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.fa-brands,
+.fab {
+    font-size: 18pt;
+    color: inherit !important;
+}
+
+.btn-gameurl {
+    background-color: var(--teal-ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--easter-green);
+    text-decoration: none;
+    padding: 0.4rem 0.75rem;
+    line-height: 1;
+    border-radius: 3px;
+    border: 2.5px solid var(--easter-green-80);
+    background-clip: padding-box;
+    transition: background 0.18s ease, color 0.18s ease;
+    animation: itch-glow 3.5s ease-in-out infinite;
+}
+
+@keyframes itch-glow {
+
+    0%,
+    100% {
+        border-color: var(--primary-orange);
+    }
+
+    50% {
+        border-color: var(--easter-green);
+    }
+}
+
+.btn-gameurl:hover,
+.btn-gameurl:focus {
+    background: var(--text-light);
+    color: var(--dark-emerald);
+}
+
+.btn-gameurl:hover {
+    animation: none;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-gameurl {
+        animation: none;
+    }
+}
+
 /* Optional media container */
 .project-card .project-media {
-    margin-top: 1.25rem;
-    border: 1px solid var(--mid-green);
+    margin-top: 0.5rem;
+    border: 2px solid var(--teal-green);
     background: #000;
 }
 
+
+
+.project-media {
+    margin: 0.5rem auto;
+    max-width: 640px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.project-media video,
+.project-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
 /* Stack spacing for multiple cards */
-.project-card + .project-card {
+.project-card+.project-card {
     margin-top: 2.5rem;
 }
 
-/* Responsive adjustments */
+
+/* ==============================
+   Fixed-Ratio Media Containers
+   ============================== */
+
+.media-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 1px;
+    border: 2px solid var(--teal-ink);
+}
+
+.media-frame-lg {
+    aspect-ratio: 16 / 9;
+    width: auto;
+    max-height: 300px;
+    /* ← ideal for hero usage */
+    margin: 0 auto;
+    background: #000;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+/* Make carousel fill the frame */
+.media-frame-lg .carousel,
+.media-frame-lg .carousel-inner,
+.media-frame-lg .carousel-item {
+    height: 100%;
+}
+
+.carousel-caption p,
+.carousel-caption h3 {
+    line-height: 1.2;
+}
+
+/* Images adapt to the frame */
+.media-frame-lg img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* shows entire image */
+}
+
+/* Media fills frame WITHOUT cropping */
+.media-frame img,
+.media-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* critical */
+    display: block;
+}
+
+.media-frame video {
+    background-color: var(--easter-green-80);
+}
+
+.project-carousel {
+    background: #000;
+    
+}
+
+
+/* Carousel with outside indicators */
+.project-carousel {
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    border-radius: 1px;
+    border: 2px solid var(--teal-ink-80);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+
+.project-carousel img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Dot indicators */
+.project-carousel .carousel-indicators {
+    margin-bottom: 0.4rem;
+}
+
+.project-carousel .carousel-indicators button {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    opacity: 0.2;
+}
+
+.project-carousel .carousel-indicators .active {
+    opacity: 0.8;
+}
+
+.project-media,
+.project-carousel {
+    max-height: 360px;
+}
+
+/* Make the carousel fill its 16:9 frame completely */
+.project-carousel,
+.carousel-inner,
+.carousel-item {
+    height: 100%;
+}
+
+.carousel-item img {
+    object-fit: contain;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Pull arrows to the frame edges */
+button.carousel-control-prev {
+    padding-right: 3.5rem;
+}
+
+button.carousel-control-next {
+    padding-left: 3.5rem;
+}
+
+
+.bottom-border-green {
+    border-bottom: 2px solid var(--easter-green-80);
+}
+
+.project-carousel .carousel-inner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 320px;
+    overflow: hidden;
+    
+    
+}
+
+.project-carousel .carousel-item {
+    height: 100%;
+}
+
+/* Image wrapper for hover effect */
+.carousel-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.carousel-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Hover caption at bottom */
+.carousel-caption-hover {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.carousel-caption-hover h5 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: var(--lime-green);
+}
+
+.carousel-caption-hover p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.875rem;
+    margin: 0;
+    color: #e0e0e0;
+    line-height: 1.4;
+}
+
+.carousel-indicators [data-bs-target]{
+    height: 10px;
+    width: 10px;;
+}
+
+
+.carousel-image-wrapper:hover .carousel-caption-hover {
+    transform: translateY(0);
+}
+
+/* Outside indicators */
+.carousel-indicators-outside {
+    position: static !important;
+    margin: 0.85rem auto 0;
+    padding-bottom: 0.4rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.carousel-indicators-outside button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--blood-orange);
+    border: none;
+    opacity: 0.3;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.carousel-indicators-outside button:hover {
+    opacity: 0.6;
+    transform: scale(1.2);
+}
+
+.carousel-indicators-outside button.active {
+    opacity: 1;
+    background-color: var(--text-light);
+}
+
+/* Carousel controls positioning */
+.project-carousel .carousel-control-prev,
+.project-carousel .carousel-control-next {
+    height: auto;
+    top: 0;
+    bottom: auto;
+    align-items: center;
+    width: 15%;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.project-carousel .carousel-control-prev {
+    height: calc(100% - 4px);
+}
+
+.project-carousel .carousel-control-next {
+    height: calc(100% - 4px);
+}
+
+
+
+.project-carousel .carousel-control-prev:hover,
+.project-carousel .carousel-control-next:hover {
+    opacity: 1;
+}
+
+
 @media (max-width: 900px) {
-	main {
-		margin: 1.5rem 1rem;
-		padding: 1.2rem;
-	}
-	header {
-		padding: 2rem 0.5rem 1rem 0.5rem;
-	}
+    main {
+        margin: 1.5rem 1rem;
+        padding: 1.2rem;
+    }
+
+    header {
+        padding: 2rem 0.5rem 1rem 0.5rem;
+    }
 }
 
 @media (max-width: 600px) {
-	header h1 {
-		font-size: 2rem;
-	}
-	main {
-		padding: 0.7rem;
-	}
-	section h2 {
-		font-size: 1.1rem;
-	}
+    header h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        padding: 0.7rem;
+    }
+
+    section h2 {
+        font-size: 1.1rem;
+    }
 }
