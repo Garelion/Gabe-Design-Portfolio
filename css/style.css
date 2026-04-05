@@ -384,7 +384,7 @@ footer {
 
 .fa-brands,
 .fab {
-    font-size: 18pt;
+    font-size: 17pt;
     color: inherit !important;
 }
 
@@ -404,7 +404,7 @@ footer {
     border: 2.5px solid var(--easter-green-80);
     background-clip: padding-box;
     transition: background 0.18s ease, color 0.18s ease;
-    animation: itch-glow 3.5s ease-in-out infinite;
+    animation: itch-glow 4.5s ease-in-out infinite;
 }
 
 @keyframes itch-glow {
@@ -430,9 +430,11 @@ footer {
 }
 
 
+
+/* For battery saving purposes */
 @media (prefers-reduced-motion: reduce) {
     .btn-gameurl {
-        animation: none;
+        animation-duration: 8s;
     }
 }
 
@@ -721,7 +723,6 @@ button.carousel-control-next {
 .project-carousel .carousel-control-next {
     height: calc(100% - 4px);
 }
-
 
 
 .project-carousel .carousel-control-prev:hover,
