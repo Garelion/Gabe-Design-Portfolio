@@ -8,78 +8,153 @@
       rel="stylesheet"
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
-
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
-</style>
-
 
 <body>
-        <header>
-            <h4 class="text-start ps-5 hero-title">
-                <span class="hero-name">John Doe</span> - Game Designer Portfolio
-            </h4>
-            <p class="ps-5 bio">Hi, I’m <span class="fw-bold">[Name]</span>, a Technical Game Designer with experience in systems design, level design, and gameplay implementation.</p>
-            <hr class="green-ruler">
-            <nav class="navbar-main">
-              <a href="index.html" class="active">Home</a>
-              <a href="professional.html">Professional Work</a>
-              <a href="personal.html">Personal Work</a>
-              <a href="contact.html">Contact</a>
-            </nav>
-        </header>
+    <header>
+        <h4 class="text-start ps-5 hero-title">
+            <span class="hero-name">John Doe</span> - <span>Game Designer Portfolio</span>
+        </h4>
+        <p class="ps-5 bio">Hi, I’m <span class="fw-bold">[Name]</span>, a Technical Game Designer with experience in systems design, level design, and gameplay implementation.</p>
+        <hr class="green-ruler">
+        <nav class="navbar-main">
+            <a href="index.html" class="active"> 
+                <i class="bi bi-house-fill me-2 nav-icon"></i>Home
+            </a>
+
+             <a href="professional.html">
+                <i class="bi bi-briefcase-fill me-2 nav-icon"></i>Professional Work
+            </a>
+
+            <a href="personal.html">
+                <i class="bi bi-lightbulb-fill me-2 nav-icon"></i>Personal Work
+            </a>
+            <a href="contact.html">
+                <i class="bi bi-envelope-fill me-2 nav-icon"></i>Contact
+            </a>
+        </nav>
+    </header>        
 
     <section id="home">
         <div class="section-card">
             <section>
                 <h2>About Me</h2>
-                <p>I’ve worked on both live-service and shipped projects, including <em>Marvel’s Avengers</em> and <em>Payload</em>, focusing on gameplay systems, level construction, and engine-level implementation. My work emphasizes clarity, performance-aware design, and collaboration across disciplines.</p>
+                <div class="container">
+                    <p>I’ve worked on both live-service and shipped projects, 
+                    including <em class="shiny-text">Marvel’s Avengers</em> and 
+                    <em class="shiny-text">Payload</em>, focusing on gameplay systems, 
+                    level construction, and engine-level implementation. My work emphasizes clarity, 
+                    performance-aware design, and collaboration across disciplines.</p>
+                </div>
+                
             </section>
 
             <section>
                 <h2>Projects</h2>
-                <p>This portfolio highlights selected professional and personal projects, with a focus on systems design, level design, and technical problem-solving. Each project includes context, responsibilities, and examples of my contributions.</p>
+                <div class="container">
+                    <p>This portfolio highlights selected professional and personal projects, with a 
+                    focus on systems design, level design, and technical problem-solving. Each project 
+                    includes context, responsibilities, and examples of my contributions.</p>
+                </div>
             </section>
 
 
-        </div>
+            <div class="project-card">
+                <div id="homeCarousel" class="carousel slide project-carousel" data-bs-ride="carousel" data-bs-touch="true">
+                    <!-- Slides -->
+                    <div class="carousel-inner bottom-border-green">
+                        <div class="carousel-item active">
+                            <div class="carousel-image-wrapper">
+                                <img src="assets/imgs/marvel-avengers-war.jpg" alt="Marvel Avengers War">
+                                <div class="carousel-caption-hover">
+                                    <p>Marvel's Avengers - Live service gameplay systems</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="carousel-image-wrapper">
+                                <img src="assets/imgs/payload.jpeg" alt="Payload">
+                                <div class="carousel-caption-hover">
+                                    <p>Payload - Level design for Steam release</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="carousel-image-wrapper">
+                                <img src="assets/imgs/spongebob-maya.jpeg" alt="Spongebob Maya">
+                                <div class="carousel-caption-hover">
+                                    <h5>Maya Scene</h5>
+                                    <p>A scene made in Maya with a "Find the SpongeBobs" minigame.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="carousel-image-wrapper">
+                                <img src="assets/imgs/lvl-prototype.jpeg" alt="Level Prototype">
+                                <div class="carousel-caption-hover">
+                                    <h5>Level Prototype</h5>
+                                    <p>A prototype scene built using Unity Engine for an unreleased project.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Prev/Next Controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+
+                    <!-- Indicators (inside carousel but visually outside) -->
+                    <div class="carousel-indicators carousel-indicators-outside">
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <div class="section-card pb-0">
             <section>
                 <h2>Technical Game Designer</h2>
-                <p>
+                <p class="container">
                 I design and implement gameplay systems and levels with a focus on clarity,
                 performance-aware design, and cross-discipline collaboration.
                 </p>
+
                 <div class="project-card row mt-4">
                     <div class="col-md-6">
-                    <h3>Recent Professional Work</h3>
-                    <div class="container">
-                                            <p><strong>Marvel&apos;s Avengers</strong> – Live service gameplay & systems</p>
-                    <p><strong>Payload</strong> – Level design (Steam release)</p>
-
+                        <h3 class="ms-1">Recent Professional Work</h3>
+                        <hr class="green-ruler mb-1 mt-2 me-3 w-95">
+                        <div class="container">
+                            <p><strong class="shiny-text">Marvel&apos;s Avengers</strong> – Live service gameplay & systems</p>
+                            <p><strong class="shiny-text">Payload</strong> – Level design (Steam release)</p>
+                        </div>
                     </div>
 
-                    </div>
                     <div class="col-md-6">
-                    <h3>Primary Skills</h3>
-                    <div class="container">
-                    <ul>
-                        <li>Gameplay Systems Design</li>
-                        <li>Level Design</li>
-                        <li>Unreal Engine 5 / Blueprints</li>
-                    </ul>
-                    </div>
-                    
+                        <h3 class="ms-1">Primary Skills</h3>
+                        <hr class="green-ruler mb-1 mt-2 me-3">
+                        <div class="container">
+                        <ul>
+                            <li>Gameplay Systems Design</li>
+                            <li>Level Design</li>
+                            <li>Unreal Engine 5 / Blueprints</li>
+                        </ul>
+                        </div>
                     </div>
                 </div>
             </section>
-    
-        </div>
-                
+        </div>        
     </section>
     
 
