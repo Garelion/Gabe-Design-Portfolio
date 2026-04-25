@@ -1,26 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap');
 
-html {
-    visibility: hidden;
-}
-
-html.fonts-loaded {
-    visibility: visible;
-}
-
-/* Fallback: show content after 300ms even if fonts haven't loaded */
-@media (prefers-reduced-motion: no-preference) {
-    html {
-        animation: show-content 0s 0.1s forwards;
-    }
-}
-
-@keyframes show-content {
-    to {
-        visibility: visible;
-    }
-}
-
 :root {
     --lime-green: #D7E23C;
     --easter-green: #A4DF56;
@@ -56,12 +35,43 @@ html.fonts-loaded {
     --primary-red: #ff4444;
 }
 
+html {
+    visibility: hidden;
+}
+
+html.fonts-loaded {
+    visibility: visible;
+}
+
+/* Fallback: show content after 300ms even if fonts haven't loaded */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        animation: show-content 0s 0.1s forwards;
+    }
+}
+
+@keyframes show-content {
+    to {
+        visibility: visible;
+    }
+}
+
 body {
+    opacity: 0;
+    transition: opacity 0.4s ease;
     background: var(--dark-emerald);
     color: #e0f2e9;
     margin: 0;
     min-height: 100vh;
     letter-spacing: 0.5px;
+}
+
+body.page-loaded {
+    opacity: 1;
+}
+
+body.fade-out {
+    opacity: 0;
 }
 
 header {
