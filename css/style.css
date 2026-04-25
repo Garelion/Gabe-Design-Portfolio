@@ -33,14 +33,19 @@
     --blood-orange-80: #DD460B80;
     --blood-orange: #DD460B;
     --primary-red: #ff4444;
+
+    --fs-hero-title: 1.65rem;
+    --fs-hero-name: 2rem;
+    --fs-bio: 1.15rem;
 }
 
-html {
-    visibility: hidden;
+body {
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-html.fonts-loaded {
-    visibility: visible;
+body.page-ready {
+    opacity: 1;
 }
 
 /* Fallback: show content after 300ms even if fonts haven't loaded */
@@ -58,7 +63,10 @@ html.fonts-loaded {
 
 body {
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transform: translateY(1px) scale(0.999);
+    transition:
+        opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     background: var(--dark-emerald);
     color: #e0f2e9;
     margin: 0;
@@ -68,10 +76,12 @@ body {
 
 body.page-loaded {
     opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
 body.fade-out {
     opacity: 0;
+    transform: translateY(-4px) scale(0.995);
 }
 
 header {
@@ -138,9 +148,9 @@ header {
     font-size: 18pt !important;
 }
 
-.hero-title {
+header .hero-title {
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 20pt;
+    font-size: var(--fs-hero-title) !important;
     margin-bottom: 0.5rem;
     letter-spacing: 3px;
     font-weight: 700;
@@ -148,11 +158,16 @@ header {
 }
 
 .hero-name {
-    font-size: 24pt;
+    font-size: var(--fs-hero-name) !important;
 }
 
+h4.hero-title {
+    font-size: 1.65rem !important;
+}
+
+
 .bio {
-    font-size: 14pt;
+    font-size: var(--fs-bio);
     margin: 0;
     color: var(--teal-ink);
     letter-spacing: 1.5px;
@@ -260,7 +275,7 @@ footer {
     background: var(--primary-green);
     color: white;
     text-align: center;
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.75rem 0.25rem;
     border-top: 2px solid var(--mid-green);
     border-radius: 0;
     margin-top: 3rem;

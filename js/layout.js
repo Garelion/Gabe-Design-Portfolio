@@ -1,30 +1,64 @@
 /* layout.js */
 
+
+fetch('/partials/_header.html')
+  .then(res => res.text())
+  .then(html => {
+    document.querySelector('#sharedHeader').innerHTML = html;
+    
+    setActiveNav();
+  });
+
+
+function setActiveNav() {
+    const path = window.location.pathname.split('/').pop() || 'index.html';
+
+    const links = document.querySelectorAll('.navbar-main a');
+
+    links.forEach(link => {
+        const href = link.getAttribute('href');
+
+        if (href === path) {
+            link.classList.add('active');
+        }
+    });
+}
+
+fetch('/partials/_footer.html')
+  .then(res => res.text())
+  .then(html => {
+    document.querySelector('#sharedFooter').innerHTML = html;
+    
+    setActiveNav();
+  });
+
 // Handle font loading to prevent layout shift
 function initFontLoading() {
-    // Fallback timeout
-    setTimeout(() => {
-        document.documentElement.classList.add('fonts-loaded');
-    }, 500);
-
-    // Modern browsers
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(() => {
             document.documentElement.classList.add('fonts-loaded');
         });
     } else {
-        // Older browsers
         document.documentElement.classList.add('fonts-loaded');
     }
 }
 
-
 // Fade-in on page navigation
 window.addEventListener("pageshow", () => {
     document.body.classList.add("page-loaded");
+
+    const loader = document.querySelector(".loader-bar");
+
+    if (loader) {
+        loader.classList.add("done");
+
+        setTimeout(() => {
+            loader.classList.remove("active", "done");
+        }, 300);
+    }
 });
 
-document.addEventListener("click", async (e) => {
+document.addEventListener("click", (e) => {
     const link = e.target.closest("a[href]");
     if (!link) return;
 
@@ -38,11 +72,19 @@ document.addEventListener("click", async (e) => {
 
     e.preventDefault();
 
-    document.body.classList.remove("ready"); // fade out
+    const loader = document.querySelector(".loader-bar");
 
+    // Start loading bar
+    loader.classList.add("active");
+
+    // Slight delay so user sees it start
     setTimeout(() => {
-        window.location.href = url;
-    }, 300);
+        document.body.classList.remove("page-loaded"); // fade out
+
+        setTimeout(() => {
+            window.location.href = url;
+        }, 250);
+    }, 100);
 });
 
 
