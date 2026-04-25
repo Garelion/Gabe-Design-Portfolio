@@ -396,6 +396,7 @@ footer {
 .btn-gameurl .bi {
     font-size: 16pt;
     color: inherit !important;
+    
 }
 
 
@@ -409,7 +410,7 @@ footer {
 
 .fa-brands,
 .fab {
-    font-size: 17pt;
+    font-size: 16pt;
     color: inherit !important;
 }
 
@@ -418,8 +419,8 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
     letter-spacing: 0.5px;
     color: var(--easter-green);
     text-decoration: none;

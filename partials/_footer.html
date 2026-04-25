@@ -1,11 +1,88 @@
-<footer>
-    <p>© 2026 John Doe. All rights reserved.</p>
+<!-- 
+    _footer.html - Shared footer partial.
+    Loaded dynamically into each page's #sharedFooter.
+-->
+
+
+<style>
+.footer-main {
+    background: var(--primary-green);
+    border-top: 2px solid var(--mid-green);
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 1.2rem 1rem 0.75rem; /* Added padding for breathing room */
+    color: var(--text-light);
+    text-align: center;
+}
+
+.footer-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem; /* Increased gap for buttons */
+    margin-bottom: 0.75rem;
+}
+
+/* The Button Style */
+.footer-btn {
+    background: var(--mid-green);
+    color: var(--text-light) !important;
+    text-decoration: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px; /* Pill shape */
+    border: 1px solid var(--lime-green);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-btn:hover {
+    background: var(--text-light);
+    color: var(--deep-green) !important; /* Contrast color for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.footer-btn:hover i {
+    color: var(--mid-green); /* Or any color you prefer */
+}
+
+.footer-meta {
+    font-size: 9pt !important;
+    font-weight: 300;
+    margin: 0.2rem;
+    opacity: 0.7;
+}
+
+.github-pal{
+    color: var(--dark-emerald) !important;
+}
+</style>
+
+
+<footer class="footer-main">
+    <div class="footer-row">
+        <a href="mailto:name@email.com" class="footer-btn">
+            <i class="bi bi-envelope-fill"></i> Email
+        </a>
+
+        <a href="https://www.linkedin.com/in/username" target="_blank" class="footer-btn">
+            <i class="bi bi-linkedin"></i> LinkedIn
+        </a>
+
+        <a href="https://gabe2231.itch.io/" target="_blank" class="footer-btn">
+            <i class="bi bi-controller"></i> itch.io
+        </a>
+        
+
+
+    </div>
+
+    <p class="mb-2">© 2026 John Doe. All rights reserved.</p>
 
     <p class="footer-meta">
-        Contact: <a href="mailto:john@email.com">john@email.com</a>
+        Built by <a href="https://github.com/genesism_dev" class="text-decoration-none github-pal" target="_blank">genesism_dev</a>
     </p>
-
-    <p class="footer-meta">
-    Built by <a href="https://github.com/genesism_dev" class="text-muted text-decoration-none" target="_blank">genesism_dev</a>
-</p>
 </footer>

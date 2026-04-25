@@ -10,6 +10,28 @@
     <link rel="stylesheet" href="css/loading.css">
     <script src="js/layout.js" defer></script>
 
+    <style>
+        .cv-btn {
+        background: var(--mid-green);
+        color: var(--text-light) !important;
+        text-decoration: none;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px; /* Pill shape */
+        border: 1px solid var(--lime-green);
+        transition: all 0.3s ease;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .cv-btn:hover {
+        background: var(--primary-orange);
+        color: var(--deep-green) !important; /* Contrast color for hover */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    </style>
 
 </head>
 <body>
@@ -63,8 +85,17 @@
                             </a>
                         </li>
                     </ul>
+                    <div class="d-flex justify-content-center w-50">
 
 
+                    <a href="your-cv-link.pdf" target="_blank" class="btn-gameurl">    
+                        <span class="btn-icon">
+                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                        </span>
+                        Download CV
+                    </a>
+                    </div>
+                            
                 </div>
                 
             </div>
