@@ -1,65 +1,79 @@
-/* layout.js */
 history.scrollRestoration = "manual";
 
-fetch('/partials/_header.html')
-  .then(res => res.text())
-  .then(html => {
-    document.querySelector('#sharedHeader').innerHTML = html;
-    
-    setActiveNav();
-  });
+async function waitForFonts() {
+    if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+    }
+}
 
+async function waitForLayoutStability() {
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+}
+
+async function loadPartials() {
+    const header = fetch('/partials/_header.html')
+        .then(r => r.text())
+        .then(html => {
+            document.querySelector('#sharedHeader').innerHTML = html;
+            setActiveNav();
+        });
+
+    const footer = fetch('/partials/_footer.html')
+        .then(r => r.text())
+        .then(html => {
+            document.querySelector('#sharedFooter').innerHTML = html;
+            setActiveNav();
+        });
+
+    await Promise.all([header, footer]);
+}
 
 function setActiveNav() {
     const path = window.location.pathname.split('/').pop() || 'index.html';
-
-    const links = document.querySelectorAll('.navbar-main a');
-
-    links.forEach(link => {
-        const href = link.getAttribute('href');
-
-        if (href === path) {
+    document.querySelectorAll('.navbar-main a').forEach(link => {
+        if (link.getAttribute('href') === path) {
             link.classList.add('active');
         }
     });
 }
 
-fetch('/partials/_footer.html')
-  .then(res => res.text())
-  .then(html => {
-    document.querySelector('#sharedFooter').innerHTML = html;
-    
-    setActiveNav();
-  });
+async function runSmoothLoader() {
+    const overlay = document.getElementById("page-loader");
+    const bar = document.querySelector(".loader-bar");
 
-// Handle font loading to prevent layout shift
-function initFontLoading() {
-    if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => {
-            document.documentElement.classList.add('fonts-loaded');
-        });
-    } else {
-        document.documentElement.classList.add('fonts-loaded');
-    }
+    // Show overlay but DO NOT animate bar yet
+    overlay.classList.remove("hidden");
+    bar.style.transition = "none";
+    bar.style.width = "0%";
+
+    await loadPartials();
+    await waitForFonts();
+    await waitForLayoutStability();
+
+    requestAnimationFrame(() => {
+        bar.style.transition = "width 0.35s ease-out";
+        bar.style.width = "100%";
+    });
+
+    setTimeout(() => {
+        overlay.classList.add("hidden");
+        document.body.classList.add("page-loaded");
+    }, 350);
+
+    setTimeout(() => {
+        bar.style.transition = "none";
+        bar.style.width = "0%";
+    }, 700);
 }
 
-// Fade-in on page navigation
-window.addEventListener("pageshow", () => {
-    // Force correct position FIRST
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-
-    // Then animate
-    document.body.classList.add("page-loaded");
-
-    const loader = document.querySelector(".loader-bar");
-
-    if (loader) {
-        loader.classList.add("done");
-
-        setTimeout(() => {
-            loader.classList.remove("active", "done");
-        }, 300);
+window.addEventListener("pageshow", (e) => {
+    if (e.persisted) {
+        document.getElementById("page-loader").classList.add("hidden");
+        document.body.classList.add("page-loaded");
+        return;
     }
+    runSmoothLoader();
 });
 
 document.addEventListener("click", (e) => {
@@ -68,37 +82,22 @@ document.addEventListener("click", (e) => {
 
     const url = link.getAttribute("href");
 
-    if (
-        url.startsWith("http") ||
-        url.startsWith("#") ||
-        link.target === "_blank"
-    ) return;
+    if (url.startsWith("http") || url.startsWith("#") || link.target === "_blank")
+        return;
 
     e.preventDefault();
 
-    const loader = document.querySelector(".loader-bar");
+    const overlay = document.getElementById("page-loader");
+    const bar = document.querySelector(".loader-bar");
 
-    // Start loading bar
-    loader.classList.add("active");
+    overlay.classList.remove("hidden");
+    bar.style.transition = "none";
+    bar.style.width = "0%";
 
+    document.body.classList.add("fade-out");
+    document.body.classList.remove("page-loaded");
 
-    loader.style.width = "20%";
-
-    setTimeout(() => loader.style.width = "55%", 120);
-    setTimeout(() => loader.style.width = "80%", 240);
-
-
-    // Slight delay so user sees it start
     setTimeout(() => {
-        document.body.classList.remove("page-loaded"); // fade out
-
-        setTimeout(() => {
-            window.location.href = url;
-        }, 250);
-    }, 100);
+        window.location.href = url;
+    }, 80);
 });
-
-
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', initFontLoading);
