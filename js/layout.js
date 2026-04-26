@@ -1,5 +1,5 @@
 /* layout.js */
-
+history.scrollRestoration = "manual";
 
 fetch('/partials/_header.html')
   .then(res => res.text())
@@ -45,6 +45,10 @@ function initFontLoading() {
 
 // Fade-in on page navigation
 window.addEventListener("pageshow", () => {
+    // Force correct position FIRST
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+
+    // Then animate
     document.body.classList.add("page-loaded");
 
     const loader = document.querySelector(".loader-bar");
@@ -76,6 +80,13 @@ document.addEventListener("click", (e) => {
 
     // Start loading bar
     loader.classList.add("active");
+
+
+    loader.style.width = "20%";
+
+    setTimeout(() => loader.style.width = "55%", 120);
+    setTimeout(() => loader.style.width = "80%", 240);
+
 
     // Slight delay so user sees it start
     setTimeout(() => {
