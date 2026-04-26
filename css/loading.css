@@ -1,19 +1,26 @@
-/* loading.css */
+html.is-transitioning,
+html.is-transitioning body {
+    cursor: progress;
+}
 
-/* Loading overlay - emerald background with loader */
+body {
+    overflow-x: hidden;
+}
+
 #page-loader {
     position: fixed;
     inset: 0;
-    background: var(--teal-ink-80);
-    opacity: 0.98;
+    background: rgba(0, 28, 35, 0.72);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     z-index: 9999;
-    display: flex;
-    align-items: flex-start;
-    justify-content: stretch;
-    transition: opacity 0.15s ease-out, visibility 0.25s ease-out;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.24s ease, visibility 0.24s ease;
 }
 
-#page-loader.hidden {
+#page-loader.is-hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -24,35 +31,37 @@
     top: 0;
     left: 0;
     width: 0%;
-    height: 8px;
-    background: linear-gradient(90deg,
-            var(--blood-orange) 0%,
-            var(--primary-orange) 25%,
-            var(--lime-green) 50%,
-            var(--primary-green) 100%);
-    border-bottom: 2px solid var(--teal-ink) !important;
-    transition: width 0.2s linear;
+    height: 6px;
+    background: linear-gradient(
+        90deg,
+        var(--blood-orange) 0%,
+        var(--primary-orange) 35%,
+        var(--lime-green) 70%,
+        var(--primary-green) 100%
+    );
 }
 
-.loader-bar.complete {
-    width: 100% !important;
-}
-
-/* Page content - hidden until loader finishes */
 .page-wrapper {
-    opacity: 0.3;
-    transition:
-        opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-body.page-loaded .page-wrapper {
     opacity: 1;
-   
+    transition: opacity 0.24s ease;
 }
 
-/* Fade out state for navigation */
-body.fade-out .page-wrapper {
-    opacity: 0;
-   
-    transition: opacity 0.25s ease, transform 0.25s ease;
+body.is-leaving .page-wrapper {
+    opacity: 0.22;
+}
+
+video,
+.carousel img {
+    display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #page-loader,
+    .page-wrapper {
+        transition: none;
+    }
+
+    .loader-bar {
+        transition: none !important;
+    }
 }
