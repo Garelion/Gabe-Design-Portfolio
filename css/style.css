@@ -1,26 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap');
 
-html {
-    visibility: hidden;
-}
-
-html.fonts-loaded {
-    visibility: visible;
-}
-
-/* Fallback: show content after 300ms even if fonts haven't loaded */
-@media (prefers-reduced-motion: no-preference) {
-    html {
-        animation: show-content 0s 0.1s forwards;
-    }
-}
-
-@keyframes show-content {
-    to {
-        visibility: visible;
-    }
-}
-
 :root {
     --lime-green: #D7E23C;
     --easter-green: #A4DF56;
@@ -54,14 +33,55 @@ html.fonts-loaded {
     --blood-orange-80: #DD460B80;
     --blood-orange: #DD460B;
     --primary-red: #ff4444;
+
+    --fs-hero-title: 1.65rem;
+    --fs-hero-name: 2rem;
+    --fs-bio: 1.15rem;
 }
 
 body {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.page-ready {
+    opacity: 1;
+}
+
+/* Fallback: show content after 300ms even if fonts haven't loaded */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        animation: show-content 0s 0.1s forwards;
+    }
+}
+
+@keyframes show-content {
+    to {
+        visibility: visible;
+    }
+}
+
+body {
+    opacity: 0;
+    transform: translateY(1px) scale(0.999);
+    transition:
+        opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     background: var(--dark-emerald);
     color: #e0f2e9;
     margin: 0;
     min-height: 100vh;
     letter-spacing: 0.5px;
+}
+
+body.page-loaded {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+body.fade-out {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.995);
 }
 
 header {
@@ -128,9 +148,9 @@ header {
     font-size: 18pt !important;
 }
 
-.hero-title {
+header .hero-title {
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 20pt;
+    font-size: var(--fs-hero-title) !important;
     margin-bottom: 0.5rem;
     letter-spacing: 3px;
     font-weight: 700;
@@ -138,11 +158,16 @@ header {
 }
 
 .hero-name {
-    font-size: 24pt;
+    font-size: var(--fs-hero-name) !important;
 }
 
+h4.hero-title {
+    font-size: 1.65rem !important;
+}
+
+
 .bio {
-    font-size: 14pt;
+    font-size: var(--fs-bio);
     margin: 0;
     color: var(--teal-ink);
     letter-spacing: 1.5px;
@@ -242,15 +267,23 @@ section p {
     margin: 2.5rem auto;
     padding: clamp(1.5rem, 3vw, 2.5rem);
     background: var(--mid-green);
-    box-shadow: 0 4px 22px rgba(13, 16, 32, 0.5);
+     transition: all 0.3s ease;
+    /* box-shadow: 0 4px 20px rgba(13, 16, 32, 0.5); */
     border-bottom: 2px solid var(--deep-green);
+}
+
+.section-card:hover {
+
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(13, 16, 32, 0.2);
+
 }
 
 footer {
     background: var(--primary-green);
     color: white;
     text-align: center;
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.75rem 0.25rem;
     border-top: 2px solid var(--mid-green);
     border-radius: 0;
     margin-top: 3rem;
@@ -371,6 +404,7 @@ footer {
 .btn-gameurl .bi {
     font-size: 16pt;
     color: inherit !important;
+    
 }
 
 
@@ -384,7 +418,7 @@ footer {
 
 .fa-brands,
 .fab {
-    font-size: 17pt;
+    font-size: 16pt;
     color: inherit !important;
 }
 
@@ -393,8 +427,8 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
     letter-spacing: 0.5px;
     color: var(--easter-green);
     text-decoration: none;
