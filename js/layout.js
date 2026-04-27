@@ -5,13 +5,27 @@ if ('scrollRestoration' in history) {
 let partialsLoaded = false;
 let carouselsInitialized = false;
 
+
+function getCurrentPageName() {
+    return window.location.pathname.split('/').pop() || 'index.html';
+}
+
+function isCurrentPageLink(link) {
+    const href = link.getAttribute('href');
+    return href === getCurrentPageName();
+}
+
+
 function setActiveNav() {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
+    const path = getCurrentPageName();
+
     document.querySelectorAll('.navbar-main a').forEach(link => {
         const href = link.getAttribute('href');
         link.classList.toggle('active', href === path);
     });
 }
+
+
 
 function updateHeaderOffset() {
     const sharedHeader = document.querySelector('#sharedHeader');
@@ -108,6 +122,11 @@ function handleNavigation() {
     document.addEventListener('click', async e => {
         const link = e.target.closest('.navbar-main a[href]');
         if (!link || !shouldIntercept(link)) return;
+
+        if (isCurrentPageLink(link)) {
+            e.preventDefault();
+            return;
+        }
 
         e.preventDefault();
 

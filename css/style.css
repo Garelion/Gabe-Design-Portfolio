@@ -145,8 +145,9 @@ nav.navbar-main a.active {
     border-color: var(--teal-ink-80);
     color: whitesmoke;
     box-shadow: 0 2px 12px rgba(16, 26, 33, 0.25);
+    pointer-events: none;
+    cursor: default;
 }
-
 
 a {
     color: var(--primary-orange);
@@ -480,6 +481,12 @@ footer {
 
 video {
     background: #000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+video.loaded {
+    opacity: 1;
 }
 
 /* Dot indicators */
@@ -520,8 +527,8 @@ button.carousel-control-next {
 }
 
 
-.bottom-border-green {
-    border-bottom: 2px solid var(--easter-green-80);
+.bottom-border-teal {
+    border-bottom: 2px solid var(--teal-ink);
 }
 
 
@@ -550,11 +557,11 @@ button.carousel-control-next {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.85);
     color: #fff;
     padding: 0.75rem 1rem;
     transform: translateY(100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.45s ease;
 }
 
 .carousel-caption-hover h5 {
