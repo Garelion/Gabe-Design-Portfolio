@@ -13,6 +13,19 @@ function setActiveNav() {
     });
 }
 
+function updateHeaderOffset() {
+    const sharedHeader = document.querySelector('#sharedHeader');
+    const header = sharedHeader ? sharedHeader.querySelector('header') : null;
+
+    if (!header) {
+        document.documentElement.style.setProperty('--loader-top', '0px');
+        return;
+    }
+
+    const headerBottom = Math.max(0, Math.ceil(header.getBoundingClientRect().bottom));
+    document.documentElement.style.setProperty('--loader-top', `${headerBottom}px`);
+}
+
 async function loadPartials() {
     if (partialsLoaded) return;
 
@@ -22,7 +35,7 @@ async function loadPartials() {
 
     if (headerTarget) {
         tasks.push(
-            fetch('/partials/_header.html')
+            fetch('partials/_header.html')
                 .then(r => r.text())
                 .then(html => {
                     headerTarget.innerHTML = html;
@@ -32,7 +45,7 @@ async function loadPartials() {
 
     if (footerTarget) {
         tasks.push(
-            fetch('/partials/_footer.html')
+            fetch('partials/_footer.html')
                 .then(r => r.text())
                 .then(html => {
                     footerTarget.innerHTML = html;
@@ -42,6 +55,7 @@ async function loadPartials() {
 
     await Promise.all(tasks);
     setActiveNav();
+    updateHeaderOffset();
     partialsLoaded = true;
 }
 
@@ -75,10 +89,9 @@ function shouldIntercept(link) {
     return true;
 }
 
-function animateBarTo100(bar, duration = 420) {
+function animateBarTo100(bar, duration = 480) {
     return new Promise(resolve => {
         bar.style.transition = 'none';
-        bar.classList.remove('is-complete');
         bar.style.width = '0%';
 
         requestAnimationFrame(() => {
@@ -93,7 +106,7 @@ function animateBarTo100(bar, duration = 420) {
 
 function handleNavigation() {
     document.addEventListener('click', async e => {
-        const link = e.target.closest('a[href]');
+        const link = e.target.closest('.navbar-main a[href]');
         if (!link || !shouldIntercept(link)) return;
 
         e.preventDefault();
@@ -101,17 +114,31 @@ function handleNavigation() {
         const loader = document.getElementById('page-loader');
         const bar = document.querySelector('.loader-bar');
 
+        updateHeaderOffset();
+
         document.body.classList.add('is-leaving');
         document.documentElement.classList.add('is-transitioning');
 
         if (loader && bar) {
+            updateHeaderOffset();
             loader.classList.remove('is-hidden');
-            await animateBarTo100(bar, 420);
+            await animateBarTo100(bar, 480);
         }
 
         window.location.href = link.href;
     });
 }
+
+function startVideos() {
+    document.querySelectorAll('video').forEach(video => {
+        video.muted = true;
+        video.playsInline = true;
+        video.classList.add('loaded');
+        video.play().catch(() => {});
+    });
+}
+
+window.addEventListener('resize', updateHeaderOffset);
 
 window.addEventListener('pageshow', e => {
     const loader = document.getElementById('page-loader');
@@ -125,12 +152,14 @@ window.addEventListener('pageshow', e => {
 
     if (bar) {
         bar.style.transition = 'none';
-        bar.classList.remove('is-complete');
         bar.style.width = '0%';
     }
 
+    updateHeaderOffset();
+
     if (e.persisted) {
         setActiveNav();
+        startVideos();
     }
 });
 
@@ -151,10 +180,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     handleNavigation();
-
-    document.querySelectorAll('video[autoplay]').forEach(video => {
-        video.play().catch(() => {});
-    });
+    startVideos();
 });
-
-

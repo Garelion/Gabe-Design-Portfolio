@@ -4,52 +4,58 @@
 -->
 
 <style>
-    .footer-main {
-        background: var(--primary-green);
-        border-top: 2px solid var(--mid-green);
-        font-family: 'Space Grotesk', sans-serif;
-        padding: 1rem 1rem 1.25rem 1rem;
-        color: var(--text-light);
-        text-align: center;
 
-    }
+.footer-main {
+    background: var(--primary-green);
+    border-top: 2px solid var(--mid-green);
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 0.5rem 1rem;
+    color: var(--text-light);
+    box-shadow: -2px -2px 12px rgba(16, 28, 18, 0.25);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-    .footer-content-wrapper {
-        display: flex;
-        justify-content: space-between; /* This pushes elements to the far left and right */
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        margin-bottom: 1rem;
-    }
+.footer-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 1.5rem;
+    margin-bottom: 0.65rem;
+    min-height: 72px;
+}
+
+.copyright-text {
+    margin: 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-height: 100%;
+}
+
+.footer-btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+    min-height: 100%;
+}
 
     
-    .copyright-text {
-        margin: 0; /* Prevents paragraph margin from breaking alignment */
-        font-weight: 500;
-    }
-
-    .footer-btn-group {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-
-
-    .tilde-icon {
-        width: 1em;
-        height: 1em;
-        vertical-align: middle;
-    }
 
     /* The Button Style */
     .footer-btn {
         background: var(--mid-green);
         color: var(--text-light) !important;
         text-decoration: none;
-        padding: 0.5rem 1.25rem;
+        padding: 0.4rem 1rem;
         border-radius: 50px; 
-        border: 1px solid var(--lime-green);
+        border: 0.125rem solid var(--lime-green);
         transition: all 0.3s ease;
         font-weight: 500;
         display: flex;
@@ -58,10 +64,11 @@
     }
 
     .footer-btn:hover {
-        background: var(--text-light);
-        color: var(--deep-green) !important; 
+        background: #e0f2e9;
+        color: var(--blood-orange) !important; 
         transform: translateY(-2px);
         box-shadow: 0 4px 2px rgba(0,0,0,0.1);
+        border-color: var(--primary-orange);
     }
 
     .footer-btn:hover i {
@@ -74,7 +81,6 @@
         font-size: 9pt !important;
         font-weight: 300;
         font-style: italic;
-        margin: 0.2rem;
         opacity: 0.75;
     }
 
@@ -85,8 +91,8 @@
         color: var(--dark-emerald) !important;
         margin: 0.22rem 0.1rem;
         display: inline-block;
+        vertical-align: middle;
     }
-
 
     .github-pal {
         color: var(--dark-emerald) !important;
@@ -95,23 +101,45 @@
 
     /* Mobile: Stack them vertically and center them */
     @media (max-width: 768px) {
-        .footer-content-wrapper {
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-        }
-        
-        .footer-btn-group {
-            justify-content: center;
-        }
+    .footer-content-wrapper {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: auto;
     }
+
+    .footer-btn-group {
+        position: static;
+        transform: none;
+        margin-left: 0;
+        justify-content: center;
+    }
+}
 
 </style>
 
 
 <footer class="footer-main">
-    <div class="container footer-content-wrapper px-5 mb-2">
-        <p class="copyright-text">© 2026 John Doe. All rights reserved.</p>
+    <div class="container footer-content-wrapper px-5 mb-1">
+
+        <div>
+            <p class="copyright-text">© 2026 John Doe. All rights reserved.</p>
+
+        <p class="footer-meta mt-2 mb-0">
+            Designed & developed with care. 
+            <svg class="tilde-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M2 9
+                    C4 6, 6 6, 8 9
+                    C10 12, 12 12, 14 9"
+                    fill="none" stroke="currentColor"
+                    stroke-width="1.6" stroke-linecap="round" /> 
+            </svg>
+            <a href="https://github.com/genesism-dev" class="text-decoration-none github-pal" target="_blank">genesism-dev</a>
+        </p>
+        </div>
+        
 
         <div class="footer-btn-group">
             <a href="mailto:name@email.com" class="footer-btn">
@@ -127,18 +155,7 @@
     </div>
 
     <div class="container px-5 mt-0">
-        <p class="footer-meta">
-            Designed & developed with care. 
-            <svg class="tilde-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M2 9
-                    C4 6, 6 6, 8 9
-                    C10 12, 12 12, 14 9"
-                    fill="none" stroke="currentColor"
-                    stroke-width="1.6" stroke-linecap="round" /> 
-            </svg>
-            <a href="https://github.com/genesism-dev" class="text-decoration-none github-pal" target="_blank">genesism-dev</a>
-        </p>
+        
     </div>
 
 </footer>
