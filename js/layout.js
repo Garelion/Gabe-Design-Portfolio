@@ -1,93 +1,203 @@
-/* layout.js */
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+let partialsLoaded = false;
+let carouselsInitialized = false;
 
 
-fetch('/partials/_header.html')
-  .then(res => res.text())
-  .then(html => {
-    document.querySelector('#sharedHeader').innerHTML = html;
-    
-    setActiveNav();
-  });
+function getCurrentPageName() {
+    return window.location.pathname.split('/').pop() || 'index.html';
+}
+
+function isCurrentPageLink(link) {
+    const href = link.getAttribute('href');
+    return href === getCurrentPageName();
+}
 
 
 function setActiveNav() {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
+    const path = getCurrentPageName();
 
-    const links = document.querySelectorAll('.navbar-main a');
-
-    links.forEach(link => {
+    document.querySelectorAll('.navbar-main a').forEach(link => {
         const href = link.getAttribute('href');
-
-        if (href === path) {
-            link.classList.add('active');
-        }
+        link.classList.toggle('active', href === path);
     });
 }
 
-fetch('/partials/_footer.html')
-  .then(res => res.text())
-  .then(html => {
-    document.querySelector('#sharedFooter').innerHTML = html;
-    
-    setActiveNav();
-  });
 
-// Handle font loading to prevent layout shift
-function initFontLoading() {
-    if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => {
-            document.documentElement.classList.add('fonts-loaded');
-        });
-    } else {
-        document.documentElement.classList.add('fonts-loaded');
+
+function updateHeaderOffset() {
+    const sharedHeader = document.querySelector('#sharedHeader');
+    const header = sharedHeader ? sharedHeader.querySelector('header') : null;
+
+    if (!header) {
+        document.documentElement.style.setProperty('--loader-top', '0px');
+        return;
     }
+
+    const headerBottom = Math.max(0, Math.ceil(header.getBoundingClientRect().bottom));
+    document.documentElement.style.setProperty('--loader-top', `${headerBottom}px`);
 }
 
-// Fade-in on page navigation
-window.addEventListener("pageshow", () => {
-    document.body.classList.add("page-loaded");
+async function loadPartials() {
+    if (partialsLoaded) return;
 
-    const loader = document.querySelector(".loader-bar");
+    const headerTarget = document.querySelector('#sharedHeader');
+    const footerTarget = document.querySelector('#sharedFooter');
+    const tasks = [];
 
-    if (loader) {
-        loader.classList.add("done");
+    if (headerTarget) {
+        tasks.push(
+            fetch('partials/_header.html')
+                .then(r => r.text())
+                .then(html => {
+                    headerTarget.innerHTML = html;
+                })
+        );
+    }
 
-        setTimeout(() => {
-            loader.classList.remove("active", "done");
-        }, 300);
+    if (footerTarget) {
+        tasks.push(
+            fetch('partials/_footer.html')
+                .then(r => r.text())
+                .then(html => {
+                    footerTarget.innerHTML = html;
+                })
+        );
+    }
+
+    await Promise.all(tasks);
+    setActiveNav();
+    updateHeaderOffset();
+    partialsLoaded = true;
+}
+
+function initCarousels() {
+    if (carouselsInitialized || !window.bootstrap) return;
+
+    document.querySelectorAll('.carousel').forEach(el => {
+        if (!bootstrap.Carousel.getInstance(el)) {
+            new bootstrap.Carousel(el, {
+                interval: false,
+                ride: false,
+                touch: true
+            });
+        }
+    });
+
+    carouselsInitialized = true;
+}
+
+function shouldIntercept(link) {
+    const href = link.getAttribute('href');
+    if (!href) return false;
+    if (href.startsWith('#')) return false;
+    if (link.target === '_blank') return false;
+    if (link.hasAttribute('download')) return false;
+    if (href.startsWith('mailto:') || href.startsWith('tel:')) return false;
+
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) return false;
+
+    return true;
+}
+
+function animateBarTo100(bar, duration = 480) {
+    return new Promise(resolve => {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                bar.style.transition = `width ${duration}ms ease`;
+                bar.style.width = '100%';
+                setTimeout(resolve, duration);
+            });
+        });
+    });
+}
+
+function handleNavigation() {
+    document.addEventListener('click', async e => {
+        const link = e.target.closest('.navbar-main a[href]');
+        if (!link || !shouldIntercept(link)) return;
+
+        if (isCurrentPageLink(link)) {
+            e.preventDefault();
+            return;
+        }
+
+        e.preventDefault();
+
+        const loader = document.getElementById('page-loader');
+        const bar = document.querySelector('.loader-bar');
+
+        updateHeaderOffset();
+
+        document.body.classList.add('is-leaving');
+        document.documentElement.classList.add('is-transitioning');
+
+        if (loader && bar) {
+            updateHeaderOffset();
+            loader.classList.remove('is-hidden');
+            await animateBarTo100(bar, 480);
+        }
+
+        window.location.href = link.href;
+    });
+}
+
+function startVideos() {
+    document.querySelectorAll('video').forEach(video => {
+        video.muted = true;
+        video.playsInline = true;
+        video.classList.add('loaded');
+        video.play().catch(() => {});
+    });
+}
+
+window.addEventListener('resize', updateHeaderOffset);
+
+window.addEventListener('pageshow', e => {
+    const loader = document.getElementById('page-loader');
+    const bar = document.querySelector('.loader-bar');
+
+    document.body.classList.add('is-ready');
+    document.body.classList.remove('is-leaving');
+    document.documentElement.classList.remove('is-transitioning');
+
+    if (loader) loader.classList.add('is-hidden');
+
+    if (bar) {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+    }
+
+    updateHeaderOffset();
+
+    if (e.persisted) {
+        setActiveNav();
+        startVideos();
     }
 });
 
-document.addEventListener("click", (e) => {
-    const link = e.target.closest("a[href]");
-    if (!link) return;
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadPartials();
+    initCarousels();
 
-    const url = link.getAttribute("href");
+    document.body.classList.add('is-ready');
 
-    if (
-        url.startsWith("http") ||
-        url.startsWith("#") ||
-        link.target === "_blank"
-    ) return;
+    const loader = document.getElementById('page-loader');
+    const bar = document.querySelector('.loader-bar');
 
-    e.preventDefault();
+    if (loader) loader.classList.add('is-hidden');
 
-    const loader = document.querySelector(".loader-bar");
+    if (bar) {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+    }
 
-    // Start loading bar
-    loader.classList.add("active");
-
-    // Slight delay so user sees it start
-    setTimeout(() => {
-        document.body.classList.remove("page-loaded"); // fade out
-
-        setTimeout(() => {
-            window.location.href = url;
-        }, 250);
-    }, 100);
+    handleNavigation();
+    startVideos();
 });
-
-
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', initFontLoading);

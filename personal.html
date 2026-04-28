@@ -15,7 +15,13 @@
     <script src="js/layout.js" defer></script>
 </head>
 
+
 <body>
+    <div id="page-loader">
+        <div class="loader-bar"></div>
+    </div>
+
+    <div class="page-wrapper">
     <div id="sharedHeader"></div>
 
     <section id="personal" class="pb-1">
@@ -52,8 +58,7 @@
                     <div class="col-md-6">
                         <div class="project-media">
                         <div class="media-frame">
-                        <video autoplay loop muted playsinline preload="metadata"
-                                poster="assets/imgs/island-preview.png">
+                        <video class="loaded" preload="metadata" muted loop playsinline>
                             <source src="assets/vids/island-explorers-preview.mp4" type="video/mp4">
                         </video>
                         </div>
@@ -118,7 +123,7 @@
             <div class="project-card mt-4">
                 <h3>Marble Game Level</h3>
                 <p class="text-muted">Designer / Programmer</p>
-                <div container>
+                <div class="container">
                     <p>The Marble Game was a team project from Full Sail that 
                     required every team member to design and implement one level per person, 
                     as well as working on other mechanics and tasks. I was primarily responsible for the 
@@ -181,7 +186,13 @@
         </div>
     </section>
 
+
+    
+    
+
     <div id="sharedFooter"></div>
+
+    </div>
 </body>
 
 </html>
