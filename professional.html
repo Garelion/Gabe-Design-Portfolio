@@ -4,51 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Work - Game Designer Portfolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loading.css">
     <script src="js/layout.js" defer></script>
-
 </head>
+
+<style>
+    .carousel-thumbnails { padding: 0; }
+
+    .carousel-thumb {
+        width: 105px;
+        height: 85px;
+        border: 2px solid var(--dark-emerald-80);
+        border-radius: 2px;
+        overflow: hidden;
+        cursor: pointer;
+        background: var(--teal-ink);
+        padding: 0;
+        transition: border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        opacity: 0.5;
+    }
+
+    .carousel-thumb.active {
+        border-color: var(--lime-green);
+        opacity: 1;
+        box-shadow: 0 0 0 1px var(--lime-green), 0 0 2px rgba(60, 226, 79, 0.35);
+    }
+
+    .carousel-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .carousel-thumb:hover {
+        border-color: var(--easter-green);
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+        .carousel-thumb {
+            width: 85px;
+            height: 65px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const carousels = document.querySelectorAll('.carousel');
+
+        carousels.forEach(carousel => {
+            const thumbs = document.querySelectorAll(
+                `.carousel-thumbnails .carousel-thumb[data-bs-target="#${carousel.id}"]`
+            );
+
+            if (!thumbs.length) return;
+
+            carousel.addEventListener('slide.bs.carousel', e => {
+                thumbs.forEach(thumb => thumb.classList.remove('active'));
+                thumbs[e.to]?.classList.add('active');
+            });
+
+            carousel.addEventListener('slid.bs.carousel', e => {
+                thumbs.forEach(thumb => thumb.classList.remove('active'));
+                thumbs[e.to]?.classList.add('active');
+            });
+        });
+    });
+</script>
+
 <body>
-    <header>
-            <h4 class="text-start ps-5 hero-title">
-                <span class="hero-name">John Doe</span> - Game Designer Portfolio
-            </h4>
-        <p class="ps-5 bio">Hi, I’m <span class="fw-bold">[Name]</span>, a Technical Game Designer with experience in systems design, level design, and gameplay implementation.</p>
-        <hr class="green-ruler">
-       <nav class="navbar-main">
-                <a href="index.html"> 
-                    <i class="bi bi-house-fill me-2 nav-icon"></i>Home
-                </a>
-                <a href="professional.html" class="active">
-                    <i class="bi bi-briefcase-fill me-2 nav-icon"></i>Professional Work
-                </a>
-                <a href="personal.html">
-                    <i class="bi bi-lightbulb-fill me-2 nav-icon"></i>Personal Work
-                </a>
-                <a href="contact.html">
-                    <i class="bi bi-envelope-fill me-2 nav-icon"></i>Contact
-                </a>
-            </nav>
-    </header>
-    <section id="professional" class="container pb-1">
+    <div id="page-loader">
+        <div class="loader-bar"></div>
+    </div>
+
+    <div class="page-wrapper">
+    <div id="sharedHeader"></div>      
+    
+    <section id="professional" class="pb-1">
         <div class="section-card">
         <h2>Professional Work</h2>
         <div class="project-card mt-4">
             <h3>Marvel's Avengers</h3>
             <p class="text-muted">Associate Designer · Crystal Dynamics</p>
-            <div class="container">
-            <p>Action-adventure live-service title developed by Crystal Dynamics and published by Square Enix.</p>
-            <ul>
-                <li>Designed and implemented gameplay concepts and mechanics</li>
-                <li>Diagnosed and fixed gameplay bugs across missions and systems</li>
-                <li>Supported live-service feature updates and maintenance</li>
-                <li>Created and maintained design documentation</li>
-            </ul>
+                <div class="container">
+                    <p>Action-adventure live-service title developed by Crystal Dynamics and published by Square Enix.</p>
+                    <ul>
+                        <li>Designed and implemented gameplay concepts and mechanics</li>
+                        <li>Diagnosed and fixed gameplay bugs across missions and systems</li>
+                        <li>Supported live-service feature updates and maintenance</li>
+                        <li>Created and maintained design documentation</li>
+                    </ul>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center mt-4 gap-2">
+                <div class="col-md-6">
+                    <div class="media-frame">
+                        <img src="assets/imgs/crystal-dynamics.jpg" alt="Inventory and HUD" class="w-100 h-100" style="object-fit: contain;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="media-frame">
+                        <img src="assets/imgs/marvel-avengers-war.jpg" alt="Crafting system UI" class="w-100 h-100" style="object-fit: contain;">
+                    </div>
+                </div>
             </div>
+
         </div>
 
         <div class="project-card mt-4">
@@ -70,6 +141,58 @@
                 <li>Collaborated with a small team of designers and developers</li>
             </ul>
             </div>  
+
+            <div class="d-flex flex-column align-items-center justify-content-center mt-4">
+                <div class="col-7">
+                    <div class="media-frame">
+                        <div id="payloadCarousel" class="carousel slide project-carousel h-100" data-bs-ride="carousel"
+                            data-bs-interval="5000"
+                            data-bs-touch="true">
+                            <!-- Slides -->
+                            <div class="carousel-inner h-100">
+                                <div class="carousel-item active h-100">
+                                    <img src="assets/imgs/payload-glitch.jpg" alt="Glitch effect" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/payload-puzzle1.jpg" alt="Puzzle mechanics" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/payload-puzzle2.jpeg" alt="Level design" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/payload-lvl.jpeg" alt="Environment" class="d-block w-100 h-100">
+                                </div>
+                            </div>
+
+                            <!-- Prev/Next Controls -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#payloadCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#payloadCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thumbnail Navigation -->
+                <div class="carousel-thumbnails mt-2 d-flex gap-2 justify-content-center flex-wrap" style="max-width: 600px;">
+                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="0" class="carousel-thumb active">
+                        <img src="assets/imgs/payload-glitch.jpg" alt="Glitch">
+                    </button>
+                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="1" class="carousel-thumb">
+                        <img src="assets/imgs/payload-puzzle1.jpg" alt="Puzzle 1">
+                    </button>
+                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="2" class="carousel-thumb">
+                        <img src="assets/imgs/payload-puzzle2.jpeg" alt="Puzzle 2">
+                    </button>
+                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="3" class="carousel-thumb">
+                        <img src="assets/imgs/payload-lvl.jpeg" alt="Level">
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="project-card mt-4">
@@ -129,10 +252,15 @@
                 </ul>                       
             </div>
         </div>
-
     </section>
-    <footer>
-        <p>Feel free to reach out if you’d like to connect or discuss potential opportunities.</p>
-    </footer>
+
+    
+    <div id="sharedFooter"></div>
+    </div>
 </body>
+
 </html>
+
+
+
+

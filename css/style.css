@@ -1,26 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap');
 
-html {
-    visibility: hidden;
-}
-
-html.fonts-loaded {
-    visibility: visible;
-}
-
-/* Fallback: show content after 300ms even if fonts haven't loaded */
-@media (prefers-reduced-motion: no-preference) {
-    html {
-        animation: show-content 0s 0.1s forwards;
-    }
-}
-
-@keyframes show-content {
-    to {
-        visibility: visible;
-    }
-}
-
 :root {
     --lime-green: #D7E23C;
     --easter-green: #A4DF56;
@@ -36,6 +15,7 @@ html.fonts-loaded {
     --dark-emerald-BF: #003835BF;
     --dark-emerald-80: #00383580;
     --teal-ink: #001C23;
+    --teal-ink-BF: #001C23BF;
     --teal-ink-80: #001C2380;
     --primary-dark: #0a0a0a;
     --secondary-dark: #1a1a1a;
@@ -56,81 +36,45 @@ html.fonts-loaded {
     --primary-red: #ff4444;
 }
 
+html {
+    font-display: swap;
+}
+
 body {
-    background: var(--dark-emerald);
+    font-family: system-ui, sans-serif;
     color: #e0f2e9;
     margin: 0;
     min-height: 100vh;
     letter-spacing: 0.5px;
-}
-
-header {
-    background: var(--primary-green);
-    color: #f1f1f1;
-    padding: 2rem 1rem 0.8rem 1rem;
-    text-align: center;
-    box-shadow: 0 2px 12px rgba(16, 28, 18, 0.25);
-    border-bottom: 2px solid var(--mid-green);
-    border-radius: 0;
-}
-
-.green-ruler {
-    width: 100%;
-    height: 0.18rem;
-    background: var(--dark-emerald-80);
-    margin: 0.5rem 0;
-    border-top: 0.12rem solid var(--lime-green);
-    opacity: 0.45 !important;
-}
-
-.w-95 {
-    width: 95% !important;
+    position: relative;
+    background-attachment: fixed;
+    background-color: var(--dark-emerald);
 }
 
 
-.tiny-pt {
-    font-size: 6pt !important;
-}
+.tiny-pt { font-size: 6pt !important; }
 
-.xsmall-pt {
-    font-size: 7pt !important;
-}
+.xsmall-pt { font-size: 7pt !important; }
 
-.script-pt {
-    font-size: 8pt !important;
-}
+.script-pt { font-size: 8pt !important; }
 
-.footnote-pt {
-    font-size: 9pt !important;
-}
+.footnote-pt { font-size: 9pt !important; }
 
-.small-pt {
-    font-size: 10pt !important;
-}
+.small-pt { font-size: 10pt !important; }
 
-.normal-pt {
-    font-size: 11pt !important;
-}
+.normal-pt { font-size: 11pt !important; }
 
-.large-pt {
-    font-size: 12pt !important;
-}
+.large-pt { font-size: 12pt !important; }
 
-.xlarge-pt {
-    font-size: 14pt !important;
-}
+.xlarge-pt { font-size: 14pt !important; }
 
-.big-pt {
-    font-size: 16pt !important;
-}
+.big-pt { font-size: 16pt !important; }
 
-.huge-pt {
-    font-size: 18pt !important;
-}
+.huge-pt { font-size: 18pt !important; }
 
-.hero-title {
+header .hero-title {
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 20pt;
+    font-size: 20pt !important;
     margin-bottom: 0.5rem;
     letter-spacing: 3px;
     font-weight: 700;
@@ -138,7 +82,11 @@ header {
 }
 
 .hero-name {
-    font-size: 24pt;
+    font-size: 24pt !important;
+}
+
+h4.hero-title {
+    font-size: 20pt !important;
 }
 
 .bio {
@@ -197,8 +145,9 @@ nav.navbar-main a.active {
     border-color: var(--teal-ink-80);
     color: whitesmoke;
     box-shadow: 0 2px 12px rgba(16, 26, 33, 0.25);
+    pointer-events: none;
+    cursor: default;
 }
-
 
 a {
     color: var(--primary-orange);
@@ -242,15 +191,16 @@ section p {
     margin: 2.5rem auto;
     padding: clamp(1.5rem, 3vw, 2.5rem);
     background: var(--mid-green);
-    box-shadow: 0 4px 22px rgba(13, 16, 32, 0.5);
+     transition: all 0.3s ease;
     border-bottom: 2px solid var(--deep-green);
 }
+
 
 footer {
     background: var(--primary-green);
     color: white;
     text-align: center;
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.75rem 0.25rem;
     border-top: 2px solid var(--mid-green);
     border-radius: 0;
     margin-top: 3rem;
@@ -268,12 +218,14 @@ footer {
     border-left: 6px solid var(--easter-green-E6);
     border-radius: 0;
     padding: 1.75rem 2rem;
-    box-shadow: 0 6px 18px rgba(2, 7, 53, 0.25);
+    box-shadow: 0 5px 8px rgba(2, 7, 53, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .project-card:hover {
-    box-shadow: 0 5px 20px rgba(0, 7, 44, 0.38);
+    /* box-shadow: 0 5px 20px rgba(0, 7, 44, 0.38); */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 2px rgba(0, 7, 44, 0.2);
 }
 
 /* Project title */
@@ -371,6 +323,7 @@ footer {
 .btn-gameurl .bi {
     font-size: 16pt;
     color: inherit !important;
+    
 }
 
 
@@ -384,7 +337,7 @@ footer {
 
 .fa-brands,
 .fab {
-    font-size: 17pt;
+    font-size: 16pt;
     color: inherit !important;
 }
 
@@ -393,8 +346,8 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
     letter-spacing: 0.5px;
     color: var(--easter-green);
     text-decoration: none;
@@ -477,79 +430,63 @@ footer {
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: 1px;
+    border-radius: 3px;
     border: 2px solid var(--teal-ink);
-}
-
-.media-frame-lg {
-    aspect-ratio: 16 / 9;
-    width: auto;
-    max-height: 300px;
-    /* ← ideal for hero usage */
-    margin: 0 auto;
     background: #000;
-    overflow: hidden;
-    border-radius: 6px;
 }
 
-/* Make carousel fill the frame */
-.media-frame-lg .carousel,
-.media-frame-lg .carousel-inner,
-.media-frame-lg .carousel-item {
-    height: 100%;
-}
-
-.carousel-caption p,
-.carousel-caption h3 {
-    line-height: 1.2;
-}
-
-/* Images adapt to the frame */
-.media-frame-lg img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    /* shows entire image */
-}
-
-/* Media fills frame WITHOUT cropping */
+.media-frame > video,
 .media-frame img,
-.media-frame video {
+.media-frame .project-carousel,
+.media-frame .project-carousel .carousel-inner,
+.media-frame .project-carousel .carousel-item {
     width: 100%;
     height: 100%;
+}
+
+.media-frame > video,
+.media-frame img,
+.media-frame .carousel-item img {
     object-fit: contain;
-    /* critical */
     display: block;
 }
 
-.media-frame video {
-    background-color: var(--easter-green-80);
-}
-
+.project-media,
 .project-carousel {
-    background: #000;
-    
-}
-
-
-/* Carousel with outside indicators */
-.project-carousel {
-    display: flex;
-    flex-direction: column;
-    background: #000;
-    border-radius: 1px;
-    border: 2px solid var(--teal-ink-80);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-    overflow: hidden;
     max-width: 640px;
     margin: 0 auto;
 }
 
+.project-carousel {
+    background: #000;
+    border: 2px solid var(--teal-ink-80);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
 
-.project-carousel img {
+.project-carousel .carousel-inner {
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.project-carousel .carousel-item {
+    background: #000;
+}
+
+.project-carousel .carousel-item img {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+}
+
+video {
+    background: #000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+video.loaded {
+    opacity: 1;
 }
 
 /* Dot indicators */
@@ -569,21 +506,10 @@ footer {
     opacity: 0.8;
 }
 
-.project-media,
-.project-carousel {
-    max-height: 360px;
+.media-frame video.loaded {
+    opacity: 1;
 }
 
-/* Make the carousel fill its 16:9 frame completely */
-.project-carousel,
-.carousel-inner,
-.carousel-item {
-    height: 100%;
-}
-
-.carousel-item img {
-    object-fit: contain;
-}
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
@@ -601,19 +527,10 @@ button.carousel-control-next {
 }
 
 
-.bottom-border-green {
-    border-bottom: 2px solid var(--easter-green-80);
+.bottom-border-teal {
+    border-bottom: 2px solid var(--teal-ink);
 }
 
-.project-carousel .carousel-inner {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 320px;
-    overflow: hidden;
-    
-    
-}
 
 .project-carousel .carousel-item {
     height: 100%;
@@ -640,11 +557,11 @@ button.carousel-control-next {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.85);
     color: #fff;
     padding: 0.75rem 1rem;
     transform: translateY(100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.45s ease;
 }
 
 .carousel-caption-hover h5 {

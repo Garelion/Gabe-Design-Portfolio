@@ -1,0 +1,90 @@
+:root {
+    --loader-top: 0px;
+}
+
+html.is-transitioning,
+html.is-transitioning body {
+    cursor: progress;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+#page-loader {
+    position: fixed;
+    top: calc(var(--loader-top) - 1px);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--teal-ink-BF);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.24s ease, visibility 0.24s ease;
+}
+
+
+
+#page-loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 6px;
+    background: linear-gradient(
+        90deg,
+        var(--blood-orange) 0%,
+        var(--primary-orange) 25%,
+        var(--lime-green) 50%,
+        var(--primary-green) 100%
+    );
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
+
+    border-bottom: 0.1rem solid var(--lime-green);
+    border-image: linear-gradient(
+        to right,
+        var(--primary-orange),
+        var(--lime-green),
+        var(--easter-green)
+    ) 1;
+
+}
+
+.page-wrapper {
+    opacity: 1;
+    transition: opacity 0.24s ease;
+}
+
+body.is-leaving .page-wrapper {
+    opacity: 1;
+}
+
+video,
+.carousel img {
+    display: block;
+}
+
+.media-frame video.loaded {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #page-loader,
+    .page-wrapper {
+        transition: none;
+    }
+
+    .loader-bar {
+        transition: none !important;
+    }
+}

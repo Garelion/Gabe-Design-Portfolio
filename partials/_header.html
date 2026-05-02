@@ -1,0 +1,63 @@
+<!-- 
+    _header.html - Shared header for all pages.
+    Contains site title, bio, and navigation.
+    Loaded dynamically into each page's #sharedHeader.
+-->
+<style>
+    header {
+        background: var(--primary-green);
+        color: #f1f1f1;
+        padding: 2rem 1rem 0.8rem 1rem;
+        text-align: center;
+        box-shadow: 0 2px 12px rgba(16, 28, 18, 0.25);
+        border-bottom: 2px solid var(--mid-green);
+        border-radius: 0;
+        contain: layout paint;
+    }
+
+    .green-ruler {
+        width: 100%;
+        height: 0.18rem;
+        background: var(--dark-emerald-80);
+        margin: 0.5rem 0;
+        border-top: 0.12rem solid var(--lime-green);
+        opacity: 0.45 !important;
+    }
+
+    .w-95 { width: 95% !important;}
+
+</style>
+
+<header>
+    <h4 class="text-start ps-5 hero-title">
+        <span class="hero-name">John Doe</span> - Game Designer Portfolio
+    </h4>  
+    <p class="ps-5 pb-2 bio">Hi, I’m <span class="fw-bold">[Name]</span>, 
+        a Technical Game Designer with experience in systems design, level design, 
+        and gameplay implementation.
+    </p>
+        
+    <hr class="green-ruler">
+        
+    <nav class="navbar-main">            
+        <a href="index.html">                  
+            <i class="bi bi-house-fill me-2 nav-icon"></i>Home           
+        </a>
+        <!--  
+            TODO DEV Note: 
+                Create a Works menu drop down 
+                Keep adding images to professional and personal section cards.
+        -->     
+        <a href="professional.html">                 
+            <i class="bi bi-briefcase-fill me-2 nav-icon"></i>Professional Work                
+        </a>
+                
+        <a href="personal.html">                  
+            <i class="bi bi-heart-fill me-2 nav-icon"></i>Personal Work              
+        </a>
+                
+        <a href="contact.html">                   
+            <i class="bi bi-envelope-fill me-2 nav-icon"></i>Contact                
+        </a>            
+    </nav>        
+</header>
