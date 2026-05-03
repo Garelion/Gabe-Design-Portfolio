@@ -7,14 +7,79 @@
     <title>Personal Work - Game Designer Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/carousels.css">
     <script src="js/layout.js" defer></script>
 </head>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const allFrames = [...document.querySelectorAll('#loneliestFilmTrack .film-frame')];
+    const uniqueFrames = allFrames.slice(0, allFrames.length / 2);
+
+    const lightbox = document.getElementById('filmLightbox');
+    const lightboxImg = document.getElementById('filmLightboxImg');
+    const lightboxCaption = document.getElementById('filmLightboxCaption');
+    const closeBtn = lightbox.querySelector('.film-lightbox-close');
+    const prevBtn = lightbox.querySelector('.film-lightbox-nav.prev');
+    const nextBtn = lightbox.querySelector('.film-lightbox-nav.next');
+
+    const gallery = uniqueFrames.map(frame => ({
+        src: frame.dataset.full,
+        alt: frame.querySelector('img').alt,
+        caption: frame.dataset.caption || ''
+    }));
+
+    let currentIndex = 0;
+
+    function renderLightbox(index) {
+        currentIndex = (index + gallery.length) % gallery.length;
+        const item = gallery[currentIndex];
+        lightboxImg.src = item.src;
+        lightboxImg.alt = item.alt;
+        lightboxCaption.textContent = item.caption;
+    }
+
+    function openLightbox(index) {
+        renderLightbox(index);
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    uniqueFrames.forEach((frame, index) => {
+        frame.addEventListener('click', () => openLightbox(index));
+    });
+
+    prevBtn.addEventListener('click', () => renderLightbox(currentIndex - 1));
+    nextBtn.addEventListener('click', () => renderLightbox(currentIndex + 1));
+    closeBtn.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('is-open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') renderLightbox(currentIndex - 1);
+        if (e.key === 'ArrowRight') renderLightbox(currentIndex + 1);
+    });
+});
+</script>
 
 <body>
     <div id="page-loader">
@@ -26,14 +91,14 @@
 
     <section id="personal" class="pb-1">
         <div class="section-card">
-            <h2>Personal & Experimental Work</h2>
+            <h2>Personal / Side Work</h2>
 
         <div class="project-card mt-4">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
                 <h3 class="mb-0">Island Explorers</h3>
                     <a href="https://gabe2231.itch.io/island-explorers" target="_blank" rel="noopener" class="btn-gameurl">    
                         <span class="btn-icon">
-                            <i class="bi bi-controller"></i>
+                            <i class="fab fa-itch-io"></i>
                         </span>
                         Play on itch.io
                     </a>
@@ -160,7 +225,58 @@
             <div class="project-card mt-4">
                 <h3>Gex Lair</h3>
                 <p class="text-muted">3D Artist (Unity)</p>
-                <p>The Gex Lair Model was a project where students were tasked with recreating a scene from their favorite franchises in Unity. While not 100% the same, the model did come out looking very similar to the original.</p>
+                <p>The <em>Gex Lair Model</em> was a project where students were tasked with recreating a scene from their favorite franchises in Unity. 
+                    While not 100% the same, the model did come out looking very similar to the original.</p>
+<div class="film-roll-wrapper">
+
+<div class="film-strip-shell">
+    <div class="film-strip-mask">
+        <div class="film-strip-track" id="loneliestFilmTrack">
+            <!-- set 1 -->
+            <button class="film-frame" data-full="assets/imgs/gex/gex-1.jpg" data-caption="Scene 1">
+                <img src="assets/imgs/gex/gex-1.jpg" alt="Gex Lair Model top view">
+            </button>
+            <button class="film-frame" data-full="assets/imgs/gex/gex-2.jpg" data-caption="Scene 2">
+                <img src="assets/imgs/gex/gex-2.jpg" alt="Gex Lair Model control panel">
+            </button>
+            <button class="film-frame" data-full="assets/imgs/gex/gex-3.jpg" data-caption="Scene 3">
+                <img src="assets/imgs/gex/gex-3.jpg" alt="Gex Lair Model top view 2">
+            </button>
+            <button class="film-frame" data-full="assets/imgs/gex/gex-4.jpg" data-caption="Scene 4">
+                <img src="assets/imgs/gex/gex-4.jpg" alt="Gex Lair Model top view doors">
+            </button>
+
+            <!-- duplicate set for seamless loop -->
+            <button class="film-frame" data-full="assets/imgs/gex/gex-1.jpg" data-caption="Scene 1" aria-hidden="true" tabindex="-1">
+                <img src="assets/imgs/gex/gex-1.jpg" alt="">
+            </button>
+            <button class="film-frame" data-full="assets/imgs/gex/gex-2.jpg" data-caption="Scene 2" aria-hidden="true" tabindex="-1">
+                <img src="assets/imgs/gex/gex-2.jpg" alt="">
+            </button>
+            <button class="film-frame" data-full="assets/imgs/gex/gex-3.jpg" data-caption="Scene 3" aria-hidden="true" tabindex="-1">
+                <img src="assets/imgs/gex/gex-3.jpg" alt="">
+            </button>
+            <button class="film-frame" data-full="assets/imgs/gex/gex-4.jpg" data-caption="Scene 4" aria-hidden="true" tabindex="-1">
+                <img src="assets/imgs/gex/gex-4.jpg" alt="">
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div class="film-lightbox" id="filmLightbox" aria-hidden="true">
+    <button class="film-lightbox-close" type="button" aria-label="Close image viewer">&times;</button>
+    <button class="film-lightbox-nav prev" type="button" aria-label="Previous image">&#10094;</button>
+
+    <figure class="film-lightbox-figure">
+        <img id="filmLightboxImg" src="" alt="">
+        <figcaption id="filmLightboxCaption"></figcaption>
+    </figure>
+
+    <button class="film-lightbox-nav next" type="button" aria-label="Next image">&#10095;</button>
+</div>
+
+            </div>
             </div>
 
             <div class="project-card mt-4">

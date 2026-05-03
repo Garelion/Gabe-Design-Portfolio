@@ -20,7 +20,7 @@ body {
     background: var(--teal-ink-BF);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    z-index: 9999;
+    z-index: 999;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;

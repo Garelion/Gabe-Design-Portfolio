@@ -25,8 +25,6 @@ function setActiveNav() {
     });
 }
 
-
-
 function updateHeaderOffset() {
     const sharedHeader = document.querySelector('#sharedHeader');
     const header = sharedHeader ? sharedHeader.querySelector('header') : null;

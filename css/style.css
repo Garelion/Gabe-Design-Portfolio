@@ -36,6 +36,7 @@
     --primary-red: #ff4444;
 }
 
+
 html {
     font-display: swap;
 }
@@ -71,6 +72,15 @@ body {
 .big-pt { font-size: 16pt !important; }
 
 .huge-pt { font-size: 18pt !important; }
+
+
+.border-url{
+    border-color: var(--primary-orange) !important;
+}
+
+.border-url:hover{
+    border-color: var(--lime-green) !important;
+}
 
 header .hero-title {
     font-family: 'IBM Plex Sans', sans-serif;
@@ -141,10 +151,9 @@ nav.navbar-main a:focus {
 }
 
 nav.navbar-main a.active {
-    background: var(--dark-emerald-BF);
+    background: var(--dark-emerald);
     border-color: var(--teal-ink-80);
     color: whitesmoke;
-    box-shadow: 0 2px 12px rgba(16, 26, 33, 0.25);
     pointer-events: none;
     cursor: default;
 }
@@ -279,10 +288,10 @@ footer {
     margin-bottom: 0.75rem;
 }
 
-.bi {
+.bi, .fab-url {
     color: var(--easter-green);
-    font-size: inherit;
-    vertical-align: top !important;
+    font-size: inherit !important;
+    vertical-align: baseline !important;
 }
 
 .nav-icon {
@@ -338,7 +347,7 @@ footer {
 .fa-brands,
 .fab {
     font-size: 16pt;
-    color: inherit !important;
+    color: inherit;
 }
 
 .btn-gameurl {
