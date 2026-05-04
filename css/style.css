@@ -460,6 +460,34 @@ footer {
     display: block;
 }
 
+
+.media-frame-lg,
+.media-frame-sm {
+    width: 100%;
+    background: #000;
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.media-frame-tall {
+    height: 650px; 
+}
+
+.media-frame-sm {
+    height: 420px; 
+}
+
+.media-img-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+}
+
 .project-media,
 .project-carousel {
     max-width: 640px;

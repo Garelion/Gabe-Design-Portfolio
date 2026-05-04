@@ -103,8 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
         caption: frame.dataset.caption || ''
     }));
 
-    let currentSlide = 0;
-    let lightboxIndex = 0;
+let currentSlide = 0;
+let lightboxIndex = 0;
+let activeTrigger = null;
 
     // Update slideshow positions
     function updateSlides() {
@@ -133,40 +134,63 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSlides();
     }
 
+    
+
     // Lightbox functions
-    function renderLightbox(index) {
-        lightboxIndex = (index + gallery.length) % gallery.length;
-        const item = gallery[lightboxIndex];
-        lightboxImg.src = item.src;
-        lightboxImg.alt = item.alt;
-        lightboxCaption.textContent = item.caption;
+function renderLightbox(index) {
+    lightboxIndex = (index + gallery.length) % gallery.length;
+    const item = gallery[lightboxIndex];
+    lightboxImg.src = item.src;
+    lightboxImg.alt = item.alt;
+    lightboxCaption.textContent = item.caption;
+}
+
+function openLightbox(index, triggerEl) {
+    activeTrigger = triggerEl || null;
+
+    if (activeTrigger) {
+        activeTrigger.classList.add('is-opening');
     }
 
-    function openLightbox(index) {
-        renderLightbox(index);
+    renderLightbox(index);
+
+    requestAnimationFrame(() => {
         lightbox.classList.add('is-open');
         lightbox.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-    }
+        document.documentElement.classList.add('lightbox-open');
+        document.body.classList.add('lightbox-open');
+    });
+}
 
-    function closeLightbox() {
-        lightbox.classList.remove('is-open');
-        lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('lightbox-open');
+    document.body.classList.remove('lightbox-open');
+
+    lightboxImg.removeAttribute('src');
+    lightboxImg.alt = '';
+    lightboxCaption.textContent = '';
+
+    if (activeTrigger) {
+        activeTrigger.classList.remove('is-opening');
+        activeTrigger = null;
     }
+}
 
     // Event listeners
-    frames.forEach((frame, index) => {
-        frame.addEventListener('click', () => {
-            if (frame.classList.contains('is-center')) {
-                // Center image opens lightbox
-                openLightbox(index);
-            } else {
-                // Side images navigate the slideshow
-                goToSlide(index);
-            }
-        });
+frames.forEach((frame, index) => {
+    frame.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (frame.classList.contains('is-center')) {
+            openLightbox(index, frame);
+        } else {
+            goToSlide(index);
+        }
     });
+});
 
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => goToSlide(index));
@@ -218,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </ul>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-center mt-4 gap-2">
+            <div class="d-flex align-items-center justify-content-center mt-4 gap-2">
                 <div class="col-md-6">
                     <div class="media-frame">
                         <img src="assets/imgs/crystal-dynamics.jpg" alt="Inventory and HUD" class="w-100 h-100" style="object-fit: contain;">
@@ -389,9 +413,19 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 </div>
 
-<!-- Lightbox (keep the same one from before) -->
+   
+    
+        </div>
+    </section>
+
+    
+    <div id="sharedFooter"></div>
+    </div>
+
+
+    <!-- Lightbox -->
 <div class="film-lightbox" id="filmLightbox" aria-hidden="true">
-    <button class="film-lightbox-close" type="button" aria-label="Close image viewer">&times;</button>
+    <button class="film-lightbox-close" type="button" aria-label="Close image viewer"><span>&times;</span></button>
     <button class="film-lightbox-nav prev" type="button" aria-label="Previous image">&#10094;</button>
 
     <figure class="film-lightbox-figure">
@@ -401,14 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <button class="film-lightbox-nav next" type="button" aria-label="Next image">&#10095;</button>
 </div>
-            
-    
-        </div>
-    </section>
-
-    
-    <div id="sharedFooter"></div>
-    </div>
+         
 </body>
 
 </html>
