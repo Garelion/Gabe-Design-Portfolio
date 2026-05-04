@@ -527,11 +527,11 @@ video.loaded {
 }
 
 /* Dot indicators */
-.project-carousel .carousel-indicators {
+.project-carousel .simple-carousel-indicators {
     margin-bottom: 0.4rem;
 }
 
-.project-carousel .carousel-indicators button {
+.project-carousel .simple-carousel-indicators button {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -539,7 +539,7 @@ video.loaded {
     opacity: 0.2;
 }
 
-.project-carousel .carousel-indicators .active {
+.project-carousel .simple-carousel-indicators .active {
     opacity: 0.8;
 }
 
@@ -617,7 +617,7 @@ button.carousel-control-next {
     line-height: 1.4;
 }
 
-.carousel-indicators [data-bs-target]{
+.simple-carousel-indicators [data-bs-target]{
     height: 10px;
     width: 10px;;
 }
@@ -656,6 +656,7 @@ button.carousel-control-next {
 .carousel-indicators-outside button.active {
     opacity: 1;
     background-color: var(--text-light);
+    margin-bottom: 0.2rem;
 }
 
 /* Carousel controls positioning */
