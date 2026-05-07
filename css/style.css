@@ -36,6 +36,7 @@
     --primary-red: #ff4444;
 }
 
+
 html {
     font-display: swap;
 }
@@ -71,6 +72,15 @@ body {
 .big-pt { font-size: 16pt !important; }
 
 .huge-pt { font-size: 18pt !important; }
+
+
+.border-url{
+    border-color: var(--primary-orange) !important;
+}
+
+.border-url:hover{
+    border-color: var(--lime-green) !important;
+}
 
 header .hero-title {
     font-family: 'IBM Plex Sans', sans-serif;
@@ -141,10 +151,9 @@ nav.navbar-main a:focus {
 }
 
 nav.navbar-main a.active {
-    background: var(--dark-emerald-BF);
+    background: var(--dark-emerald);
     border-color: var(--teal-ink-80);
     color: whitesmoke;
-    box-shadow: 0 2px 12px rgba(16, 26, 33, 0.25);
     pointer-events: none;
     cursor: default;
 }
@@ -279,10 +288,10 @@ footer {
     margin-bottom: 0.75rem;
 }
 
-.bi {
+.bi, .fab-url {
     color: var(--easter-green);
-    font-size: inherit;
-    vertical-align: top !important;
+    font-size: inherit !important;
+    vertical-align: baseline !important;
 }
 
 .nav-icon {
@@ -338,7 +347,7 @@ footer {
 .fa-brands,
 .fab {
     font-size: 16pt;
-    color: inherit !important;
+    color: inherit;
 }
 
 .btn-gameurl {
@@ -451,6 +460,34 @@ footer {
     display: block;
 }
 
+
+.media-frame-lg,
+.media-frame-sm {
+    width: 100%;
+    background: #000;
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.media-frame-tall {
+    height: 650px; 
+}
+
+.media-frame-sm {
+    height: 420px; 
+}
+
+.media-img-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+}
+
 .project-media,
 .project-carousel {
     max-width: 640px;
@@ -490,11 +527,11 @@ video.loaded {
 }
 
 /* Dot indicators */
-.project-carousel .carousel-indicators {
+.project-carousel .simple-carousel-indicators {
     margin-bottom: 0.4rem;
 }
 
-.project-carousel .carousel-indicators button {
+.project-carousel .simple-carousel-indicators button {
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -502,7 +539,7 @@ video.loaded {
     opacity: 0.2;
 }
 
-.project-carousel .carousel-indicators .active {
+.project-carousel .simple-carousel-indicators .active {
     opacity: 0.8;
 }
 
@@ -580,7 +617,7 @@ button.carousel-control-next {
     line-height: 1.4;
 }
 
-.carousel-indicators [data-bs-target]{
+.simple-carousel-indicators [data-bs-target]{
     height: 10px;
     width: 10px;;
 }
@@ -619,6 +656,7 @@ button.carousel-control-next {
 .carousel-indicators-outside button.active {
     opacity: 1;
     background-color: var(--text-light);
+    margin-bottom: 0.2rem;
 }
 
 /* Carousel controls positioning */
@@ -645,6 +683,38 @@ button.carousel-control-next {
 .project-carousel .carousel-control-prev:hover,
 .project-carousel .carousel-control-next:hover {
     opacity: 1;
+}
+
+
+
+
+/* Simple Tanks video: full-width, cropped top/bottom */
+.simpletanks-video-frame {
+    position: relative;
+    width: 100%;
+    /* Adjust height to taste; this gives a wide cinematic strip */
+    height: 435px;
+    overflow: hidden;
+    border-radius: 0; /* or match your .project-media radius */
+}
+
+
+
+/* Let the video fill the container and crop vertically */
+.simpletanks-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;        /* fills and crops top/bottom as needed */
+    display: block;
+    scale: 1.15;
+    object-position: center 50%;
+}
+
+/* Optional: tweak on small screens */
+@media (max-width: 576px) {
+    .simpletanks-video-frame {
+        height: 220px; /* slightly shorter on small phones, if desired */
+    }
 }
 
 

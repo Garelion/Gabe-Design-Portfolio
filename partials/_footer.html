@@ -4,50 +4,72 @@
 -->
 
 <style>
+    .footer-main {
+        background: var(--primary-green);
+        border-top: 2px solid var(--mid-green);
+        font-family: 'Space Grotesk', sans-serif;
+        padding: 0.5rem 1rem;
+        color: var(--text-light);
+        box-shadow: -2px -2px 12px rgba(16, 28, 18, 0.25);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-.footer-main {
-    background: var(--primary-green);
-    border-top: 2px solid var(--mid-green);
-    font-family: 'Space Grotesk', sans-serif;
-    padding: 0.5rem 1rem;
-    color: var(--text-light);
-    box-shadow: -2px -2px 12px rgba(16, 28, 18, 0.25);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+    .footer-content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 1.5rem;
+        margin-bottom: 0.65rem;
+        min-height: 72px;
+    }
 
-.footer-content-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 1.5rem;
-    margin-bottom: 0.65rem;
-    min-height: 72px;
-}
+    .copyright-text {
+        margin: 0;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        min-height: 100%;
+    }
 
-.copyright-text {
-    margin: 0;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    min-height: 100%;
-}
+    .footer-meta {
+        display: flex;
+        justify-content: start;
+        font-size: 9pt !important;
+        font-weight: 300;
+        font-style: italic;
+        opacity: 0.75;
+    }
 
-.footer-btn-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end;
-    margin-left: auto;
-    min-height: 100%;
-}
+    .tilde-icon {
+        width: 1em;
+        height: 0.8em;
+        color: var(--dark-emerald) !important;
+        margin: 0.22rem 0.1rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
 
+    .github-pal {
+        color: var(--dark-emerald) !important;
+        font-weight: 500;
+    }
+
+    .footer-btn-group {
+        display: flex;
+        position: static;
+        transform: none;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0;
+        min-height: 100%;
+    }
     
-
     /* The Button Style */
     .footer-btn {
         background: var(--mid-green);
@@ -66,40 +88,18 @@
     .footer-btn:hover {
         background: #e0f2e9;
         color: var(--blood-orange) !important; 
+        font-weight: 800;
         transform: translateY(-2px);
         box-shadow: 0 4px 2px rgba(0,0,0,0.1);
         border-color: var(--primary-orange);
     }
 
     .footer-btn:hover i {
-        color: var(--mid-green);
+        color: var(--mid-green) !important;
     }
 
-    .footer-meta {
-        display: flex;
-        justify-content: start;
-        font-size: 9pt !important;
-        font-weight: 300;
-        font-style: italic;
-        opacity: 0.75;
-    }
-
-
-    .tilde-icon {
-        width: 1em;
-        height: 0.8em;
-        color: var(--dark-emerald) !important;
-        margin: 0.22rem 0.1rem;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .github-pal {
-        color: var(--dark-emerald) !important;
-        font-weight: 500;
-    }
-
-    /* Mobile: Stack them vertically and center them */
+    
+    /* Vertical and center stacking */
     @media (max-width: 768px) {
     .footer-content-wrapper {
         flex-direction: column;
@@ -108,13 +108,7 @@
         text-align: center;
         min-height: auto;
     }
-
-    .footer-btn-group {
-        position: static;
-        transform: none;
-        margin-left: 0;
-        justify-content: center;
-    }
+    
 }
 
 </style>
@@ -122,40 +116,36 @@
 
 <footer class="footer-main">
     <div class="container footer-content-wrapper px-5 mb-1">
-
         <div>
-            <p class="copyright-text">© 2026 John Doe. All rights reserved.</p>
+            <p class="copyright-text">© 2026 Gabriel Rodríguez. All rights reserved.</p>
 
-        <p class="footer-meta mt-2 mb-0">
-            Designed & developed with care. 
-            <svg class="tilde-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M2 9
-                    C4 6, 6 6, 8 9
-                    C10 12, 12 12, 14 9"
-                    fill="none" stroke="currentColor"
-                    stroke-width="1.6" stroke-linecap="round" /> 
-            </svg>
-            <a href="https://github.com/genesism-dev" class="text-decoration-none github-pal" target="_blank">genesism-dev</a>
-        </p>
+            <p class="footer-meta mt-2 mb-0">
+                Designed & developed with care. 
+                <svg class="tilde-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M2 9
+                        C4 6, 6 6, 8 9
+                        C10 12, 12 12, 14 9"
+                        fill="none" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" /> 
+                </svg>
+                <a href="https://github.com/genesism-dev" class="text-decoration-none github-pal" target="_blank">genesism-dev</a>
+            </p>
         </div>
         
 
         <div class="footer-btn-group">
-            <a href="mailto:name@email.com" class="footer-btn">
+            <a href="mailto:gabe2231@hotmail.com" class="footer-btn">
                 <i class="bi bi-envelope-fill"></i> Email
             </a>
-            <a href="https://www.linkedin.com/in/username" target="_blank" class="footer-btn">
+            <a href="https://www.linkedin.com/in/gabriel-rodriguez-50a2a71a4/" target="_blank" class="footer-btn">
                 <i class="bi bi-linkedin"></i> LinkedIn
             </a>
             <a href="https://gabe2231.itch.io/" target="_blank" class="footer-btn">
-                <i class="bi bi-controller"></i> itch.io
+                <i class="fab fa-itch-io fab-url" style="color:#A4DF56"></i> itch.io
             </a>
         </div>
     </div>
 
-    <div class="container px-5 mt-0">
-        
-    </div>
 
 </footer>
