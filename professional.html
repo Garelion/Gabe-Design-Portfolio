@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = lightbox.querySelector('.film-lightbox-nav.prev');
     const nextBtn = lightbox.querySelector('.film-lightbox-nav.next');
 
-    // Active lightbox state (works for all galleries)
     let activeGallery = null;
     let activeIndex = 0;
     let activeTrigger = null;
@@ -116,14 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
         activeTrigger = triggerEl || null;
         activeTrack = trackEl || null;
 
-        if (activeTrigger) {
-            activeTrigger.classList.add('is-opening');
-        }
-
-        if (activeTrack) {
-            // Pause any CSS animation on film tracks when lightbox opens
-            activeTrack.style.animationPlayState = 'paused';
-        }
+        if (activeTrigger) activeTrigger.classList.add('is-opening');
+        if (activeTrack) activeTrack.style.animationPlayState = 'paused';
 
         renderLightbox(index);
 
@@ -151,10 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeTrigger.focus();
         }
 
-        if (activeTrack) {
-            // Resume animation on film tracks when lightbox closes
-            activeTrack.style.animationPlayState = '';
-        }
+        if (activeTrack) activeTrack.style.animationPlayState = '';
 
         activeGallery = null;
         activeIndex = 0;
@@ -162,7 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         activeTrack = null;
     }
 
-    // Lightbox controls
     prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -187,13 +176,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (!lightbox.classList.contains('is-open')) return;
-
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowLeft') renderLightbox(activeIndex - 1);
         if (e.key === 'ArrowRight') renderLightbox(activeIndex + 1);
     });
 
-    // 1) Slide galleries (Fail Faster + Loneliest) with autoplay
     function initSlideGallery(trackId, indicatorsId) {
         const track = document.getElementById(trackId);
         const indicators = document.getElementById(indicatorsId);
@@ -216,13 +203,9 @@ document.addEventListener('DOMContentLoaded', () => {
             frames.forEach((frame, i) => {
                 frame.classList.remove('is-prev', 'is-center', 'is-next');
 
-                if (i === currentSlide) {
-                    frame.classList.add('is-center');
-                } else if (i === (currentSlide - 1 + total) % total) {
-                    frame.classList.add('is-prev');
-                } else if (i === (currentSlide + 1) % total) {
-                    frame.classList.add('is-next');
-                }
+                if (i === currentSlide) frame.classList.add('is-center');
+                else if (i === (currentSlide - 1 + total) % total) frame.classList.add('is-prev');
+                else if (i === (currentSlide + 1) % total) frame.classList.add('is-next');
             });
 
             dots.forEach((dot, i) => {
@@ -238,7 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSlides();
         }
 
-        // Click on frames
         frames.forEach((frame, index) => {
             frame.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -252,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Click on dots
         dots.forEach((dot, index) => {
             dot.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -262,37 +243,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateSlides();
 
-        // --- NEW: autoplay for this gallery ---
         let autoplayId = setInterval(() => {
-            // Do not auto-advance if lightbox is open
             if (document.body.classList.contains('lightbox-open')) return;
             goToSlide(currentSlide + 1);
-        }, 5000); // 5000ms = 5 seconds
+        }, 5000);
 
-        // Optional: pause on hover, resume on leave
         track.addEventListener('mouseenter', () => {
             clearInterval(autoplayId);
         });
 
         track.addEventListener('mouseleave', () => {
+            clearInterval(autoplayId);
             autoplayId = setInterval(() => {
                 if (document.body.classList.contains('lightbox-open')) return;
                 goToSlide(currentSlide + 1);
             }, 5000);
         });
-        // --- END autoplay ---
     }
 
-    // Initialize all galleries
+    function initFilmGallery(trackId) {
+        const track = document.getElementById(trackId);
+        if (!track) return;
+
+        const frames = [...track.querySelectorAll('.film-frame')];
+
+        const uniqueFrames = frames.slice(0, frames.length / 2);
+
+        const gallery = uniqueFrames.map(frame => ({
+            src: frame.dataset.full,
+            alt: frame.querySelector('img')?.alt || '',
+            caption: frame.dataset.caption || ''
+        }));
+
+        frames.forEach((frame, index) => {
+            frame.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openLightbox(gallery, index % uniqueFrames.length, frame, track);
+            });
+        });
+    }
+
     initSlideGallery('failFasterGallery', 'failFasterIndicators');
     initSlideGallery('loneliestGallery', 'loneliestIndicators');
-
-    // Existing C.H.A.D. film-roll init (unchanged)
     initFilmGallery('chadFilmTrack');
 });
 </script>
-
-
 <body>
     <div id="page-loader">
         <div class="loader-bar"></div>
@@ -544,16 +540,16 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="slide-gallery-shell">
                 <div class="slide-gallery-viewport">
                     <div class="slide-gallery-track" id="loneliestGallery">
-                        <button class="slide-frame" data-index="0" data-full="assets/imgs/loneliest/loneliest1.jpg" data-caption="Scene 1">
+                        <button class="slide-frame" data-index="0" data-full="assets/imgs/loneliest/loneliest1.jpg">
                             <img src="assets/imgs/loneliest/loneliest1.jpg" alt="The Loneliest Artist scene 1">
                         </button>
-                        <button class="slide-frame" data-index="1" data-full="assets/imgs/loneliest/loneliest2.jpg" data-caption="Scene 2">
+                        <button class="slide-frame" data-index="1" data-full="assets/imgs/loneliest/loneliest2.jpg">
                             <img src="assets/imgs/loneliest/loneliest2.jpg" alt="The Loneliest Artist scene 2">
                         </button>
-                        <button class="slide-frame" data-index="2" data-full="assets/imgs/loneliest/loneliest3.jpg" data-caption="Scene 3">
+                        <button class="slide-frame" data-index="2" data-full="assets/imgs/loneliest/loneliest3.jpg">
                             <img src="assets/imgs/loneliest/loneliest3.jpg" alt="The Loneliest Artist scene 3">
                         </button>
-                        <button class="slide-frame" data-index="3" data-full="assets/imgs/loneliest/loneliest4.jpg" data-caption="Scene 4">
+                        <button class="slide-frame" data-index="3" data-full="assets/imgs/loneliest/loneliest4.jpg">
                             <img src="assets/imgs/loneliest/loneliest4.jpg" alt="The Loneliest Artist scene 4">
                         </button>
                     </div>
@@ -567,18 +563,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="slide-dot" data-slide="3" aria-label="View image 4"></button>
                 </div>
             </div>
-
-   
-    
         </div>
     </section>
 
     
-    <div id="sharedFooter"></div>
-    </div>
+        <div id="sharedFooter"></div>
+</div>
 
 
-    <!-- Lightbox -->
+<!-- Lightbox -->
 <div class="film-lightbox" id="filmLightbox" aria-hidden="true">
     <button class="film-lightbox-close" type="button" aria-label="Close image viewer"><span>&times;</span></button>
     <button class="film-lightbox-nav prev" type="button" aria-label="Previous image">&#10094;</button>

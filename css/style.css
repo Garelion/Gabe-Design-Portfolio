@@ -686,6 +686,38 @@ button.carousel-control-next {
 }
 
 
+
+
+/* Simple Tanks video: full-width, cropped top/bottom */
+.simpletanks-video-frame {
+    position: relative;
+    width: 100%;
+    /* Adjust height to taste; this gives a wide cinematic strip */
+    height: 435px;
+    overflow: hidden;
+    border-radius: 0; /* or match your .project-media radius */
+}
+
+
+
+/* Let the video fill the container and crop vertically */
+.simpletanks-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;        /* fills and crops top/bottom as needed */
+    display: block;
+    scale: 1.15;
+    object-position: center 50%;
+}
+
+/* Optional: tweak on small screens */
+@media (max-width: 576px) {
+    .simpletanks-video-frame {
+        height: 220px; /* slightly shorter on small phones, if desired */
+    }
+}
+
+
 @media (max-width: 900px) {
     main {
         margin: 1.5rem 1rem;
