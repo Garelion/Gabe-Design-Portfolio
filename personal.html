@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
 
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -16,6 +19,34 @@
     <link rel="stylesheet" href="css/loading.css">
     <link rel="stylesheet" href="css/carousels.css">
     <script src="js/layout.js" defer></script>
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const carousels = document.querySelectorAll('.carousel');
+
+        carousels.forEach(carousel => {
+            const thumbs = document.querySelectorAll(
+                `.carousel-thumbnails .carousel-thumb[data-bs-target="#${carousel.id}"]`
+            );
+
+            if (!thumbs.length) return;
+
+            carousel.addEventListener('slide.bs.carousel', e => {
+                thumbs.forEach(thumb => thumb.classList.remove('active'));
+                thumbs[e.to]?.classList.add('active');
+            });
+
+            carousel.addEventListener('slid.bs.carousel', e => {
+                thumbs.forEach(thumb => thumb.classList.remove('active'));
+                thumbs[e.to]?.classList.add('active');
+            });
+        });
+    });
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -208,8 +239,6 @@ function initFilmGallery(trackId) {
 
 <style>
 
-    /* Only the first loop is clickable */
-
 
 /* Make intended clickable frames clearly interactive */
 #gexFilmTrack .film-frame:not([aria-hidden="true"]) {
@@ -283,13 +312,13 @@ function initFilmGallery(trackId) {
                                 <!-- Slides -->
                                 <div class="carousel-inner h-100">
                                     <div class="carousel-item active h-100">
-                                        <img src="assets/imgs/island-hotbar.jpg" alt="Inventory and HUD" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/island/island-hotbar.jpg" alt="Inventory and HUD" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/island-crafting-menu.jpg" alt="Crafting system UI" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/island/island-crafting-menu.jpg" alt="Crafting system UI" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/islander-tool.jpg" alt="Player tool interaction" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/island/islander-tool.jpg" alt="Player tool interaction" class="d-block w-100 h-100">
                                     </div>
                                 </div>
 
@@ -342,25 +371,25 @@ function initFilmGallery(trackId) {
                                 <!-- Slides -->
                                 <div class="carousel-inner h-100">
                                     <div class="carousel-item active h-100">
-                                        <img src="assets/imgs/scraps/top-view-map.jpg" alt="Map top view" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/scraps/top-view-map.webp" alt="Map top view" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/scraps/crashed-boat.jpg" alt="Crashed Boat" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/scraps/crashed-boat.webp" alt="Crashed Boat" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/scraps/top-view-2.jpg" alt="Top view 2" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/scraps/top-view-2.webp" alt="Top view 2" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/scraps/map-details.jpg" alt="Map Details (Rubble)" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/scraps/map-details.webp" alt="Map Details (Rubble)" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/scraps/map-details-2.jpg" alt="Map Details 2" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/scraps/map-details-2.webp" alt="Map Details 2" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/scraps/map-details-3.jpg" alt="Map Details 3" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/scraps/map-details-3.webp" alt="Map Details 3" class="d-block w-100 h-100">
                                     </div>
                                     <div class="carousel-item h-100">
-                                        <img src="assets/imgs/scraps/room-model.jpg" alt="Room model" class="d-block w-100 h-100">
+                                        <img src="assets/imgs/scraps/room-model.webp" alt="Room model" class="d-block w-100 h-100">
                                     </div>
                                 </div>
 
@@ -397,13 +426,13 @@ function initFilmGallery(trackId) {
                 <div class="row g-2 align-items-stretch">
                     <div class="col-md-6">
                         <div class="media-frame-lg media-frame-tall">
-                            <img src="assets/imgs/scraps/lvl-design1.jpg" alt="Level Design Port 1" class="media-img-contain">
+                            <img src="assets/imgs/scraps/lvl-design1.webp" alt="Level Design Port 1" class="media-img-contain">
                         </div>
                     </div>
 
                     <div class="col-md-6 d-flex align-items-center">
                         <div class="media-frame-sm">
-                            <img src="assets/imgs/scraps/lvl-design2.jpg" alt="Level Design Port 2" class="media-img-contain">
+                            <img src="assets/imgs/scraps/lvl-design2.webp" alt="Level Design Port 2" class="media-img-contain">
                         </div>
                     </div>
                 </div>
@@ -419,7 +448,57 @@ function initFilmGallery(trackId) {
                     as well as working on other mechanics and tasks. I was primarily responsible for the 
                     player controls, the collectibles, and a level. All done in a week.</p>
                 </div>
-                
+                <div class="d-flex flex-column align-items-center justify-content-center mt-4">
+                <div class="col-7">
+                    <div class="media-frame">
+                        <div id="marbleCarousel" class="carousel slide project-carousel h-100" data-bs-ride="carousel"
+                            data-bs-interval="5000"
+                            data-bs-touch="true">
+                            <!-- Slides -->
+                            <div class="carousel-inner h-100">
+                                <div class="carousel-item active h-100">
+                                    <img src="assets/imgs/marble/marble-angled-map.webp" alt="Glitch effect" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/marble/marble-angled-map-2.webp" alt="Puzzle mechanics" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/marble/marble-angled-map-3.webp" alt="Level design" class="d-block w-100 h-100">
+                                </div>
+                                <div class="carousel-item h-100">
+                                    <img src="assets/imgs/marble/marble-top-map.webp" alt="Environment" class="d-block w-100 h-100">
+                                </div>
+                            </div>
+
+                            <!-- Prev/Next Controls -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#marbleCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#marbleCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thumbnail Navigation -->
+                <div class="carousel-thumbnails mt-2 d-flex gap-2 justify-content-center flex-wrap" style="max-width: 600px;">
+                    <button type="button" data-bs-target="#marbleCarousel" data-bs-slide-to="0" class="carousel-thumb active">
+                        <img src="assets/imgs/marble/marble-angled-map.webp" alt="Glitch">
+                    </button>
+                    <button type="button" data-bs-target="#marbleCarousel" data-bs-slide-to="1" class="carousel-thumb">
+                        <img src="assets/imgs/marble/marble-angled-map-3.webp" alt="Puzzle 1">
+                    </button>
+                    <button type="button" data-bs-target="#marbleCarousel" data-bs-slide-to="2" class="carousel-thumb">
+                        <img src="assets/imgs/marble/marble-angled-map-3.webp" alt="Puzzle 2">
+                    </button>
+                    <button type="button" data-bs-target="#marbleCarousel" data-bs-slide-to="3" class="carousel-thumb">
+                        <img src="assets/imgs/marble/marble-top-map.webp" alt="Level">
+                    </button>
+                </div>
+            </div>
             </div>
 
             <div class="project-card mt-4">
@@ -445,11 +524,10 @@ function initFilmGallery(trackId) {
                 <h3>Modeled Scene</h3>
                 <p class="text-muted">3D Artist (Maya)</p>
                 <div class="container">
-                <p>Simple Tanks is a game created in a one-day game jam. 
-                    It's a game where up to 2 players can fight each other in tanks from a top-down 
-                    2.5D perspective. In this project, I was responsible for the tank controls and the 
-                    level designs.</p>
-
+                <p>This scene was created as part of an early coursework project, where students 
+                    were tasked with modeling individual assets and assembling them into a cohesive environment. 
+                    The entire piece was developed in Maya during the first months of my Bachelor’s program. To make the scene more interactive, 
+                    I included a “Find the Spongebobs” minigame, inviting viewers to spot all the hidden Spongebobs throughout the environment.</p>
                 </div>
                 
             </div>
@@ -458,7 +536,7 @@ function initFilmGallery(trackId) {
                 <h3>Gex Lair</h3>
                 <p class="text-muted">3D Artist (Unity)</p>
                 <p>The <em>Gex Lair Model</em> was a project where students were tasked with recreating a scene from their favorite franchises in Unity. 
-                    While not 100% the same, the model did come out looking very similar to the original.</p>
+                    While not an exact replica, the final result closely captures the look and feel of the original.</p>
                 <div class="film-roll-wrapper">
                     <div class="film-strip-shell">
                     <div class="film-strip-mask">

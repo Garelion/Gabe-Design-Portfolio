@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Work - Game Designer Portfolio</title>
+
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
@@ -17,48 +22,6 @@
     <script src="js/layout.js" defer></script>
 </head>
 
-<style>
-    .carousel-thumbnails { padding: 0; }
-
-    .carousel-thumb {
-        width: 105px;
-        height: 85px;
-        border: 3px solid var(--teal-ink);
-        border-radius: 2px;
-        overflow: hidden;
-        cursor: pointer;
-        padding: 0;
-        transition: border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        opacity: 0.5;
-    }
-
-    .carousel-thumb.active {
-        border-color: var(--primary-orange);
-        opacity: 1;
-    }
-
-    .carousel-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .carousel-thumb:hover {
-        border-color: var(--easter-green);
-        opacity: 1;
-        transform: scale(1.05);
-    }
-
-    @media (max-width: 600px) {
-        .carousel-thumb {
-            width: 85px;
-            height: 65px;
-        }
-    }
-
-
-</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -424,17 +387,17 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="slide-gallery-shell">
                 <div class="slide-gallery-viewport">
                     <div class="slide-gallery-track" id="failFasterGallery">
-                        <button class="slide-frame" data-index="0" data-full="assets/imgs/fail-faster/fail-main-menu.jpg">
-                            <img src="assets/imgs/fail-faster/fail-main-menu.jpg" alt="Fail Faster Main Menu">
+                        <button class="slide-frame" data-index="0" data-full="assets/imgs/fail-faster/fail-main-menu.webp">
+                            <img src="assets/imgs/fail-faster/fail-main-menu.webp" alt="Fail Faster Main Menu">
                         </button>
-                        <button class="slide-frame" data-index="1" data-full="assets/imgs/fail-faster/fail-spikes.jpg">
-                            <img src="assets/imgs/fail-faster/fail-spikes.jpg" alt="Fail Faster Spikes Level">
+                        <button class="slide-frame" data-index="1" data-full="assets/imgs/fail-faster/fail-spikes.webp">
+                            <img src="assets/imgs/fail-faster/fail-spikes.webp" alt="Fail Faster Spikes Level">
                         </button>
-                        <button class="slide-frame" data-index="2" data-full="assets/imgs/fail-faster/fail-ascend-spikes.jpg">
-                            <img src="assets/imgs/fail-faster/fail-ascend-spikes.jpg" alt="Fail Faster Ascend Level">
+                        <button class="slide-frame" data-index="2" data-full="assets/imgs/fail-faster/fail-ascend-spikes.webp">
+                            <img src="assets/imgs/fail-faster/fail-ascend-spikes.webp" alt="Fail Faster Ascend Level">
                         </button>
-                        <button class="slide-frame" data-index="3" data-full="assets/imgs/fail-faster/fail-falling-lvl.jpg">
-                            <img src="assets/imgs/fail-faster/fail-falling-lvl.jpg" alt="Fail Faster Falling Level">
+                        <button class="slide-frame" data-index="3" data-full="assets/imgs/fail-faster/fail-falling-lvl.webp">
+                            <img src="assets/imgs/fail-faster/fail-falling-lvl.webp" alt="Fail Faster Falling Level">
                         </button>
                     </div>
                 </div>
@@ -477,47 +440,47 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="film-strip-mask">
                         <div class="film-strip-track" id="chadFilmTrack">
                             <!-- set 1 -->
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-main.jpg" data-caption="Main Menu">
-                                <img src="assets/imgs/chad/chad-main.jpg" alt="C.H.A.D. Menu">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-main.webp" data-caption="Main Menu">
+                                <img src="assets/imgs/chad/chad-main.webp" alt="C.H.A.D. Menu">
                             </button>
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-map.jpg" data-caption="Map">
-                                <img src="assets/imgs/chad/chad-map.jpg" alt="C.H.A.D. Model control panel">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-map.webp" data-caption="Map">
+                                <img src="assets/imgs/chad/chad-map.webp" alt="C.H.A.D. Model control panel">
                             </button>
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-hangar.jpg" data-caption="Hangar">
-                                <img src="assets/imgs/chad/chad-hangar.jpg" alt="C.H.A.D. Model top view 2">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-hangar.webp" data-caption="Hangar">
+                                <img src="assets/imgs/chad/chad-hangar.webp" alt="C.H.A.D. Model top view 2">
                             </button>
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-lvl-2.jpg" data-caption="Level 2">
-                                <img src="assets/imgs/chad/chad-lvl-2.jpg" alt="C.H.A.D. Model top view doors">
-                            </button>
-
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-player.jpg" data-caption="Main Character Sprinting">
-                                <img src="assets/imgs/chad/chad-player.jpg" alt="C.H.A.D. Model top view doors">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-lvl-2.webp" data-caption="Level 2">
+                                <img src="assets/imgs/chad/chad-lvl-2.webp" alt="C.H.A.D. Model top view doors">
                             </button>
 
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-room.jpg" data-caption="Room">
-                                <img src="assets/imgs/chad/chad-room.jpg" alt="C.H.A.D. Model top view doors">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-player.webp" data-caption="Main Character Sprinting">
+                                <img src="assets/imgs/chad/chad-player.webp" alt="C.H.A.D. Model top view doors">
+                            </button>
+
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-room.webp" data-caption="Room">
+                                <img src="assets/imgs/chad/chad-room.webp" alt="C.H.A.D. Model top view doors">
                             </button>
 
                             <!-- duplicate set for seamless loop -->
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-main.jpg" data-caption="Main Menu">
-                                <img src="assets/imgs/chad/chad-main.jpg" alt="C.H.A.D. Menu">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-main.webp" data-caption="Main Menu">
+                                <img src="assets/imgs/chad/chad-main.webp" alt="C.H.A.D. Menu">
                             </button>
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-map.jpg" data-caption="Map">
-                                <img src="assets/imgs/chad/chad-map.jpg" alt="C.H.A.D. Model control panel">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-map.webp" data-caption="Map">
+                                <img src="assets/imgs/chad/chad-map.webp" alt="C.H.A.D. Model control panel">
                             </button>
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-hangar.jpg" data-caption="Hangar">
-                                <img src="assets/imgs/chad/chad-hangar.jpg" alt="C.H.A.D. Model top view 2">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-hangar.webp" data-caption="Hangar">
+                                <img src="assets/imgs/chad/chad-hangar.webp" alt="C.H.A.D. Model top view 2">
                             </button>
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-lvl-2.jpg" data-caption="Level 2">
-                                <img src="assets/imgs/chad/chad-lvl-2.jpg" alt="C.H.A.D. Model top view doors">
-                            </button>
-
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-player.jpg" data-caption="Main Character Sprinting">
-                                <img src="assets/imgs/chad/chad-player.jpg" alt="C.H.A.D. Model top view doors">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-lvl-2.webp" data-caption="Level 2">
+                                <img src="assets/imgs/chad/chad-lvl-2.webp" alt="C.H.A.D. Model top view doors">
                             </button>
 
-                            <button class="film-frame" data-full="assets/imgs/chad/chad-room.jpg" data-caption="Room">
-                                <img src="assets/imgs/chad/chad-room.jpg" alt="C.H.A.D. Model top view doors">
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-player.webp" data-caption="Main Character Sprinting">
+                                <img src="assets/imgs/chad/chad-player.webp" alt="C.H.A.D. Model top view doors">
+                            </button>
+
+                            <button class="film-frame" data-full="assets/imgs/chad/chad-room.webp" data-caption="Room">
+                                <img src="assets/imgs/chad/chad-room.webp" alt="C.H.A.D. Model top view doors">
                             </button>
                         </div>
                     </div>
