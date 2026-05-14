@@ -63,25 +63,55 @@ document.addEventListener('DOMContentLoaded', () => {
     activeTrack = null;
   }
 
-  function syncBootstrapThumbs(carousel) {
-    if (!carousel.id) return;
+function syncBootstrapThumbs(carousel) {
+  if (!carousel.id) return;
 
-    const thumbs = [
-      ...document.querySelectorAll(
-        `.carousel-thumbnails .carousel-thumb[data-bs-target="#${carousel.id}"]`
-      )
-    ];
+  const thumbs = [
+    ...document.querySelectorAll(
+      `.carousel-thumbnails .carousel-thumb[data-bs-target="#${carousel.id}"]`
+    )
+  ];
 
-    if (!thumbs.length) return;
+  if (!thumbs.length) return;
 
-    function setActive(index) {
-      thumbs.forEach((thumb, i) => {
-        thumb.classList.toggle('active', i === index);
+  function setActive(index) {
+    thumbs.forEach((thumb, i) => {
+      thumb.classList.toggle('active', i === index);
+      thumb.setAttribute('aria-current', i === index ? 'true' : 'false');
+    });
+  }
+
+  carousel.addEventListener('slide.bs.carousel', (e) => {
+    setActive(e.to);
+  });
+}
+
+  function initStaticLightboxGallery(selector) {
+    const triggers = [...document.querySelectorAll(selector)];
+    if (!triggers.length) return;
+
+    const gallery = triggers.map(trigger => {
+      const img = trigger.querySelector('img');
+      return {
+        src: trigger.dataset.full || img?.getAttribute('src') || '',
+        alt: img?.getAttribute('alt') || '',
+        caption: trigger.dataset.caption || img?.getAttribute('alt') || ''
+      };
+    });
+
+    triggers.forEach((trigger, index) => {
+      trigger.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        openLightbox(gallery, index, trigger, null);
       });
-    }
 
-    carousel.addEventListener('slide.bs.carousel', e => setActive(e.to));
-    carousel.addEventListener('slid.bs.carousel', e => setActive(e.to));
+      trigger.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        openLightbox(gallery, index, trigger, null);
+      });
+    });
   }
 
   function initBootstrapCarouselLightbox(carousel) {
@@ -95,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
 
     images.forEach((img, index) => {
-      img.style.cursor = 'zoom-in';
+      img.style.cursor = 'url("/assets/cursor-zoom-in.svg") 8 8, zoom-in';
       img.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
@@ -166,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   uniqueFrames.forEach((frame, index) => {
-    frame.style.cursor = 'zoom-in';
+    frame.style.cursor = 'url("/assets/cursor-zoom-in.svg") 8 8, zoom-in';
 
     frame.addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -283,11 +313,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowRight') renderLightbox(activeIndex + 1);
   });
 
-  document.querySelectorAll('.carousel').forEach(carousel => {
+  document.querySelectorAll('.carousel').forEach((carouselEl) => {
+  const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carouselEl, {
+    interval: Number(carouselEl.dataset.bsInterval) || 5000,
+    ride: 'carousel',
+    pause: false,
+    touch: true,
+    wrap: true
+  });
+
+  carouselInstance.cycle();
+  syncBootstrapThumbs(carouselEl);
+  initBootstrapCarouselLightbox(carouselEl);
+});
+
+initStaticLightboxGallery('.scraps-doc-trigger');
+document.querySelectorAll('.film-strip-track').forEach(initFilmGallery);
+document.querySelectorAll('.slide-gallery-track').forEach(initSlideGallery);
+
+/*   document.querySelectorAll('.carousel').forEach(carousel => {
     syncBootstrapThumbs(carousel);
     initBootstrapCarouselLightbox(carousel);
+    initStaticLightboxGallery('.scraps-doc-trigger');
   });
 
   document.querySelectorAll('.film-strip-track').forEach(initFilmGallery);
   document.querySelectorAll('.slide-gallery-track').forEach(initSlideGallery);
+  initStaticLightboxGallery('.scraps-doc-trigger'); */
 });
