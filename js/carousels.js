@@ -125,7 +125,7 @@ function syncBootstrapThumbs(carousel) {
     }));
 
     images.forEach((img, index) => {
-      img.style.cursor = 'zoom-in';
+      img.style.cursor = 'url("/assets/cursor-zoom-in.svg") 8 8, zoom-in';
       img.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
@@ -196,7 +196,7 @@ function syncBootstrapThumbs(carousel) {
   });
 
   uniqueFrames.forEach((frame, index) => {
-    frame.style.cursor = 'zoom-in';
+    frame.style.cursor = 'url("/assets/cursor-zoom-in.svg") 8 8, zoom-in';
 
     frame.addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;

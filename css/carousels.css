@@ -269,7 +269,7 @@ button.carousel-control-next {
     padding: 0;
     border: 0;
     background: transparent;
-    cursor: zoom-in;
+    cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
 }
 
 .scraps-doc-trigger img {
@@ -327,14 +327,14 @@ button.carousel-control-next {
 
 
 #gexFilmTrack .film-frame:not([aria-hidden="true"]) {
-    cursor: zoom-in;
+    cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
 }
 
     /* Only the first loop is clickable */
-.film-frame:not([aria-hidden="true"]) {
+/* .film-frame:not([aria-hidden="true"]) {
     cursor: zoom-in;
 }
-
+ */
 
 
 
@@ -471,7 +471,7 @@ button.carousel-control-next {
 
 .slide-frame.is-center:hover{
     border-color: var(--lime-green);
-    cursor: zoom-in;
+    cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
 }
 
 /* Left */
