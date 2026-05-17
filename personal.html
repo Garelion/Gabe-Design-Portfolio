@@ -25,6 +25,7 @@
 
 </head>
 
+
 <body>
     <div id="page-loader">
         <div class="loader-bar"></div>
@@ -386,7 +387,17 @@
             </div>
                 
             </div>
+            <!-- 
+    UX Note:
+    Panamoric film strip: ADD Spinning action replacing arrows with a rotating film strip carousel for the Gex Lair project.
+    Maybe a bottom slider that slides around the images in a continuous loop, giving the user control as to what image they want to view, 
+    but also allowing them to just sit back and watch the strip rotate on its own. 
+    The film strip will continuously rotate, showcasing the images in a seamless loop. 
+    Each image will be displayed for a few seconds before transitioning to the next one, 
+    creating a dynamic and engaging visual experience for viewers. Make it scrollable.
+-->
 
+            <!-- Carousel that needs slider "swipe" action improvement. -->
             <div class="project-card mt-4">
                 <h3>Gex Lair</h3>
                 <p class="text-muted">3D Artist (Unity)</p>
@@ -394,43 +405,46 @@
                     While not an exact replica, the final result closely captures the look and feel of the original.</p>
                 <div class="film-roll-wrapper">
                     <div class="film-strip-shell">
-                    <div class="film-strip-mask">
-                    <div class="film-strip-track" id="gexFilmTrack">
-                    <!-- set 1 -->
-                    <button class="film-frame" data-index="0" data-full="assets/imgs/gex/gex-1.jpg" data-caption="Gex Lair Top View">
-                        <img src="assets/imgs/gex/gex-1.jpg" alt="Gex Lair Model top view">
-                    </button>
-                    <button class="film-frame" data-index="1" data-full="assets/imgs/gex/gex-2.jpg" data-caption="Control Panel">
-                        <img src="assets/imgs/gex/gex-2.jpg" alt="Gex Lair Model control panel">
-                    </button>
-                    <button class="film-frame" data-index="2" data-full="assets/imgs/gex/gex-3.jpg" data-caption="Gex Lair Top View">
-                        <img src="assets/imgs/gex/gex-3.jpg" alt="Gex Lair Model top view 2">
-                    </button>
-                    <button class="film-frame" data-index="3" data-full="assets/imgs/gex/gex-4.jpg" data-caption="Gex Lair Entrance">
-                        <img src="assets/imgs/gex/gex-4.jpg" alt="Gex Lair Model entrance">
-                    </button>
+                        <div class="film-strip-mask">
+                            <div class="film-strip-track" id="gexFilmTrack">
+                                <!-- set 1 -->
+                                <button class="film-frame" data-index="0" data-full="assets/imgs/gex/gex-1.jpg" data-caption="Gex Lair Top View">
+                                    <img src="assets/imgs/gex/gex-1.jpg" alt="Gex Lair Model top view">
+                                </button>
+                                <button class="film-frame" data-index="1" data-full="assets/imgs/gex/gex-2.jpg" data-caption="Control Panel">
+                                    <img src="assets/imgs/gex/gex-2.jpg" alt="Gex Lair Model control panel">
+                                </button>
+                                <button class="film-frame" data-index="2" data-full="assets/imgs/gex/gex-3.jpg" data-caption="Gex Lair Top View">
+                                    <img src="assets/imgs/gex/gex-3.jpg" alt="Gex Lair Model top view 2">
+                                </button>
+                                <button class="film-frame" data-index="3" data-full="assets/imgs/gex/gex-4.jpg" data-caption="Gex Lair Entrance">
+                                    <img src="assets/imgs/gex/gex-4.jpg" alt="Gex Lair Model entrance">
+                                </button>
 
-                    <!-- duplicate set for seamless loop -->
-                    <button class="film-frame" data-index="0" data-full="assets/imgs/gex/gex-1.jpg" data-caption="Gex Lair Top View" aria-hidden="true" tabindex="-1">
-                        <img src="assets/imgs/gex/gex-1.jpg" alt="">
-                    </button>
-                    <button class="film-frame" data-index="1" data-full="assets/imgs/gex/gex-2.jpg" data-caption="Control Panel" aria-hidden="true" tabindex="-1">
-                        <img src="assets/imgs/gex/gex-2.jpg" alt="">
-                    </button>
-                    <button class="film-frame" data-index="2" data-full="assets/imgs/gex/gex-3.jpg" data-caption="Gex Lair Top View" aria-hidden="true" tabindex="-1">
-                        <img src="assets/imgs/gex/gex-3.jpg" alt="">
-                    </button>
-                    <button class="film-frame" data-index="3" data-full="assets/imgs/gex/gex-4.jpg" data-caption="Gex Lair Entrance" aria-hidden="true" tabindex="-1">
-                        <img src="assets/imgs/gex/gex-4.jpg" alt="">
-                    </button>
-                    </div>
-                    </div>
+                                <!-- duplicate set for seamless loop -->
+                                <button class="film-frame" data-index="0" data-full="assets/imgs/gex/gex-1.jpg" data-caption="Gex Lair Top View" aria-hidden="true" tabindex="-1">
+                                    <img src="assets/imgs/gex/gex-1.jpg" alt="">
+                                </button>
+                                <button class="film-frame" data-index="1" data-full="assets/imgs/gex/gex-2.jpg" data-caption="Control Panel" aria-hidden="true" tabindex="-1">
+                                    <img src="assets/imgs/gex/gex-2.jpg" alt="">
+                                </button>
+                                <button class="film-frame" data-index="2" data-full="assets/imgs/gex/gex-3.jpg" data-caption="Gex Lair Top View" aria-hidden="true" tabindex="-1">
+                                    <img src="assets/imgs/gex/gex-3.jpg" alt="">
+                                </button>
+                                <button class="film-frame" data-index="3" data-full="assets/imgs/gex/gex-4.jpg" data-caption="Gex Lair Entrance" aria-hidden="true" tabindex="-1">
+                                    <img src="assets/imgs/gex/gex-4.jpg" alt="">
+                                </button>
+                            </div>
+                        </div>
+                    <input
+                        class="film-strip-slider"
+                        type="range"
+                        min="0"
+                        max="1000"
+                        value="0"
+                        aria-label="Choose Gex Lair image">
                     </div>
                 </div>
-
-
-
-
             </div>
 
             <div class="project-card mt-4">

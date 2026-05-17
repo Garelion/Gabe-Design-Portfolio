@@ -602,81 +602,67 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 
 /* .film-lightbox styles */
-
-
 .film-strip-shell {
-    position: relative;
-    padding: 1rem 0 1.25rem;
+  position: relative;
 }
 
-.film-strip-label {
-    display: inline-block;
-    margin-bottom: 0.75rem;
-    font-size: 0.85rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--primary-orange);
-}
-
+/* scroll container */
 .film-strip-mask {
-    position: relative;
-    overflow: hidden;
-    padding: 1.1rem 0;
-/*     background: linear-gradient(
-        to bottom,
-        transparent 0.6rem,
-        rgba(8, 18, 18, 0.9) 0.6rem,
-        rgba(8, 18, 18, 0.9) calc(100% - 0.6rem),
-        transparent calc(100% - 0.6rem)
-    ); */
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 1.1rem 0;
+  cursor: grab;
+  touch-action: pan-x;
 }
 
-.film-strip-mask::before,
-.film-strip-mask::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 0.6rem;
-    z-index: 2;
-/*     background:
-        repeating-linear-gradient(
-            90deg,
-            var(--dark-emerald-80) 0 10px,
-            transparent 10px 20px
-        ); */
+.film-strip-mask::-webkit-scrollbar {
+  display: none;
 }
-
-.film-strip-mask::before { top: 0; }
-.film-strip-mask::after { bottom: 0; }
 
 .film-strip-track {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: max-content;
-    animation: filmScroll 44s linear infinite;
-    will-change: transform;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content;
+  user-select: none;
 }
 
-.film-strip-mask:hover .film-strip-track {
-    animation-play-state: paused;
+.film-strip-mask.is-dragging {
+  cursor: grabbing;
 }
 
-body.lightbox-open .film-strip-track {
-    animation-play-state: paused !important;
+.film-frame {
+  flex: 0 0 auto;
 }
 
-.film-strip-track,
-.film-frame,
 .film-frame img {
-    pointer-events: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.film-strip-slider {
+  width: 100%;
+  margin-top: 0.75rem;
 }
 
 .film-strip-mask {
-    pointer-events: auto;
+  scroll-behavior: auto;
+  overscroll-behavior-x: contain;
 }
 
+.film-strip-track {
+  will-change: contents;
+}
+
+.film-strip-mask.is-dragging .film-frame {
+  pointer-events: none;
+}
+
+/* Film frames */
 .film-frame {
     flex: 0 0 auto;
     width: clamp(380px, 22vw, 460px);

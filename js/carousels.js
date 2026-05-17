@@ -134,11 +134,13 @@ function syncBootstrapThumbs(carousel) {
     });
   }
 
-  function initFilmGallery(track) {
+function initFilmGallery(track) {
   const allFrames = [...track.querySelectorAll('.film-frame')];
   if (!allFrames.length) return;
 
-  const uniqueFrames = [...track.querySelectorAll('.film-frame:not([aria-hidden="true"])')];
+  const uniqueFrames = allFrames.filter(
+    frame => frame.getAttribute('aria-hidden') !== 'true'
+  );
   if (!uniqueFrames.length) return;
 
   const gallery = uniqueFrames.map(frame => ({
@@ -147,9 +149,25 @@ function syncBootstrapThumbs(carousel) {
     caption: frame.dataset.caption || ''
   }));
 
+  const mask = track.closest('.film-strip-mask');
+  const shell = track.closest('.film-strip-shell');
+  const slider = shell?.querySelector('.film-strip-slider');
+  if (!mask) return;
+
+  let pressedFrame = null;
+  let isPointerDown = false;
+  let isDragging = false;
+  let suppressClick = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let autoplayId = null;
+  let resumeTimer = null;
+  let singleSetWidth = 0;
+  const dragThreshold = 6;
+  const autoplaySpeed = 0.35;
+
   function getNormalizedIndex(frame) {
     const indexedValue = Number(frame.dataset.index);
-
     if (!Number.isNaN(indexedValue)) {
       return ((indexedValue % gallery.length) + gallery.length) % gallery.length;
     }
@@ -159,50 +177,194 @@ function syncBootstrapThumbs(carousel) {
     return allIndex % gallery.length;
   }
 
-  track.addEventListener('pointerdown', e => {
+  function measureSingleSetWidth() {
+    singleSetWidth = uniqueFrames.reduce((total, frame) => total + frame.offsetWidth, 0);
+    const gap = parseFloat(getComputedStyle(track).gap || 0);
+    singleSetWidth += uniqueFrames.length * gap;
+  }
+
+  // For infinite loop: we have 2 sets of frames (original + duplicate)
+  // Total scrollable = singleSetWidth * 2
+  // We keep scroll position in range [0, singleSetWidth) by wrapping
+  function normalizeLoopPosition() {
+    if (!singleSetWidth) return;
+    
+    // Wrap around when we've scrolled past one full set
+    if (mask.scrollLeft >= singleSetWidth) {
+      mask.scrollLeft -= singleSetWidth;
+    } else if (mask.scrollLeft < 0) {
+      mask.scrollLeft += singleSetWidth;
+    }
+  }
+
+  function syncSlider() {
+    if (!slider || !singleSetWidth) return;
+
+    // Current position within one set (0 to singleSetWidth)
+    const progress = mask.scrollLeft / singleSetWidth;
+    slider.value = Math.round(progress * 1000);
+  }
+
+  function setScrollFromSlider() {
+    if (!slider || !singleSetWidth) return;
+
+    const ratio = Number(slider.value) / 1000;
+    mask.scrollLeft = ratio * singleSetWidth;
+  }
+
+  function pauseAutoplay() {
+    if (autoplayId) cancelAnimationFrame(autoplayId);
+    autoplayId = null;
+    clearTimeout(resumeTimer);
+  }
+
+  function autoplayStep() {
+    if (document.body.classList.contains('lightbox-open') || isPointerDown) {
+      autoplayId = requestAnimationFrame(autoplayStep);
+      return;
+    }
+
+    mask.scrollLeft += autoplaySpeed;
+    normalizeLoopPosition();
+    syncSlider();
+
+    autoplayId = requestAnimationFrame(autoplayStep);
+  }
+
+  function startAutoplay(delay = 0) {
+    pauseAutoplay();
+    resumeTimer = setTimeout(() => {
+      autoplayId = requestAnimationFrame(autoplayStep);
+    }, delay);
+  }
+
+  function initPosition() {
+    measureSingleSetWidth();
+    mask.scrollLeft = 0;
+    syncSlider();
+  }
+
+  mask.addEventListener('pointerdown', e => {
     if (e.button !== 0) return;
 
     const frame = e.target.closest('.film-frame');
     if (!frame || !track.contains(frame)) return;
 
+    isPointerDown = true;
+    isDragging = false;
+    suppressClick = false;
     pressedFrame = frame;
-    track.style.animationPlayState = 'paused';
+    startX = e.clientX;
+    startScrollLeft = mask.scrollLeft;
+
+    pauseAutoplay();
+    mask.classList.add('is-dragging');
+    mask.setPointerCapture?.(e.pointerId);
   });
 
-  track.addEventListener('pointerup', e => {
-    if (e.button !== 0) return;
+  mask.addEventListener('pointermove', e => {
+    if (!isPointerDown) return;
+
+    const deltaX = e.clientX - startX;
+
+    if (Math.abs(deltaX) > dragThreshold) {
+      isDragging = true;
+      suppressClick = true;
+      mask.scrollLeft = startScrollLeft - deltaX;
+      normalizeLoopPosition();
+      syncSlider();
+      e.preventDefault();
+    }
+  });
+
+  mask.addEventListener('pointerup', e => {
+    if (!isPointerDown) return;
 
     const frame = e.target.closest('.film-frame') || pressedFrame;
-    if (!frame || !track.contains(frame)) {
-      pressedFrame = null;
-      if (!document.body.classList.contains('lightbox-open')) {
-        track.style.animationPlayState = '';
-      }
-      return;
+
+    mask.classList.remove('is-dragging');
+
+    if (frame && !isDragging && track.contains(frame)) {
+      e.preventDefault();
+      e.stopPropagation();
+      openLightbox(gallery, getNormalizedIndex(frame), frame, null);
     }
 
-    e.preventDefault();
-    e.stopPropagation();
-
-    openLightbox(gallery, getNormalizedIndex(frame), frame, track);
+    isPointerDown = false;
+    isDragging = false;
     pressedFrame = null;
-  });
 
-  track.addEventListener('pointercancel', () => {
-    pressedFrame = null;
+    setTimeout(() => {
+      suppressClick = false;
+    }, 0);
+
     if (!document.body.classList.contains('lightbox-open')) {
-      track.style.animationPlayState = '';
+      startAutoplay(900);
     }
   });
+
+  mask.addEventListener('pointercancel', () => {
+    isPointerDown = false;
+    isDragging = false;
+    pressedFrame = null;
+    mask.classList.remove('is-dragging');
+    if (!document.body.classList.contains('lightbox-open')) {
+      startAutoplay(900);
+    }
+  });
+
+  mask.addEventListener('scroll', () => {
+    normalizeLoopPosition();
+    syncSlider();
+  });
+
+  mask.addEventListener('mouseenter', pauseAutoplay);
+  mask.addEventListener('mouseleave', () => {
+    if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
+      startAutoplay(500);
+    }
+  });
+
+  track.addEventListener('dragstart', e => e.preventDefault());
 
   uniqueFrames.forEach((frame, index) => {
-    frame.style.cursor = 'url("/assets/cursor-zoom-in.svg") 8 8, zoom-in';
+    frame.addEventListener('click', e => {
+      if (suppressClick) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
 
     frame.addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       e.preventDefault();
-      openLightbox(gallery, index, frame, track);
+      openLightbox(gallery, index, frame, null);
     });
+  });
+
+  slider?.addEventListener('input', () => {
+    pauseAutoplay();
+    setScrollFromSlider();
+  });
+
+  slider?.addEventListener('change', () => {
+    if (!document.body.classList.contains('lightbox-open')) {
+      startAutoplay(700);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    const oldProgress = singleSetWidth ? (mask.scrollLeft / singleSetWidth) : 0;
+
+    measureSingleSetWidth();
+    mask.scrollLeft = oldProgress * singleSetWidth;
+    normalizeLoopPosition();
+    syncSlider();
+  });
+
+  requestAnimationFrame(() => {
+    initPosition();
+    startAutoplay(1200);
   });
 }
 
