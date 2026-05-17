@@ -151,52 +151,64 @@
     }
 
     /* =====================================
-   Reset desktop nav styling in sidebar
-===================================== */
+    Reset desktop nav styling in sidebar
+    ===================================== */
 
-.mobile-sidebar * {
-    border-radius: 0 !important;
-    box-shadow: none !important;
-}
+    .mobile-sidebar * {
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
 
-/* Remove desktop button appearance */
-.mobile-sidebar a,
-.mobile-sidebar button {
-    border: none !important;
-    background: transparent !important;
-    appearance: none;
-    -webkit-appearance: none;
-}
+    /* Remove desktop button appearance */
+    .mobile-sidebar a,
+    .mobile-sidebar button {
+        border: none !important;
+        background: transparent !important;
+        appearance: none;
+        -webkit-appearance: none;
+    }
 
-/* Override desktop dropdown link styling */
-.mobile-sidebar .dropdown-menu a,
-.mobile-sidebar .sidebar-dropdown-menu a {
+    /* Override desktop dropdown link styling */
+    .mobile-sidebar .dropdown-menu a,
+    .mobile-sidebar .sidebar-dropdown-menu a {
+        display: flex;
+        justify-content: flex-start !important;
+        align-items: center;
+
+        border: none !important;
+        margin: 0 !important;
+        min-height: auto !important;
+        width: 100%;
+
+        background: transparent !important;
+        text-align: left !important;
+
+        padding: 0.7rem 3.2rem !important;
+    }
+
+    /* Main nav rows */
+  .mobile-sidebar > a {
     display: flex;
-    justify-content: flex-start !important;
     align-items: center;
-
-    border: none !important;
-    margin: 0 !important;
-    min-height: auto !important;
-    width: 100%;
-
-    background: transparent !important;
-    text-align: left !important;
-
-    padding: 0.7rem 3.2rem !important;
-}
-
-/* Main nav rows */
-.mobile-sidebar > a,
-.sidebar-dropdown-toggle {
     justify-content: flex-start;
     gap: 0.85rem;
-}
+  }
 
-/* Works row arrow pushed right */
-.sidebar-dropdown-toggle .bi-chevron-down {
-    margin-left: auto;
-}
+  .sidebar-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: inherit;
+    font: inherit;
+  }
+
+  .sidebar-dropdown-toggle > span {
+
+    align-items: center;
+
+  }
+
 
     .nav-toggle {
         display: flex;
@@ -287,91 +299,90 @@
     }
 
     /* Links */
-/* =====================================
-   Sidebar Navigation Style
-===================================== */
+    /* =====================================
+    Sidebar Navigation Style
+    ===================================== */
 
-.mobile-sidebar a,
-.sidebar-dropdown-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    .mobile-sidebar a,
+    .sidebar-dropdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-    width: 100%;
+        width: 100%;
 
-    padding: 0.95rem 1.5rem;
+   
 
-    text-decoration: none;
+        text-decoration: none;
 
-    background: transparent;
-    border: none;
+        background: transparent;
+        border: none;
 
-    font-size: 1rem;
-    font-weight: 400;
-    text-align: left;
+        font-size: 1rem;
+        font-weight: 400;
+        text-align: left;
 
-    transition:
-        background .18s ease,
-        padding-left .18s ease;
-}
-
-/* Hover / tap feedback */
-.mobile-sidebar a:hover,
-.sidebar-dropdown-toggle:hover {
-    background: rgba(255,255,255,.06);
-    padding-left: 1.8rem;
-}
-
-/* Main sections */
-.mobile-sidebar > a,
-.sidebar-dropdown-toggle {
-    min-height: 52px;
-}
-
-/* Divider between items */
-.mobile-sidebar > a,
-.sidebar-dropdown {
-    border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-    .sidebar-dropdown-menu {
-    display: none;
-
-    padding: 0.35rem 0 0.5rem;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.10),
-            rgba(0,0,0,.05)
-        );
-}
-
-/* Sub-items */
-.sidebar-dropdown-menu a {
-    padding-left: 3.2rem;
-    font-size: 0.95rem;
-    opacity: .9;
-
-    border: none;
-}
-
-/* Tiny visual indent line feeling */
-.sidebar-dropdown-menu a:hover {
-    padding-left: 3.5rem;
-}
-
-    .sidebar-dropdown.open .sidebar-dropdown-menu {
-        display: block;
+        transition:
+            background .18s ease,
+            padding-left .18s ease;
     }
 
-    .sidebar-dropdown.open .bi-chevron-down {
-        transform: rotate(180deg);
+    /* Hover / tap feedback */
+    .mobile-sidebar a:hover,
+    .sidebar-dropdown-toggle:hover {
+        background: rgba(255,255,255,.06);
     }
 
-    .bi-chevron-down {
-        transition: transform .22s ease;
+    /* Main sections */
+    .mobile-sidebar > a,
+    .sidebar-dropdown-toggle {
+        min-height: 52px;
     }
+
+    /* Divider between items */
+    .mobile-sidebar > a,
+    .sidebar-dropdown {
+        border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+        .sidebar-dropdown-menu {
+        display: none;
+
+        padding: 0.35rem 0 0.5rem;
+
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(0,0,0,.10),
+                rgba(0,0,0,.05)
+            );
+    }
+
+    /* Sub-items */
+    .sidebar-dropdown-menu a {
+        padding-left: 3.2rem;
+        font-size: 0.95rem;
+        opacity: .9;
+
+        border: none;
+    }
+
+    /* Tiny visual indent line feeling */
+    .sidebar-dropdown-menu a:hover {
+        padding-left: 3.5rem;
+    }
+
+        .sidebar-dropdown.open .sidebar-dropdown-menu {
+            display: block;
+        }
+
+        .sidebar-dropdown.open .bi-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .bi-chevron-down {
+            transition: transform .22s ease;
+        }
 }
 
 </style>
@@ -428,23 +439,21 @@
         </div>
 
         <a href="index.html">
-            <i class="bi bi-house-fill me-2"></i>
-            Home
-        </a>
+            <span>
+                <i class="bi bi-house-fill me-2"></i>
+                Home
+            </span>
+            </a>
 
         <div class="sidebar-dropdown">
 
-            <button
-                type="button"
-                class="sidebar-dropdown-toggle">
-
+            <a class="sidebar-dropdown-toggle">
                 <span>
                     <i class="bi bi-grid-fill me-2"></i>
                     WORKS
                 </span>
-
                 <i class="bi bi-chevron-down"></i>
-            </button>
+            </a>
 
             <div class="sidebar-dropdown-menu">
                 <a href="professional.html">
@@ -461,9 +470,11 @@
         </div>
 
         <a href="contact.html">
-            <i class="bi bi-envelope-fill me-2"></i>
-            Contact
-        </a>
+            <span>
+                <i class="bi bi-envelope-fill me-2"></i>
+                Contact
+            </span>
+            </a>
 
     </aside>
 

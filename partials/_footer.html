@@ -8,7 +8,7 @@
         background: var(--primary-green);
         border-top: 2px solid var(--mid-green);
         font-family: 'Space Grotesk', sans-serif;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1rem;
         color: var(--text-light);
         box-shadow: -2px -2px 12px rgba(16, 28, 18, 0.25);
         text-align: center;
@@ -21,10 +21,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-wrap: nowrap;
-        gap: 1.5rem;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
         margin-bottom: 0.65rem;
         min-height: 72px;
+    }
+
+    .footer-text-block {
+        min-width: 0;
     }
 
     .copyright-text {
@@ -37,8 +41,11 @@
 
     .footer-meta {
         display: flex;
-        justify-content: start;
-        font-size: 9pt !important;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+        font-size: 0.75rem !important;
         font-weight: 300;
         font-style: italic;
         opacity: 0.75;
@@ -60,37 +67,36 @@
 
     .footer-btn-group {
         display: flex;
-        position: static;
-        transform: none;
-        gap: 1rem;
+        gap: 0.75rem;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        margin-left: 0;
-        min-height: 100%;
     }
-    
-    /* The Button Style */
+
     .footer-btn {
         background: var(--mid-green);
-        color: var(--text-light) !important;
+        color: var(--easter-green) !important;
         text-decoration: none;
-        padding: 0.4rem 1rem;
-        border-radius: 50px; 
+        padding: 0.55rem 1rem;
+        border-radius: 999px;
         border: 0.125rem solid var(--lime-green);
         transition: all 0.3s ease;
         font-weight: 500;
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 0.5rem;
+        min-height: 44px;
+        min-width: 44px;
+        white-space: nowrap;
     }
 
     .footer-btn:hover {
         background: #e0f2e9;
-        color: var(--blood-orange) !important; 
+        color: var(--blood-orange) !important;
         font-weight: 800;
         transform: translateY(-2px);
-        box-shadow: 0 4px 2px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
         border-color: var(--primary-orange);
     }
 
@@ -98,54 +104,113 @@
         color: var(--mid-green) !important;
     }
 
-    
-    /* Vertical and center stacking */
-    @media (max-width: 768px) {
-    .footer-content-wrapper {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        min-height: auto;
+    .footer-btn i {
+        font-size: 1rem;
+        line-height: 1;
     }
-    
-}
 
+    @media (max-width: 768px) {
+        .footer-main {
+            padding: 1rem;
+        }
+
+        .footer-content-wrapper {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: auto;
+            gap: 1rem;
+        }
+
+        .footer-text-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .copyright-text,
+        .footer-meta {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .footer-btn-group {
+            width: 100%;
+            gap: 0.75rem;
+        }
+
+        .footer-icon-btn {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 50%;
+            flex: 0 0 auto;
+        }
+
+        .footer-btn-label {
+            display: none;
+        }
+
+        .footer-icon-btn i {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer-main .container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+
+        .footer-meta {
+            font-size: 0.72rem !important;
+            line-height: 1.4;
+        }
+
+        .footer-btn-group {
+            gap: 0.6rem;
+        }
+    }
 </style>
-
 
 <footer class="footer-main">
     <div class="container footer-content-wrapper px-5 mb-1">
-        <div>
+        <div class="footer-text-block">
             <p class="copyright-text">© 2026 Gabriel Rodríguez. All rights reserved.</p>
 
             <p class="footer-meta mt-2 mb-0">
-                Designed & developed with care. 
-                <svg class="tilde-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                Designed & developed with care.
+                <svg class="tilde-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                         d="M2 9
                         C4 6, 6 6, 8 9
                         C10 12, 12 12, 14 9"
-                        fill="none" stroke="currentColor"
-                        stroke-width="1.6" stroke-linecap="round" /> 
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round" />
                 </svg>
-                <a href="https://github.com/genesism-dev" class="text-decoration-none github-pal" target="_blank">genesism-dev</a>
+                <a href="https://github.com/genesism-dev" class="text-decoration-none github-pal" target="_blank" rel="noopener noreferrer">genesism-dev</a>
             </p>
         </div>
-        
 
         <div class="footer-btn-group">
-            <a href="mailto:gabe2231@hotmail.com" class="footer-btn">
-                <i class="bi bi-envelope-fill"></i> Email
+            <a href="mailto:gabe2231@hotmail.com" class="footer-btn footer-icon-btn" aria-label="Email">
+                <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+                <span class="footer-btn-label">Email</span>
             </a>
-            <a href="https://www.linkedin.com/in/gabriel-rodriguez-50a2a71a4/" target="_blank" class="footer-btn">
-                <i class="bi bi-linkedin"></i> LinkedIn
+
+            <a href="https://www.linkedin.com/in/gabriel-rodriguez-50a2a71a4/" target="_blank" rel="noopener noreferrer" class="footer-btn footer-icon-btn" aria-label="LinkedIn">
+                <i class="bi bi-linkedin" aria-hidden="true"></i>
+                <span class="footer-btn-label">LinkedIn</span>
             </a>
-            <a href="https://gabe2231.itch.io/" target="_blank" class="footer-btn">
-                <i class="fab fa-itch-io fab-url" style="color:#A4DF56"></i> itch.io
+
+            <a href="https://gabe2231.itch.io/" target="_blank" rel="noopener noreferrer" class="footer-btn footer-icon-btn" aria-label="itch.io">
+                <i class="fab fa-itch-io fab-url" aria-hidden="true"></i>
+                <span class="footer-btn-label">itch.io</span>
             </a>
         </div>
     </div>
-
-
 </footer>

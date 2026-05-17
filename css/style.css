@@ -145,21 +145,28 @@ nav.navbar-main a {
 
 }
 
+.sidebar-dropdown-toggle {
+    color: inherit;
+    font: inherit;
+}
+
 nav.navbar-main a:hover,
-nav.navbar-main a:focus {
+nav.navbar-main a:focus,
+nav.navbar-main .sidebar-dropdown-toggle:hover,
+nav.navbar-main .sidebar-dropdown-toggle:focus {
     background: var(--text-light);
-    color: var(--dark-emerald);
+    color: var(--dark-emerald) !important;
     outline: none;
 }
 
-nav.navbar-main a.active {
+nav.navbar-main a.active,
+nav.navbar-main .sidebar-dropdown-toggle.active {
     background: var(--dark-emerald);
     border-color: var(--teal-ink-80);
     color: whitesmoke;
     pointer-events: none;
     cursor: default;
 }
-
 a {
     color: var(--primary-orange);
 }
