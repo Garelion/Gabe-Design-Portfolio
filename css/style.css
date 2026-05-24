@@ -724,3 +724,141 @@ video.loaded {
         justify-content: center;
     }
 }
+
+/* ==============================
+   Responsive project pages
+   ============================== */
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+        letter-spacing: 0.2px;
+        background-attachment: scroll;
+    }
+
+    .page-wrapper {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .section-card {
+        width: 100%;
+        margin: 1rem 0;
+        padding: 1rem;
+        padding-bottom: 1.4rem;
+    }
+
+    .section-card .container,
+    .project-card .container {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .project-card {
+        width: 100%;
+        padding: 1rem;
+        border-left-width: 4px;
+    }
+
+    .project-card.row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .project-card [class^="col-"],
+    .project-card [class*=" col-"] {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .project-card h3 {
+        font-size: 1.2rem;
+        overflow-wrap: anywhere;
+    }
+
+    .project-card p,
+    .project-card ul li,
+    section p,
+    .list-headline {
+        font-size: 12pt;
+    }
+
+    .project-links,
+    .project-card .d-flex.justify-content-between {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .project-links a,
+    .btn-gameurl {
+        max-width: 100%;
+        min-height: 44px;
+        white-space: normal;
+        line-height: 1.2;
+    }
+
+    .project-media {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .media-frame,
+    .project-card .project-media .media-frame {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .media-frame-tall,
+    .media-frame-sm {
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+
+    .media-frame-tall {
+        aspect-ratio: 3 / 4;
+    }
+
+    .simpletanks-video-frame {
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+
+    .simpletanks-video {
+        scale: 1;
+    }
+
+    .work-topline {
+        flex-wrap: wrap;
+        gap: 0.2rem 0.75rem;
+        padding-right: 0;
+    }
+
+    .work-date {
+        margin-left: 0;
+        white-space: normal;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-card {
+        padding: 0.75rem;
+    }
+
+    .project-card {
+        padding: 0.85rem;
+    }
+
+    section h2 {
+        letter-spacing: 1.2px;
+        padding-left: 0.55rem;
+    }
+}

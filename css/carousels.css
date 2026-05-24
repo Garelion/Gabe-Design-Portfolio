@@ -848,3 +848,204 @@ body.lightbox-open .film-frame:focus-visible img {
         right: 0.5rem;
     }
 }
+
+/* ==============================
+   Responsive carousel galleries
+   ============================== */
+
+@media (max-width: 768px) {
+    .project-media,
+    .project-carousel {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .project-carousel .carousel-inner {
+        aspect-ratio: 16 / 9;
+    }
+
+    .project-carousel .carousel-control-prev,
+    .project-carousel .carousel-control-next {
+        width: 14%;
+        height: 54%;
+        opacity: 0.8;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .carousel-caption-hover {
+        transform: none;
+        padding: 0.65rem 0.75rem;
+        background: rgba(0, 0, 0, 0.92);
+        max-height: 48%;
+        overflow-y: auto;
+    }
+
+    .carousel-caption-hover h5 {
+        font-size: 0.95rem;
+    }
+
+    .carousel-caption-hover p {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    .carousel-indicators-outside {
+        gap: 0.55rem;
+        margin-top: 0.65rem;
+        flex-wrap: wrap;
+    }
+
+    .carousel-thumb {
+        width: clamp(58px, 18vw, 78px);
+        height: clamp(44px, 14vw, 58px);
+    }
+
+    .carousel-thumbnails {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .slide-gallery-header {
+        margin-top: 1.25rem;
+        border-left-width: 4px;
+        border-right-width: 4px;
+    }
+
+    .slide-gallery-header-band {
+        padding: 0.55rem 0.75rem;
+    }
+
+    .gallery-label {
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    .slide-gallery-viewport::before,
+    .slide-gallery-viewport::after {
+        width: 6px;
+    }
+
+    .slide-gallery-track,
+    .slide-gallery-track.wide {
+        min-height: 300px;
+    }
+
+    .slide-frame {
+        width: clamp(118px, 42vw, 168px);
+        border-width: 2px;
+    }
+
+    .slide-frame.is-prev {
+        transform: translate(calc(-50% - 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.is-next {
+        transform: translate(calc(-50% + 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.is-prev:hover {
+        transform: translate(calc(-50% - 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.is-next:hover {
+        transform: translate(calc(-50% + 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.horizontal {
+        width: min(72vw, 320px);
+    }
+
+    .slide-frame.horizontal.is-prev {
+        transform: translate(calc(-50% - 62%), -50%) scale(0.88);
+    }
+
+    .slide-frame.horizontal.is-next {
+        transform: translate(calc(-50% + 62%), -50%) scale(0.88);
+    }
+
+    .slide-gallery-indicators {
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+
+    .slide-dot {
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    .film-strip-mask {
+        margin-left: -0.25rem;
+        margin-right: -0.25rem;
+        padding: 0.75rem 0.25rem;
+    }
+
+    .film-frame {
+        width: min(82vw, 360px);
+        border-width: 2px;
+    }
+
+    .film-strip-slider {
+        margin-top: 0.5rem;
+    }
+
+    .film-lightbox {
+        padding: 1rem 0.75rem;
+    }
+
+    .film-lightbox-figure {
+        max-width: 100%;
+    }
+
+    .film-lightbox-close,
+    .film-lightbox-nav {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 420px) {
+    .project-carousel .carousel-control-prev,
+    .project-carousel .carousel-control-next {
+        width: 18%;
+    }
+
+    .carousel-thumb {
+        width: clamp(52px, 20vw, 68px);
+        height: clamp(40px, 15vw, 52px);
+    }
+
+    .slide-gallery-track,
+    .slide-gallery-track.wide {
+        min-height: 260px;
+    }
+
+    .slide-frame {
+        width: clamp(108px, 48vw, 150px);
+    }
+
+    .slide-frame.is-prev {
+        transform: translate(calc(-50% - 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.is-next {
+        transform: translate(calc(-50% + 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.is-prev:hover {
+        transform: translate(calc(-50% - 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.is-next:hover {
+        transform: translate(calc(-50% + 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.horizontal {
+        width: min(78vw, 300px);
+    }
+}

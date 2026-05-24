@@ -146,6 +146,53 @@
 
 @media (max-width: 768px) {
 
+    header {
+        padding: 1rem 0 0.35rem;
+    }
+
+    header > .d-flex {
+        justify-content: space-between !important;
+        align-items: center;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+
+    header .d-inline-flex {
+        min-width: 0;
+        align-items: flex-start !important;
+    }
+
+    .profile-pic {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+    }
+
+    header .hero-title {
+        font-size: clamp(0.95rem, 4.2vw, 1.25rem) !important;
+        line-height: 1.15;
+        letter-spacing: 1.2px;
+        overflow-wrap: anywhere;
+    }
+
+    .hero-name {
+        font-size: inherit !important;
+    }
+
+    .bio {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        font-size: 0.95rem;
+        line-height: 1.35;
+        letter-spacing: 0.4px;
+    }
+
+    nav.navbar-main {
+        justify-content: flex-end;
+        padding: 0 0.75rem 0.35rem;
+    }
+
     .desktop-nav {
         display: none;
     }
