@@ -774,6 +774,7 @@ video.loaded {
         flex: 0 0 100%;
         padding-left: 0;
         padding-right: 0;
+        margin: 3px 0 7px 0;
     }
 
     .project-card h3 {
@@ -811,6 +812,20 @@ video.loaded {
     .project-card .project-media .media-frame {
         width: 100%;
         max-width: 100%;
+    }
+
+    .avengers-media-row {
+        flex-direction: column;
+        gap: 0.85rem !important;
+    }
+
+    .avengers-media-row > [class^="col-"],
+    .avengers-media-row > [class*=" col-"] {
+        width: 94%;
+        max-width: 94%;
+        flex-basis: 94%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .media-frame-tall,
