@@ -472,13 +472,29 @@ footer {
 }
 
 
-.btn-gameurl .btn-icon {
-    width: 1.15em;
+
+
+.btn-gameurl {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
+.btn-gameurl .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25em;
+    height: 1.25em;
+    line-height: 1;
+    flex: 0 0 1.25em;
+}
+
+.btn-gameurl .btn-icon i {
+    display: block;
+    line-height: 1;
+}
 
 .fa-brands,
 .fab {
@@ -688,5 +704,23 @@ video.loaded {
 
     section h2 {
         font-size: 1.1rem;
+    }
+
+    .btn-gameurl {
+        padding: 0.4rem;
+        gap: 0;
+    }
+
+    .btn-gameurl .btn-label {
+        display: none;
+    }
+
+    .btn-gameurl .btn-icon {
+        font-size: 16pt;
+        width: 1.25em;
+        height: 1.25em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 }
