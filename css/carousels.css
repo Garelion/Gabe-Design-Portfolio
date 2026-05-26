@@ -657,10 +657,6 @@ body.lightbox-open .slide-frame:focus-visible img {
   cursor: grabbing;
 }
 
-.film-frame {
-  flex: 0 0 auto;
-}
-
 .film-frame img {
   display: block;
   pointer-events: none;
@@ -752,7 +748,7 @@ input[type="range"]::-moz-range-thumb {
     border: 3px solid var(--teal-ink);
     background: var(--teal-ink);
     border-radius: 0.2rem;
-    box-shadow: 0 8px 2px rgba(0,0,0,0.28);
+    box-shadow: 0 3px 2px rgba(0,0,0,0.28);
     cursor: pointer;
     position: relative;
     transform: translateZ(0);
@@ -913,6 +909,7 @@ input[type="range"]::-moz-range-thumb {
 
     .slide-gallery-indicators {
         flex-wrap: wrap;
+        margin-top: 0.8rem;
         gap: 0.45rem;
     }
 
@@ -929,12 +926,12 @@ input[type="range"]::-moz-range-thumb {
 
     .film-strip-shell::before {
         left: calc(-0.25rem - 2px);
-        width: 38px;
+        width: 8px;
     }
 
     .film-strip-shell::after {
         right: calc(-0.25rem - 2px);
-        width: 38px;
+        width: 8px;
     }
 
     .film-frame {
