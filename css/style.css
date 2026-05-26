@@ -350,11 +350,10 @@ footer {
 }
 
 /* ==============================
-   Project Card Component
-   ============================== */
+    Project Card Component
+============================== */
 .project-card {
     background: var(--dark-emerald);
-    border: 1px solid var(--mid-green);
     border-left: 6px solid var(--easter-green-E6);
     border-radius: 0;
     padding: 1.75rem 2rem;
@@ -390,7 +389,6 @@ footer {
 .text-muted {
     color: var(--text-gray) !important;
 }
-
 
 /* Project description */
 .project-card p {
