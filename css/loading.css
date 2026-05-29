@@ -2,6 +2,10 @@
     --loader-top: 0px;
 }
 
+html.is-transitioning {
+    overflow: hidden;
+}
+
 html.is-transitioning,
 html.is-transitioning body {
     cursor: progress;
@@ -21,18 +25,24 @@ body {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.24s ease, visibility 0.24s ease;
+    will-change: opacity, visibility;
+}
+
+#page-loader:not(.is-hidden) {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transition: opacity 0.24s ease, visibility 0.24s ease;
 }
 
-
-
-#page-loader.is-hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+#page-loader:not(.is-hidden) {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .loader-bar {
@@ -49,7 +59,6 @@ body {
         var(--primary-green) 100%
     );
     box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
-
     border-bottom: 0.1rem solid var(--lime-green);
     border-image: linear-gradient(
         to right,
@@ -57,7 +66,7 @@ body {
         var(--lime-green),
         var(--easter-green)
     ) 1;
-
+    will-change: width;
 }
 
 .page-wrapper {

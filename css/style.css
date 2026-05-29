@@ -201,13 +201,15 @@ section h2 {
     color: white;
     font-size: 1.7rem;
     margin-bottom: 0.5rem;
-    border-left: 4px solid white;
-    padding-left: 0.75rem;
+    border-left: 5.5px solid white;
+    padding-left: 0.8rem !important;
     font-weight: 700;
+    padding: 7px;
     text-transform: uppercase;
     font-family: 'IBM Plex Sans', sans-serif;
     letter-spacing: 2.5px;
 }
+
 
 section p {
     font-size: 14pt;
@@ -757,6 +759,14 @@ video.loaded {
         margin: 1rem 0;
         padding: 1rem;
         padding-bottom: 1.4rem;
+    }
+
+    section h2 {
+        letter-spacing: 1.2px;
+        padding: 8px;
+        background: var(--dark-emerald-80);
+        padding-left: 0.55rem;
+        font-size: inherit;
     }
 
     .section-card .container,

@@ -122,9 +122,20 @@ body.lightbox-open .film-frame:focus-visible img {
         max-height: 72vh;
     }
 
+    .film-lightbox-close,
+    .film-lightbox-nav {
+        width: 40px;
+        height: 40px;
+    }
+
     .film-lightbox-close {
         top: 0.75rem;
         right: 0.75rem;
+        font-size: 1.5rem;
+    }
+
+    .film-lightbox-nav {
+        font-size: 1.25rem;
     }
 
     .film-lightbox-nav.prev {
@@ -147,7 +158,29 @@ body.lightbox-open .film-frame:focus-visible img {
 
     .film-lightbox-close,
     .film-lightbox-nav {
-        width: 44px;
-        height: 44px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .film-lightbox-close {
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 1.25rem;
+    }
+
+    .film-lightbox-close span {
+        transform: translateY(-1px);
+    }
+
+    .film-lightbox-nav {
+        font-size: 1rem;
+    }
+
+    .film-lightbox-nav.prev {
+        left: 0.25rem;
+    }
+
+    .film-lightbox-nav.next {
+        right: 0.25rem;
     }
 }
