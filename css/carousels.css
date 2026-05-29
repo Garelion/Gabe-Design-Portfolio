@@ -600,7 +600,6 @@ body.lightbox-open .slide-frame:focus-visible img {
     }
 }
 
-
 /* Film strip styles */
 .film-strip-shell {
   position: relative;
@@ -614,6 +613,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     top: 0;
     bottom: 2.75rem;
     width: 10px;
+    height: 90%;
     z-index: 4;
     pointer-events: none;
 }
@@ -790,6 +790,42 @@ input[type="range"]::-moz-range-thumb {
 /* ==============================
    Responsive carousel galleries
    ============================== */
+
+@media (max-width: 999px) {
+    input[type="range"] {
+        height: 0.75rem;
+        border-width: 1.5px;
+        padding: 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        height: 0.63rem;
+        width: 0.63rem;
+        margin-top: 0.75px;
+        margin-left: -2px;
+        
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+        height: 0.75rem;
+    }
+
+
+
+    input[type="range"]::-moz-range-track,
+    input[type="range"]::-moz-range-progress {
+        height: 0.75rem;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        height: 0.75rem;
+        width: 0.75rem;
+    }
+
+    .film-strip-slider {
+        margin-top: 0.5rem;
+    }
+}
 
 @media (max-width: 768px) {
     .project-media,
