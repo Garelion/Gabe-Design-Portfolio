@@ -134,25 +134,6 @@ function syncBootstrapThumbs(carousel) {
     });
   }
 
-function updateSliderProgress(slider) {
-  if (!slider) return;
-
-  const min = Number(slider.min) || 0;
-  const max = Number(slider.max) || 100;
-  const value = Number(slider.value);
-  const ratio = (value - min) / (max - min);
-
-  const styles = getComputedStyle(slider);
-  const thumbSize = 20;
-
-  const sliderWidth = slider.offsetWidth;
-  const thumbHalfPercent = (thumbSize / 2 / sliderWidth) * 100;
-
-  const adjusted =
-    thumbHalfPercent + ratio * (100 - thumbHalfPercent * 2);
-
-  slider.style.setProperty('--progress', `${adjusted}%`);
-}
 
 function initFilmGallery(track) {
   const allFrames = [...track.querySelectorAll('.film-frame')];
@@ -171,20 +152,84 @@ function initFilmGallery(track) {
 
   const mask = track.closest('.film-strip-mask');
   const shell = track.closest('.film-strip-shell');
-  const slider = shell?.querySelector('.film-strip-slider');
+  const prevArrow = shell?.querySelector('.film-arrow-prev');
+  const nextArrow = shell?.querySelector('.film-arrow-next');
+
   if (!mask) return;
 
-  let pressedFrame = null;
+  let currentTranslateX = 0;
+  let isAnimating = false;
+  let ambientAnimationId = null;
+  let resumeTimer = null;
+
   let isPointerDown = false;
   let isDragging = false;
   let suppressClick = false;
-  let startX = 0;
-  let startScrollLeft = 0;
-  let autoplayId = null;
-  let resumeTimer = null;
-  let singleSetWidth = 0;
-  const dragThreshold = 6;
-  const autoplaySpeed = 0.35;
+
+  let pressedFrame = null;
+  let pointerId = null;
+
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragStartTranslateX = 0;
+  let dragIntent = null;
+
+  const ambientSpeed = 0.20;
+  const stepDuration = 400;
+  const dragThreshold = 4;
+  const swipeThreshold = 56;
+
+  mask.style.touchAction = 'pan-y';
+
+  function getGap() {
+    return parseFloat(getComputedStyle(track).gap || 0);
+  }
+
+  function getTotalWidth() {
+    let total = 0;
+    const gap = getGap();
+
+    uniqueFrames.forEach((frame, index) => {
+      total += frame.offsetWidth;
+      if (index < uniqueFrames.length - 1) total += gap;
+    });
+
+    return total;
+  }
+
+  function applyTransform(x) {
+    track.style.transform = `translate3d(${x}px, 0, 0)`;
+  }
+
+  function normalizePosition() {
+    const singleSetWidth = getTotalWidth();
+
+    if (!singleSetWidth) return;
+
+    while (currentTranslateX <= -singleSetWidth * 2) {
+      currentTranslateX += singleSetWidth;
+    }
+
+    while (currentTranslateX > -singleSetWidth) {
+      currentTranslateX -= singleSetWidth;
+    }
+  }
+
+  function getMaskCenterX() {
+    return mask.clientWidth / 2;
+  }
+
+  function getFrameCenterX(frame) {
+    return frame.offsetLeft + frame.offsetWidth / 2;
+  }
+
+  function getFrameCenterInMask(frame, translateX = currentTranslateX) {
+    return getFrameCenterX(frame) + translateX;
+  }
+
+  function getTranslateForCenteredFrame(frame) {
+    return Math.round(getMaskCenterX() - getFrameCenterX(frame));
+  }
 
   function getNormalizedIndex(frame) {
     const indexedValue = Number(frame.dataset.index);
@@ -197,216 +242,303 @@ function initFilmGallery(track) {
     return allIndex % gallery.length;
   }
 
-  function measureSingleSetWidth() {
-    singleSetWidth = uniqueFrames.reduce((total, frame) => total + frame.offsetWidth, 0);
-    const gap = parseFloat(getComputedStyle(track).gap || 0);
-    singleSetWidth += uniqueFrames.length * gap;
+  function getClosestFrameToCenter() {
+    const maskCenter = getMaskCenterX();
+    let closestFrame = null;
+    let closestDistance = Infinity;
+
+    allFrames.forEach(frame => {
+      const distance = Math.abs(getFrameCenterInMask(frame) - maskCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestFrame = frame;
+      }
+    });
+
+    return closestFrame;
   }
 
-  // For infinite loop: we have 2 sets of frames (original + duplicate)
-  // Total scrollable = singleSetWidth * 2
-  // We keep scroll position in range [0, singleSetWidth) by wrapping
-  function normalizeLoopPosition() {
-  if (!singleSetWidth) return;
+  function getBestDuplicateForIndex(targetIndex) {
+    let bestFrame = null;
+    let bestDistance = Infinity;
 
-  /* right overflow */
-  if (mask.scrollLeft >= singleSetWidth * 2) {
-    mask.scrollLeft -= singleSetWidth;
+    allFrames.forEach(frame => {
+      if (getNormalizedIndex(frame) !== targetIndex) return;
+
+      const candidateTargetX = getTranslateForCenteredFrame(frame);
+      const distance = Math.abs(candidateTargetX - currentTranslateX);
+
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestFrame = frame;
+      }
+    });
+
+    return bestFrame;
   }
 
-  /* left overflow */
-  else if (mask.scrollLeft < singleSetWidth) {
-    mask.scrollLeft += singleSetWidth;
+  function settleCenteredIndex(targetIndex) {
+    const settledFrame = getBestDuplicateForIndex(targetIndex);
+    if (!settledFrame) return;
+
+    currentTranslateX = getTranslateForCenteredFrame(settledFrame);
+    normalizePosition();
+
+    const finalFrame = getBestDuplicateForIndex(targetIndex);
+    if (finalFrame) {
+      currentTranslateX = getTranslateForCenteredFrame(finalFrame);
+    }
+
+    applyTransform(currentTranslateX);
   }
-}
 
-  function syncSlider() {
-  if (!slider || !singleSetWidth) return;
-
-  const normalized =
-    (mask.scrollLeft - singleSetWidth)
-    / singleSetWidth;
-
-  slider.value =
-    Math.round(normalized * 1000);
-
-  updateSliderProgress(slider);
-}
-
-function setScrollFromSlider() {
-  if (!slider || !singleSetWidth) return;
-
-  const ratio = Number(slider.value) / 1000;
-
-  mask.scrollLeft =
-    singleSetWidth +
-    ratio * singleSetWidth;
-
-  normalizeLoopPosition();
-  updateSliderProgress(slider);
-}
-
-/* --- Infinite slider drag --- */
-function enableInfiniteSlider() {
-  if (!slider) return;
-
-  let lastValue = Number(slider.value);
-  let isDraggingSlider = false;
-
-  slider.addEventListener('pointerdown', () => {
-    isDraggingSlider = true;
-    pauseAutoplay();
-  });
-
-  window.addEventListener('pointerup', () => {
-    if (!isDraggingSlider) return;
-
-    isDraggingSlider = false;
-
-    if (!document.body.classList.contains('lightbox-open')) {
-      startAutoplay(700);
-    }
-  });
-
-  slider.addEventListener('input', () => {
-    const currentValue = Number(slider.value);
-
-    /* detect drag direction */
-    const movingRight = currentValue > lastValue;
-    const movingLeft = currentValue < lastValue;
-
-    /* --- wrap slider seamlessly --- */
-
-    /* hit right edge → continue from left */
-    if (currentValue >= 999 && movingRight) {
-      slider.value = 1;
-    }
-
-    /* hit left edge → continue from right */
-    else if (currentValue <= 1 && movingLeft) {
-      slider.value = 999;
-    }
-
-    setScrollFromSlider();
-    updateSliderProgress(slider);
-
-    lastValue = Number(slider.value);
-  });
-}
-
-  function pauseAutoplay() {
-    if (autoplayId) cancelAnimationFrame(autoplayId);
-    autoplayId = null;
+  function stopAmbientDrift() {
+    if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
+    ambientAnimationId = null;
     clearTimeout(resumeTimer);
   }
 
-  function autoplayStep() {
-    if (document.body.classList.contains('lightbox-open') || isPointerDown) {
-      autoplayId = requestAnimationFrame(autoplayStep);
+  function ambientStep() {
+    if (
+      document.body.classList.contains('lightbox-open') ||
+      isAnimating ||
+      isPointerDown
+    ) {
+      ambientAnimationId = requestAnimationFrame(ambientStep);
       return;
     }
 
-    mask.scrollLeft += autoplaySpeed;
-    normalizeLoopPosition();
-    syncSlider();
+    currentTranslateX -= ambientSpeed;
+    normalizePosition();
+    applyTransform(currentTranslateX);
 
-    autoplayId = requestAnimationFrame(autoplayStep);
+    ambientAnimationId = requestAnimationFrame(ambientStep);
   }
 
-  function startAutoplay(delay = 0) {
-    pauseAutoplay();
+  function startAmbientDrift(delay = 0) {
+    stopAmbientDrift();
     resumeTimer = setTimeout(() => {
-      autoplayId = requestAnimationFrame(autoplayStep);
+      ambientAnimationId = requestAnimationFrame(ambientStep);
     }, delay);
   }
 
+  function animateToFrame(frame, duration = stepDuration, resumeDelay = 1200) {
+    if (!frame || isAnimating) return;
+
+    stopAmbientDrift();
+    isAnimating = true;
+
+    const targetIndex = getNormalizedIndex(frame);
+    const startX = currentTranslateX;
+    const targetX = getTranslateForCenteredFrame(frame);
+    const startTime = performance.now();
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      currentTranslateX = startX + (targetX - startX) * eased;
+      applyTransform(currentTranslateX);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+        return;
+      }
+
+      currentTranslateX = targetX;
+      normalizePosition();
+      settleCenteredIndex(targetIndex);
+      isAnimating = false;
+
+      if (!document.body.classList.contains('lightbox-open')) {
+        startAmbientDrift(resumeDelay);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  function centerFrame(frame, duration = stepDuration, resumeDelay = 1200) {
+    animateToFrame(frame, duration, resumeDelay);
+  }
+
+  function moveByFrame(direction = 1) {
+    if (isAnimating) return;
+
+    const currentFrame = getClosestFrameToCenter();
+    const currentIndex = currentFrame ? getNormalizedIndex(currentFrame) : 0;
+    const targetIndex =
+      (currentIndex + direction + gallery.length) % gallery.length;
+
+    const targetFrame = getBestDuplicateForIndex(targetIndex);
+    if (!targetFrame) return;
+
+    centerFrame(targetFrame, stepDuration, 1200);
+  }
+
   function initPosition() {
-  measureSingleSetWidth();
+    const firstFrame =
+      allFrames.find(frame => getNormalizedIndex(frame) === 0) || uniqueFrames[0];
 
-  /* start in middle copy */
-  mask.scrollLeft = singleSetWidth;
+    currentTranslateX = getTranslateForCenteredFrame(firstFrame) - getTotalWidth();
+    normalizePosition();
+    settleCenteredIndex(0);
+  }
 
-  syncSlider();
-}
+  function resetPointerState() {
+    isPointerDown = false;
+    isDragging = false;
+    pressedFrame = null;
+    pointerId = null;
+    dragIntent = null;
+
+    requestAnimationFrame(() => {
+      suppressClick = false;
+    });
+  }
+
+  function endDrag(e) {
+    if (!isPointerDown) return;
+
+    const deltaX = e.clientX - dragStartX;
+    const absDeltaX = Math.abs(deltaX);
+
+    mask.classList.remove('is-dragging');
+
+    if (mask.releasePointerCapture && e?.pointerId != null) {
+      try {
+        mask.releasePointerCapture(e.pointerId);
+      } catch (_) {}
+    }
+
+    normalizePosition();
+
+    if (dragIntent === 'x' && isDragging) {
+      if (absDeltaX >= swipeThreshold) {
+        moveByFrame(deltaX < 0 ? 1 : -1);
+      } else {
+        const centeredFrame = getClosestFrameToCenter();
+        if (centeredFrame) {
+          centerFrame(centeredFrame, 180, 900);
+        } else if (!document.body.classList.contains('lightbox-open')) {
+          startAmbientDrift(900);
+        }
+      }
+
+      resetPointerState();
+      return;
+    }
+
+    if (
+      pressedFrame &&
+      dragIntent !== 'y' &&
+      !document.body.classList.contains('lightbox-open')
+    ) {
+      openLightbox(gallery, getNormalizedIndex(pressedFrame), pressedFrame, null);
+      resetPointerState();
+      return;
+    }
+
+    if (!document.body.classList.contains('lightbox-open')) {
+      startAmbientDrift(900);
+    }
+
+    resetPointerState();
+  }
+
+  prevArrow?.addEventListener('click', () => {
+    moveByFrame(-1);
+  });
+
+  nextArrow?.addEventListener('click', () => {
+    moveByFrame(1);
+  });
+
+  shell?.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      moveByFrame(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      moveByFrame(1);
+    }
+  });
 
   mask.addEventListener('pointerdown', e => {
-    if (e.button !== 0) return;
-
-    const frame = e.target.closest('.film-frame');
-    if (!frame || !track.contains(frame)) return;
+    if (isAnimating) return;
+    if (e.button !== 0 && e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
 
     isPointerDown = true;
     isDragging = false;
     suppressClick = false;
-    pressedFrame = frame;
-    startX = e.clientX;
-    startScrollLeft = mask.scrollLeft;
 
-    pauseAutoplay();
+    pointerId = e.pointerId;
+    pressedFrame = e.target.closest('.film-frame');
+
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    dragStartTranslateX = currentTranslateX;
+    dragIntent = null;
+
+    stopAmbientDrift();
     mask.classList.add('is-dragging');
-    mask.setPointerCapture?.(e.pointerId);
+
+    if (mask.setPointerCapture) {
+      try {
+        mask.setPointerCapture(e.pointerId);
+      } catch (_) {}
+    }
   });
 
   mask.addEventListener('pointermove', e => {
     if (!isPointerDown) return;
+    if (pointerId != null && e.pointerId !== pointerId) return;
 
-    const deltaX = e.clientX - startX;
+    const deltaX = e.clientX - dragStartX;
+    const deltaY = e.clientY - dragStartY;
 
-    if (Math.abs(deltaX) > dragThreshold) {
-      isDragging = true;
-      suppressClick = true;
-      mask.scrollLeft = startScrollLeft - deltaX;
-      normalizeLoopPosition();
-      syncSlider();
-      e.preventDefault();
+    if (!dragIntent) {
+      if (
+        Math.abs(deltaX) < dragThreshold &&
+        Math.abs(deltaY) < dragThreshold
+      ) {
+        return;
+      }
+
+      dragIntent = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
     }
+
+    if (dragIntent === 'y') {
+      isDragging = false;
+      return;
+    }
+
+    isDragging = true;
+    suppressClick = true;
+    currentTranslateX = dragStartTranslateX + deltaX;
+    normalizePosition();
+    applyTransform(currentTranslateX);
+
+    e.preventDefault();
   });
 
-  mask.addEventListener('pointerup', e => {
-    if (!isPointerDown) return;
-
-    const frame = e.target.closest('.film-frame') || pressedFrame;
-
-    mask.classList.remove('is-dragging');
-
-    if (frame && !isDragging && track.contains(frame)) {
-      e.preventDefault();
-      e.stopPropagation();
-      openLightbox(gallery, getNormalizedIndex(frame), frame, null);
-    }
-
-    isPointerDown = false;
-    isDragging = false;
-    pressedFrame = null;
-
-    setTimeout(() => {
-      suppressClick = false;
-    }, 0);
-
-    if (!document.body.classList.contains('lightbox-open')) {
-      startAutoplay(900);
-    }
-  });
+  mask.addEventListener('pointerup', endDrag);
 
   mask.addEventListener('pointercancel', () => {
-    isPointerDown = false;
-    isDragging = false;
-    pressedFrame = null;
     mask.classList.remove('is-dragging');
+
     if (!document.body.classList.contains('lightbox-open')) {
-      startAutoplay(900);
+      startAmbientDrift(900);
     }
+
+    resetPointerState();
   });
 
-  mask.addEventListener('scroll', () => {
-    normalizeLoopPosition();
-    syncSlider();
-  });
-
-  mask.addEventListener('mouseenter', pauseAutoplay);
+  mask.addEventListener('mouseenter', stopAmbientDrift);
   mask.addEventListener('mouseleave', () => {
     if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
-      startAutoplay(500);
+      startAmbientDrift(500);
     }
   });
 
@@ -417,7 +549,12 @@ function enableInfiniteSlider() {
       if (suppressClick) {
         e.preventDefault();
         e.stopPropagation();
+        return;
       }
+
+      e.preventDefault();
+      e.stopPropagation();
+      openLightbox(gallery, index, frame, null);
     });
 
     frame.addEventListener('keydown', e => {
@@ -427,101 +564,238 @@ function enableInfiniteSlider() {
     });
   });
 
-  enableInfiniteSlider();
-
   window.addEventListener('resize', () => {
-    const oldProgress = singleSetWidth ? (mask.scrollLeft / singleSetWidth) : 0;
-
-    measureSingleSetWidth();
-    mask.scrollLeft = oldProgress * singleSetWidth;
-    normalizeLoopPosition();
-    syncSlider();
+    const centeredFrame = getClosestFrameToCenter();
+    const centeredIndex = centeredFrame ? getNormalizedIndex(centeredFrame) : 0;
+    settleCenteredIndex(centeredIndex);
   });
 
   requestAnimationFrame(() => {
     initPosition();
-    startAutoplay(1200);
+    startAmbientDrift(1200);
   });
 }
+function initSlideGallery(track) {
+  const shell = track.closest('.slide-gallery-shell');
+  const viewport = shell?.querySelector('.slide-gallery-viewport');
+  const indicators = shell?.querySelector('.slide-gallery-indicators');
+  const frames = [...track.querySelectorAll('.slide-frame')];
+  const dots = indicators ? [...indicators.querySelectorAll('.slide-dot')] : [];
 
-  function initSlideGallery(track) {
-    const shell = track.closest('.slide-gallery-shell');
-    const indicators = shell?.querySelector('.slide-gallery-indicators');
-    const frames = [...track.querySelectorAll('.slide-frame')];
-    const dots = indicators ? [...indicators.querySelectorAll('.slide-dot')] : [];
+  if (!frames.length) return;
 
-    if (!frames.length) return;
+  const gallery = frames.map(frame => {
+    const img = frame.querySelector('img');
+    return {
+      src: frame.dataset.full || img?.getAttribute('src') || '',
+      alt: img?.getAttribute('alt') || '',
+      caption: frame.dataset.caption || img?.getAttribute('alt') || ''
+    };
+  });
 
-    const gallery = frames.map(frame => ({
-      src: frame.dataset.full,
-      alt: frame.querySelector('img')?.alt || '',
-      caption: frame.dataset.caption || ''
-    }));
+  let currentSlide = 0;
+  let autoplayId = null;
 
-    let currentSlide = 0;
-    let autoplayId = null;
+  let isPointerDown = false;
+  let isDragging = false;
+  let suppressClick = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragIntent = null;
 
-    function updateSlides() {
-      const total = frames.length;
+  const dragThreshold = 8;
+  const swipeThreshold = 50;
 
-      frames.forEach((frame, i) => {
-        frame.classList.remove('is-prev', 'is-center', 'is-next');
-        if (i === currentSlide) frame.classList.add('is-center');
-        else if (i === (currentSlide - 1 + total) % total) frame.classList.add('is-prev');
-        else if (i === (currentSlide + 1) % total) frame.classList.add('is-next');
-      });
+  const gestureEl = viewport || track;
+  if (!gestureEl) return;
 
-      dots.forEach((dot, i) => {
-        const active = i === currentSlide;
-        dot.classList.toggle('is-active', active);
-        dot.setAttribute('aria-current', active ? 'true' : 'false');
-      });
-    }
+  gestureEl.style.touchAction = 'pan-y';
 
-    function goToSlide(index) {
-      currentSlide = (index + frames.length) % frames.length;
-      updateSlides();
-    }
+  function updateSlides() {
+    const total = frames.length;
 
-    function startAutoplay() {
-      stopAutoplay();
-      autoplayId = setInterval(() => {
-        if (document.body.classList.contains('lightbox-open')) return;
-        goToSlide(currentSlide + 1);
-      }, 5000);
-    }
+    frames.forEach((frame, i) => {
+      frame.classList.remove('is-prev', 'is-center', 'is-next');
 
-    function stopAutoplay() {
-      if (autoplayId) clearInterval(autoplayId);
-    }
-
-    frames.forEach((frame, index) => {
-      frame.addEventListener('click', e => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (frame.classList.contains('is-center')) {
-          openLightbox(gallery, index, frame, null);
-        } else {
-          goToSlide(index);
-        }
-      });
+      if (i === currentSlide) {
+        frame.classList.add('is-center');
+      } else if (i === (currentSlide - 1 + total) % total) {
+        frame.classList.add('is-prev');
+      } else if (i === (currentSlide + 1) % total) {
+        frame.classList.add('is-next');
+      }
     });
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', e => {
-        e.preventDefault();
-        goToSlide(index);
-      });
+    dots.forEach((dot, i) => {
+      const active = i === currentSlide;
+      dot.classList.toggle('is-active', active);
+      dot.setAttribute('aria-current', active ? 'true' : 'false');
     });
-
-    track.addEventListener('mouseenter', stopAutoplay);
-    track.addEventListener('mouseleave', startAutoplay);
-
-    updateSlides();
-    startAutoplay();
   }
 
+  function goToSlide(index) {
+    currentSlide = (index + frames.length) % frames.length;
+    updateSlides();
+  }
+
+  function goNext() {
+    goToSlide(currentSlide + 1);
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayId = setInterval(() => {
+      if (document.body.classList.contains('lightbox-open')) return;
+      if (isPointerDown) return;
+      goNext();
+    }, 5000);
+  }
+
+  function stopAutoplay() {
+    if (autoplayId) clearInterval(autoplayId);
+    autoplayId = null;
+  }
+
+  gestureEl.addEventListener('pointerdown', e => {
+    if (e.button !== 0 && e.pointerType !== 'touch') return;
+
+    const frame = e.target.closest('.slide-frame');
+    if (!frame || !track.contains(frame)) return;
+
+    isPointerDown = true;
+    isDragging = false;
+    suppressClick = false;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    dragIntent = null;
+
+    stopAutoplay();
+  });
+
+  gestureEl.addEventListener('pointermove', e => {
+    if (!isPointerDown) return;
+
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+
+    if (!dragIntent) {
+      if (Math.abs(dx) < dragThreshold && Math.abs(dy) < dragThreshold) return;
+      dragIntent = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+    }
+
+    if (dragIntent === 'y') return;
+
+    if (Math.abs(dx) >= dragThreshold) {
+      isDragging = true;
+      e.preventDefault();
+    }
+  });
+
+  function endPointer(e) {
+    if (!isPointerDown) return;
+
+    const dx = e.clientX - dragStartX;
+
+    if (dragIntent === 'x' && Math.abs(dx) >= swipeThreshold) {
+      suppressClick = true;
+
+      if (dx < 0) {
+        goToSlide(currentSlide + 1);
+      } else {
+        goToSlide(currentSlide - 1);
+      }
+    }
+
+    isPointerDown = false;
+    isDragging = false;
+    dragIntent = null;
+
+    setTimeout(() => {
+      suppressClick = false;
+    }, 0);
+
+    if (!document.body.classList.contains('lightbox-open')) {
+      startAutoplay();
+    }
+  }
+
+  gestureEl.addEventListener('pointerup', endPointer);
+
+  gestureEl.addEventListener('pointercancel', () => {
+    isPointerDown = false;
+    isDragging = false;
+    dragIntent = null;
+    suppressClick = false;
+
+    if (!document.body.classList.contains('lightbox-open')) {
+      startAutoplay();
+    }
+  });
+
+  frames.forEach((frame, index) => {
+    frame.addEventListener('click', e => {
+      if (suppressClick) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (frame.classList.contains('is-center')) {
+        openLightbox(gallery, index, frame, null);
+        return;
+      }
+
+      if (frame.classList.contains('is-prev')) {
+        goToSlide(currentSlide - 1);
+        return;
+      }
+
+      if (frame.classList.contains('is-next')) {
+        goToSlide(currentSlide + 1);
+      }
+    });
+
+    frame.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+
+      e.preventDefault();
+
+      if (frame.classList.contains('is-center')) {
+        openLightbox(gallery, index, frame, null);
+        return;
+      }
+
+      if (frame.classList.contains('is-prev')) {
+        goToSlide(currentSlide - 1);
+        return;
+      }
+
+      if (frame.classList.contains('is-next')) {
+        goToSlide(currentSlide + 1);
+      }
+    });
+  });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', e => {
+      e.preventDefault();
+      goToSlide(index);
+    });
+  });
+
+  track.addEventListener('mouseenter', stopAutoplay);
+  track.addEventListener('mouseleave', () => {
+    if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
+      startAutoplay();
+    }
+  });
+
+  updateSlides();
+  startAutoplay();
+}
   prevBtn.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();
@@ -563,12 +837,6 @@ function enableInfiniteSlider() {
   carouselInstance.cycle();
   syncBootstrapThumbs(carouselEl);
   initBootstrapCarouselLightbox(carouselEl);
-});
-
-
-document.querySelectorAll('.gradient-slider').forEach(slider => {
-  updateSliderProgress(slider);
-  slider.addEventListener('input', () => updateSliderProgress(slider));
 });
 
 

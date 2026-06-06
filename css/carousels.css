@@ -44,11 +44,6 @@
     opacity: 0.8;
 }
 
-.media-frame video.loaded {
-    opacity: 1;
-}
-
-
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     width: 20px;
@@ -70,27 +65,6 @@ button.carousel-control-next {
 }
 
 
-
-/* Dot indicators */
-.project-carousel .simple-carousel-indicators {
-    margin-bottom: 0.4rem;
-}
-
-.project-carousel .simple-carousel-indicators button {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    opacity: 0.2;
-}
-
-.project-carousel .simple-carousel-indicators .active {
-    opacity: 0.8;
-}
-
-.media-frame video.loaded {
-    opacity: 1;
-}
 
 
 .carousel-control-prev-icon,
@@ -326,24 +300,13 @@ button.carousel-control-next {
 }
 
 
-/* .film-frame:not([aria-hidden="true"]) {
-    cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
-}
- */
-    /* Only the first loop is clickable */
-/* .film-frame:not([aria-hidden="true"]) {
-    cursor: zoom-in;
-}
- */
-
-
-
 .slide-gallery-shell {
     position: relative;
 }
 
 .slide-gallery-viewport {
     position: relative;
+    touch-action: pan-y;
     overflow: hidden;
 }
 
@@ -375,6 +338,7 @@ button.carousel-control-next {
     align-items: center;
     justify-content: center;
     isolation: isolate;
+    touch-action: pan-y;
 }
 
 .slide-gallery-track.wide {
@@ -384,38 +348,49 @@ button.carousel-control-next {
     align-items: center;
     justify-content: center;
     isolation: isolate;
+    touch-action: pan-y;
+}
+
+.slide-gallery-shell,
+.slide-gallery-viewport,
+.slide-gallery-track {
+  position: relative;
+}
+
+.slide-gallery-viewport::before,
+.slide-gallery-viewport::after {
+  pointer-events: none;
+}
+
+.slide-frame {
+  position: absolute;
+  pointer-events: none;
+}
+
+.slide-frame.is-prev,
+.slide-frame.is-next,
+.slide-frame.is-center {
+  pointer-events: auto;
+}
+
+.slide-frame.is-center {
+  z-index: 30;
+}
+
+.slide-frame.is-prev,
+.slide-frame.is-next {
+  z-index: 20;
+}
+
+.slide-frame img {
+  pointer-events: none;
 }
 
 /* Horizontal version of slide frames (for Lights Out) */
 .slide-frame.horizontal {
-    width: clamp(260px, 35vw, 520px);
-    aspect-ratio: 16 / 9;   /* or 4 / 3, whatever fits your images */
+    width: clamp(260px, 35vw, 520px) !important;
+    aspect-ratio: 16 / 9;
 }
-
-/* Adjust positioning for the side cards when horizontal */
-.slide-frame.horizontal.is-prev {
-    transform: translate(calc(-55% - 100%), -50%) scale(1);
-}
-
-.slide-frame.horizontal.is-next {
-    transform: translate(calc(-45% + 100%), -50%) scale(1);
-}
-
-@media (max-width: 768px) {
-    .slide-frame.horizontal {
-        width: clamp(220px, 70vw, 360px);
-        aspect-ratio: 16 / 9;
-    }
-
-    .slide-frame.horizontal.is-prev {
-        transform: translate(calc(-50% - 80%), -50%) scale(1);
-    }
-
-    .slide-frame.horizontal.is-next {
-        transform: translate(calc(-50% + 80%), -50%) scale(1);
-    }
-}
-
 
 /* Portrait cards, all aligned on same level */
 .slide-frame {
@@ -479,7 +454,7 @@ button.carousel-control-next {
     opacity: 0.65;
     visibility: visible;
     pointer-events: auto;
-    transform: translate(calc(-55% - 100%), -50%) scale(1);
+    transform: translate(calc(-55% - 100%), -50%) scale(0.92);
     z-index: 2;
     filter: none;
 }
@@ -489,7 +464,7 @@ button.carousel-control-next {
     opacity: 0.65;
     visibility: visible;
     pointer-events: auto;
-    transform: translate(calc(-45% + 100%), -50%) scale(1);
+    transform: translate(calc(-45% + 100%), -50%) scale(0.92);
     z-index: 2;
     filter: none;
 }
@@ -520,6 +495,8 @@ button.carousel-control-next {
     transform: none !important;
     transition: none !important;
 }
+
+
 
 body.lightbox-open .slide-frame img,
 body.lightbox-open .slide-frame:hover img,
@@ -573,32 +550,6 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 
 
-@media (max-width: 768px) {
-    .slide-gallery-track {
-        min-height: 420px;
-    }
-
-    .slide-frame {
-        width: clamp(140px, 38vw, 190px);
-        aspect-ratio: 3 / 5;
-    }
-
-    .slide-frame.is-prev {
-        transform: translate(calc(-50% - 72%), -50%) scale(1);
-    }
-
-    .slide-frame.is-next {
-        transform: translate(calc(-50% + 72%), -50%) scale(1);
-    }
-
-    .slide-frame.is-prev:hover {
-        transform: translate(calc(-50% - 68%), -50%) scale(1);
-    }
-
-    .slide-frame.is-next:hover {
-        transform: translate(calc(-50% + 68%), -50%) scale(1);
-    }
-}
 
 /* Film strip styles */
 .film-strip-shell {
@@ -638,7 +589,7 @@ body.lightbox-open .slide-frame:focus-visible img {
   scrollbar-width: none;
   padding: 1.1rem 1rem;
   cursor: grab;
-  touch-action: pan-x;
+  touch-action: pan-y;
 }
 
 .film-strip-mask::-webkit-scrollbar {
@@ -657,17 +608,73 @@ body.lightbox-open .slide-frame:focus-visible img {
   cursor: grabbing;
 }
 
+.film-carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: clamp(2rem, 12vw, 10rem);
+    padding-top: 0.35rem;
+}
+
+.film-arrow {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--teal-ink-80);
+    border-radius: 999px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        135deg,
+        var(--blood-orange) 0%,
+        var(--primary-orange) 25%,
+        var(--lime-green) 58%,
+        var(--primary-green) 100%
+    );
+    box-shadow:
+        0 6px 10px rgba(0,0,0,.18),
+        inset 0 1px 1px rgba(255,255,255,.15);
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        filter .18s ease;
+}
+
+.film-arrow:hover,
+.film-arrow:focus-visible {
+    transform: translateY(-2px) scale(1.05);
+    filter: brightness(1.08);
+    box-shadow: 0 10px 26px rgba(0,0,0,.25);
+}
+
+.film-arrow:active {
+    transform: scale(.94);
+}
+
+.film-arrow svg {
+    width: 24px;
+    height: 24px;
+}
+
+.film-arrow path {
+    fill: none;
+    stroke: white;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .film-frame img {
   display: block;
   pointer-events: none;
   user-select: none;
 }
 
-/* #region  --- Customer Slider ---  */
-.film-strip-slider {
-    width: 100%;
-    margin-top: 0.7rem;
-}
+/* #region >> Custom Slider <<<  */
+    .film-strip-slider {
+        width: 100%;
+        margin-top: 0.7rem;
+    }
 
 .film-strip-slider.gradient-slider {
     --track-h: 1rem;
@@ -787,7 +794,172 @@ body.lightbox-open .slide-frame:focus-visible img {
 }
 
 /* ---------- Slider styles end ---------- */
+/* #endregion                              */
+
+
+/* #region  ─── Film Strip Carousel ───   */
+    .film-roll-wrapper {
+    width: 100%;
+    padding: 1rem 0;
+    }
+
+.film-strip-shell {
+  position: relative;
+  width: 100%;
+}
+
+.film-strip-mask {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  /* Hide scrollbar for transform-based animation */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.film-strip-mask::-webkit-scrollbar {
+  display: none;
+}
+
+.film-strip-track {
+  display: flex;
+  gap: 1rem;
+  /* Use transform for smooth animation - will-change hints to browser */
+  will-change: transform;
+  /* Prevent layout shift during transform */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.film-strip-mask.is-dragging {
+  cursor: grabbing;
+}
+
+.film-strip-mask.is-dragging .film-frame {
+  cursor: grabbing;
+}
+
+/* ─── Film Frame ─── */
+.film-frame {
+  flex-shrink: 0;
+  width: 280px;
+  aspect-ratio: 4 / 3;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.film-frame:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.film-frame:focus-visible {
+  outline: 2px solid var(--blood-orange, #dd460b);
+  outline-offset: 3px;
+}
+
+.film-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ─── Film Carousel Controls ─── */
+.film-carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 18rem;
+}
+
+.film-arrow {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--easter-green, #a4df56cc);
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+background: var(--primary-green);
+
+/*   background: linear-gradient(
+    -60deg,
+    rgba(221, 70, 11, 1) 0%,
+    rgba(255, 133, 33, 1) 25%,
+    rgba(215, 226, 60, 1) 50%,
+    rgba(164, 223, 86, 1) 75%,
+    rgba(60, 183, 109, 1) 100%
+  );  
+  
+  
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
+
+    */
+}
+
+.film-arrow:hover {
+  transform: translateY(-2px) scale(1.05);
+  filter: brightness(1.08);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+.film-arrow:active {
+  transform: scale(0.94);
+}
+
+.film-arrow:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+.film-arrow path {
+  width: 24px;
+  height: 24px;
+  stroke: var(--lime-green);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* ─── Responsive ─── */
+
+
+
+
+
+
+
+@media (max-width: 480px) {
+  .film-frame {
+    width: 180px;
+  }
+  
+  .film-carousel-controls {
+    gap: 6rem;
+  }
+}
+
+
 /* #endregion */
+
 
 .film-strip-mask {
   scroll-behavior: auto;
@@ -801,6 +973,7 @@ body.lightbox-open .slide-frame:focus-visible img {
 .film-strip-mask.is-dragging .film-frame {
   pointer-events: none;
 }
+
 
 /* Film frames */
 .film-frame {
@@ -854,8 +1027,33 @@ body.lightbox-open .slide-frame:focus-visible img {
 /* ==============================
    Responsive carousel galleries
    ============================== */
+@media (max-width: 1000px) and (min-width: 769px) {
+
+    /* #region Slide gallery */
+    .slide-gallery-shell {
+        --slide-card-w: clamp(150px, 18vw, 185px);
+        --slide-card-h: calc(var(--slide-card-w) * 5 / 3);
+    }
+
+    .slide-gallery-track:not(.wide) {
+        min-height: max(350px, calc(var(--slide-card-h) + 1rem));
+    }
+
+    .slide-gallery-track.wide {
+        min-height: 220px;
+    }
+
+    .slide-gallery-indicators {
+        margin-top: 0.4rem;
+        gap: 0.5rem;
+    }
+    /* #endregion */
+}
+
+
 
 @media (max-width: 768px) {
+    /* #region Bootstrap / standard project carousels */
     .project-media,
     .project-carousel {
         width: 100%;
@@ -911,6 +1109,14 @@ body.lightbox-open .slide-frame:focus-visible img {
         width: 100%;
         max-width: 100% !important;
     }
+    /* #endregion */
+
+
+    /* #region Slide gallery */
+    .slide-gallery-shell {
+        --slide-card-w: clamp(118px, 42vw, 168px);
+        --slide-card-h: calc(var(--slide-card-w) * 5 / 3);
+    }
 
     .slide-gallery-header {
         margin-top: 1.25rem;
@@ -933,13 +1139,17 @@ body.lightbox-open .slide-frame:focus-visible img {
         width: 6px;
     }
 
-    .slide-gallery-track,
+    .slide-gallery-track:not(.wide) {
+        min-height: calc(var(--slide-card-h) + 1rem);
+    }
+
     .slide-gallery-track.wide {
-        min-height: 300px;
+        min-height: 220px;
     }
 
     .slide-frame {
-        width: clamp(118px, 42vw, 168px);
+        width: var(--slide-card-w);
+        aspect-ratio: 3 / 5;
         border-width: 2px;
     }
 
@@ -961,6 +1171,7 @@ body.lightbox-open .slide-frame:focus-visible img {
 
     .slide-frame.horizontal {
         width: min(72vw, 320px);
+        aspect-ratio: 16 / 9;
     }
 
     .slide-frame.horizontal.is-prev {
@@ -973,7 +1184,7 @@ body.lightbox-open .slide-frame:focus-visible img {
 
     .slide-gallery-indicators {
         flex-wrap: wrap;
-        margin-top: 0.8rem;
+        margin-top: 0.35rem;
         gap: 0.45rem;
     }
 
@@ -981,7 +1192,10 @@ body.lightbox-open .slide-frame:focus-visible img {
         width: 12px !important;
         height: 12px !important;
     }
+    /* #endregion */
 
+
+    /* #region Film strip */
     .film-strip-mask {
         margin-left: -0.25rem;
         margin-right: -0.25rem;
@@ -1003,10 +1217,24 @@ body.lightbox-open .slide-frame:focus-visible img {
         border-width: 2px;
     }
 
+    .film-carousel-controls {
+        gap: 7rem;
+    }
+
+    .film-arrow {
+        width: 44px;
+        height: 44px;
+    }
+
+    .film-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+
     .film-strip-slider {
         margin-top: 0.5rem;
     }
-
+    /* #endregion */
 }
 
 @media (max-width: 420px) {
