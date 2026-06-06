@@ -44,11 +44,6 @@
     opacity: 0.8;
 }
 
-.media-frame video.loaded {
-    opacity: 1;
-}
-
-
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     width: 20px;
@@ -70,27 +65,6 @@ button.carousel-control-next {
 }
 
 
-
-/* Dot indicators */
-.project-carousel .simple-carousel-indicators {
-    margin-bottom: 0.4rem;
-}
-
-.project-carousel .simple-carousel-indicators button {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    opacity: 0.2;
-}
-
-.project-carousel .simple-carousel-indicators .active {
-    opacity: 0.8;
-}
-
-.media-frame video.loaded {
-    opacity: 1;
-}
 
 
 .carousel-control-prev-icon,
@@ -326,24 +300,13 @@ button.carousel-control-next {
 }
 
 
-#gexFilmTrack .film-frame:not([aria-hidden="true"]) {
-    cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
-}
-
-    /* Only the first loop is clickable */
-/* .film-frame:not([aria-hidden="true"]) {
-    cursor: zoom-in;
-}
- */
-
-
-
 .slide-gallery-shell {
     position: relative;
 }
 
 .slide-gallery-viewport {
     position: relative;
+    touch-action: pan-y;
     overflow: hidden;
 }
 
@@ -375,6 +338,7 @@ button.carousel-control-next {
     align-items: center;
     justify-content: center;
     isolation: isolate;
+    touch-action: pan-y;
 }
 
 .slide-gallery-track.wide {
@@ -384,38 +348,49 @@ button.carousel-control-next {
     align-items: center;
     justify-content: center;
     isolation: isolate;
+    touch-action: pan-y;
+}
+
+.slide-gallery-shell,
+.slide-gallery-viewport,
+.slide-gallery-track {
+  position: relative;
+}
+
+.slide-gallery-viewport::before,
+.slide-gallery-viewport::after {
+  pointer-events: none;
+}
+
+.slide-frame {
+  position: absolute;
+  pointer-events: none;
+}
+
+.slide-frame.is-prev,
+.slide-frame.is-next,
+.slide-frame.is-center {
+  pointer-events: auto;
+}
+
+.slide-frame.is-center {
+  z-index: 30;
+}
+
+.slide-frame.is-prev,
+.slide-frame.is-next {
+  z-index: 20;
+}
+
+.slide-frame img {
+  pointer-events: none;
 }
 
 /* Horizontal version of slide frames (for Lights Out) */
 .slide-frame.horizontal {
-    width: clamp(260px, 35vw, 520px);
-    aspect-ratio: 16 / 9;   /* or 4 / 3, whatever fits your images */
+    width: clamp(260px, 35vw, 520px) !important;
+    aspect-ratio: 16 / 9;
 }
-
-/* Adjust positioning for the side cards when horizontal */
-.slide-frame.horizontal.is-prev {
-    transform: translate(calc(-55% - 100%), -50%) scale(1);
-}
-
-.slide-frame.horizontal.is-next {
-    transform: translate(calc(-45% + 100%), -50%) scale(1);
-}
-
-@media (max-width: 768px) {
-    .slide-frame.horizontal {
-        width: clamp(220px, 70vw, 360px);
-        aspect-ratio: 16 / 9;
-    }
-
-    .slide-frame.horizontal.is-prev {
-        transform: translate(calc(-50% - 80%), -50%) scale(1);
-    }
-
-    .slide-frame.horizontal.is-next {
-        transform: translate(calc(-50% + 80%), -50%) scale(1);
-    }
-}
-
 
 /* Portrait cards, all aligned on same level */
 .slide-frame {
@@ -479,7 +454,7 @@ button.carousel-control-next {
     opacity: 0.65;
     visibility: visible;
     pointer-events: auto;
-    transform: translate(calc(-55% - 100%), -50%) scale(1);
+    transform: translate(calc(-55% - 100%), -50%) scale(0.92);
     z-index: 2;
     filter: none;
 }
@@ -489,7 +464,7 @@ button.carousel-control-next {
     opacity: 0.65;
     visibility: visible;
     pointer-events: auto;
-    transform: translate(calc(-45% + 100%), -50%) scale(1);
+    transform: translate(calc(-45% + 100%), -50%) scale(0.92);
     z-index: 2;
     filter: none;
 }
@@ -520,6 +495,8 @@ button.carousel-control-next {
     transform: none !important;
     transition: none !important;
 }
+
+
 
 body.lightbox-open .slide-frame img,
 body.lightbox-open .slide-frame:hover img,
@@ -573,110 +550,432 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 
 
-@media (max-width: 768px) {
-    .slide-gallery-track {
-        min-height: 420px;
-    }
 
-    .slide-frame {
-        width: clamp(140px, 38vw, 190px);
-        aspect-ratio: 3 / 5;
-    }
-
-    .slide-frame.is-prev {
-        transform: translate(calc(-50% - 72%), -50%) scale(1);
-    }
-
-    .slide-frame.is-next {
-        transform: translate(calc(-50% + 72%), -50%) scale(1);
-    }
-
-    .slide-frame.is-prev:hover {
-        transform: translate(calc(-50% - 68%), -50%) scale(1);
-    }
-
-    .slide-frame.is-next:hover {
-        transform: translate(calc(-50% + 68%), -50%) scale(1);
-    }
-}
-
-
-/* .film-lightbox styles */
-
-
+/* Film strip styles */
 .film-strip-shell {
-    position: relative;
-    padding: 1rem 0 1.25rem;
+  position: relative;
+
 }
 
-.film-strip-label {
-    display: inline-block;
-    margin-bottom: 0.75rem;
-    font-size: 0.85rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--primary-orange);
-}
-
-.film-strip-mask {
-    position: relative;
-    overflow: hidden;
-    padding: 1.1rem 0;
-/*     background: linear-gradient(
-        to bottom,
-        transparent 0.6rem,
-        rgba(8, 18, 18, 0.9) 0.6rem,
-        rgba(8, 18, 18, 0.9) calc(100% - 0.6rem),
-        transparent calc(100% - 0.6rem)
-    ); */
-}
-
-.film-strip-mask::before,
-.film-strip-mask::after {
+.film-strip-shell::before,
+.film-strip-shell::after {
     content: "";
     position: absolute;
-    left: 0;
-    right: 0;
-    height: 0.6rem;
-    z-index: 2;
-/*     background:
-        repeating-linear-gradient(
-            90deg,
-            var(--dark-emerald-80) 0 10px,
-            transparent 10px 20px
-        ); */
+    top: 0;
+    bottom: 2.75rem;
+    width: 10px;
+    height: 90%;
+    z-index: 4;
+    pointer-events: none;
 }
 
-.film-strip-mask::before { top: 0; }
-.film-strip-mask::after { bottom: 0; }
+.film-strip-shell::before {
+    left: -2px;
+    background: linear-gradient(to right, var(--dark-emerald) 0, var(--dark-emerald) 3px, transparent 100%);
+}
+
+.film-strip-shell::after {
+    right: -2px;
+    background: linear-gradient(to left, var(--dark-emerald) 0, var(--dark-emerald) 3px, transparent 100%);
+}
+
+/* scroll container */
+.film-strip-mask {
+  position: relative;
+  z-index: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 1.1rem 1rem;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.film-strip-mask::-webkit-scrollbar {
+  display: none;
+}
 
 .film-strip-track {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content;
+  user-select: none;
+}
+
+.film-strip-mask.is-dragging {
+  cursor: grabbing;
+}
+
+.film-carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: clamp(2rem, 12vw, 10rem);
+    padding-top: 0.35rem;
+}
+
+.film-arrow {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--teal-ink-80);
+    border-radius: 999px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    width: max-content;
-    animation: filmScroll 44s linear infinite;
-    will-change: transform;
+    justify-content: center;
+    background: linear-gradient(
+        135deg,
+        var(--blood-orange) 0%,
+        var(--primary-orange) 25%,
+        var(--lime-green) 58%,
+        var(--primary-green) 100%
+    );
+    box-shadow:
+        0 6px 10px rgba(0,0,0,.18),
+        inset 0 1px 1px rgba(255,255,255,.15);
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        filter .18s ease;
 }
 
-.film-strip-mask:hover .film-strip-track {
-    animation-play-state: paused;
+.film-arrow:hover,
+.film-arrow:focus-visible {
+    transform: translateY(-2px) scale(1.05);
+    filter: brightness(1.08);
+    box-shadow: 0 10px 26px rgba(0,0,0,.25);
 }
 
-body.lightbox-open .film-strip-track {
-    animation-play-state: paused !important;
+.film-arrow:active {
+    transform: scale(.94);
 }
 
-.film-strip-track,
-.film-frame,
+.film-arrow svg {
+    width: 24px;
+    height: 24px;
+}
+
+.film-arrow path {
+    fill: none;
+    stroke: white;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .film-frame img {
-    pointer-events: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* #region >> Custom Slider <<<  */
+    .film-strip-slider {
+        width: 100%;
+        margin-top: 0.7rem;
+    }
+
+.film-strip-slider.gradient-slider {
+    --track-h: 1rem;
+    --thumb-size: 1rem;
+    --progress: 0%;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: var(--thumb-size);
+    background: transparent;
+    cursor: pointer;
+}
+
+/* ---------- Webkit ---------- */
+.film-strip-slider.gradient-slider::-webkit-slider-runnable-track {
+    height: var(--track-h);
+    border-radius: 100px;
+    border: 2px solid var(--teal-ink);
+
+    background:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            transparent var(--progress),
+            var(--teal-ink)
+            var(--progress),
+            var(--teal-ink) 100%
+        ),
+        linear-gradient(
+            to right,
+            var(--blood-orange) 0%,
+            var(--primary-orange) 16%,
+            var(--lime-green) 48%,
+            var(--primary-green) 100%
+        );
+}
+
+
+/* Thumb */
+.film-strip-slider.gradient-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: calc((var(--track-h) - var(--thumb-size)) / 2 - 1px);
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    border-radius: 50%;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.15);
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.25);
+}
+
+/* ---------- Firefox ---------- */
+.film-strip-slider.gradient-slider::-moz-range-track {
+    height: var(--track-h);
+    border-radius: 999px;
+    border: 2px solid var(--teal-ink);
+    background: var(--track-cover);
+}
+
+.film-strip-slider.gradient-slider::-moz-range-progress {
+    height: var(--track-h);
+    border-radius: 999px;
+
+    background: var(--track-fill);
+}
+
+/* Firefox thumb */
+.film-strip-slider.gradient-slider::-moz-range-thumb {
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    border-radius: 50%;
+
+    background: white;
+    border: 1px solid rgba(0,0,0,0.15);
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.25);
+}
+
+
+@media (max-width: 999px) {
+    .film-strip-slider {
+        margin-top: 0.5rem;
+    }
+
+    .film-strip-slider.gradient-slider {
+        --track-h: 0.75rem;
+        --thumb-size: 0.75rem;
+        height: var(--thumb-size);
+        padding: 0;
+    }
+
+    .film-strip-slider.gradient-slider::-webkit-slider-runnable-track,
+    .film-strip-slider.gradient-slider::-moz-range-track {
+        border-width: 1.5px;
+    }
+
+    .film-strip-slider.gradient-slider::-webkit-slider-runnable-track {
+        height: var(--track-h);
+    }
+
+    .film-strip-slider.gradient-slider::-webkit-slider-thumb {
+        width: var(--thumb-size);
+        height: var(--thumb-size);
+        margin-top: -1.5px;
+    }
+
+    .film-strip-slider.gradient-slider::-moz-range-track,
+    .film-strip-slider.gradient-slider::-moz-range-progress {
+        height: var(--track-h);
+    }
+
+    .film-strip-slider.gradient-slider::-moz-range-thumb {
+        width: var(--thumb-size);
+        height: var(--thumb-size);
+    }
+}
+
+/* ---------- Slider styles end ---------- */
+/* #endregion                              */
+
+
+/* #region  ─── Film Strip Carousel ───   */
+    .film-roll-wrapper {
+    width: 100%;
+    padding: 1rem 0;
+    }
+
+.film-strip-shell {
+  position: relative;
+  width: 100%;
 }
 
 .film-strip-mask {
-    pointer-events: auto;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  /* Hide scrollbar for transform-based animation */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
+.film-strip-mask::-webkit-scrollbar {
+  display: none;
+}
+
+.film-strip-track {
+  display: flex;
+  gap: 1rem;
+  /* Use transform for smooth animation - will-change hints to browser */
+  will-change: transform;
+  /* Prevent layout shift during transform */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.film-strip-mask.is-dragging {
+  cursor: grabbing;
+}
+
+.film-strip-mask.is-dragging .film-frame {
+  cursor: grabbing;
+}
+
+/* ─── Film Frame ─── */
+.film-frame {
+  flex-shrink: 0;
+  width: 280px;
+  aspect-ratio: 4 / 3;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.film-frame:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.film-frame:focus-visible {
+  outline: 2px solid var(--blood-orange, #dd460b);
+  outline-offset: 3px;
+}
+
+.film-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ─── Film Carousel Controls ─── */
+.film-carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 18rem;
+}
+
+.film-arrow {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--easter-green, #a4df56cc);
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+background: var(--primary-green);
+
+/*   background: linear-gradient(
+    -60deg,
+    rgba(221, 70, 11, 1) 0%,
+    rgba(255, 133, 33, 1) 25%,
+    rgba(215, 226, 60, 1) 50%,
+    rgba(164, 223, 86, 1) 75%,
+    rgba(60, 183, 109, 1) 100%
+  );  
+  
+  
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
+
+    */
+}
+
+.film-arrow:hover {
+  transform: translateY(-2px) scale(1.05);
+  filter: brightness(1.08);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+.film-arrow:active {
+  transform: scale(0.94);
+}
+
+.film-arrow:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+.film-arrow path {
+  width: 24px;
+  height: 24px;
+  stroke: var(--lime-green);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* ─── Responsive ─── */
+
+
+
+
+
+
+
+@media (max-width: 480px) {
+  .film-frame {
+    width: 180px;
+  }
+  
+  .film-carousel-controls {
+    gap: 6rem;
+  }
+}
+
+
+/* #endregion */
+
+
+.film-strip-mask {
+  scroll-behavior: auto;
+  overscroll-behavior-x: contain;
+}
+
+.film-strip-track {
+  will-change: contents;
+}
+
+.film-strip-mask.is-dragging .film-frame {
+  pointer-events: none;
+}
+
+
+/* Film frames */
 .film-frame {
     flex: 0 0 auto;
     width: clamp(380px, 22vw, 460px);
@@ -686,7 +985,7 @@ body.lightbox-open .film-strip-track {
     border: 3px solid var(--teal-ink);
     background: var(--teal-ink);
     border-radius: 0.2rem;
-    box-shadow: 0 8px 2px rgba(0,0,0,0.28);
+    box-shadow: 0 3px 2px rgba(0,0,0,0.28);
     cursor: pointer;
     position: relative;
     transform: translateZ(0);
@@ -725,140 +1024,256 @@ body.lightbox-open .film-strip-track {
     to { transform: translateX(calc(-50% - 0.5rem)); }
 }
 
-/* Lightbox */
-.film-lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 2147483647;
-    display: grid;
-    place-items: center;
-    padding: 2rem;
-    background: rgba(0, 0, 0, 0.92);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+/* ==============================
+   Responsive carousel galleries
+   ============================== */
+@media (max-width: 1000px) and (min-width: 769px) {
+
+    /* #region Slide gallery */
+    .slide-gallery-shell {
+        --slide-card-w: clamp(150px, 18vw, 185px);
+        --slide-card-h: calc(var(--slide-card-w) * 5 / 3);
+    }
+
+    .slide-gallery-track:not(.wide) {
+        min-height: max(350px, calc(var(--slide-card-h) + 1rem));
+    }
+
+    .slide-gallery-track.wide {
+        min-height: 220px;
+    }
+
+    .slide-gallery-indicators {
+        margin-top: 0.4rem;
+        gap: 0.5rem;
+    }
+    /* #endregion */
 }
 
-.film-lightbox.is-open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transition: opacity 0.2s ease;
-}
-
-.film-lightbox-figure {
-    margin: 0;
-    max-width: min(92vw, 1200px);
-    max-height: 92vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.film-lightbox-figure img {
-    display: block;
-    max-width: 100%;
-    max-height: 80vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    background: #111;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-}
-
-.film-lightbox-figure figcaption {
-    margin-top: 0.75rem;
-    color: #fff;
-    text-align: center;
-}
-
-.film-lightbox-close,
-.film-lightbox-nav {
-    position: fixed;
-    z-index: 2147483647;
-    width: 48px;
-    height: 48px;
-    border: 0;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.16);
-    color: #fff;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-}
-
-.film-lightbox-close {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    width: 48px;
-    height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.16);
-    color: #fff;
-    font-size: 2rem;
-    line-height: 1;
-}
-
-.film-lightbox-close span {
-    line-height: 1;
-    transform: translateY(-3px);
-}
-
-
-
-.film-lightbox-nav.prev {
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.film-lightbox-nav.next {
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-html.lightbox-open,
-body.lightbox-open {
-    overflow: hidden;
-}
-
-body.lightbox-open .film-frame,
-body.lightbox-open .film-frame:hover,
-body.lightbox-open .film-frame:focus-visible,
-body.lightbox-open .film-frame img,
-body.lightbox-open .film-frame:hover img,
-body.lightbox-open .film-frame:focus-visible img {
-    transform: none !important;
-}
 
 
 @media (max-width: 768px) {
-    .film-lightbox {
-        padding: 1rem;
+    /* #region Bootstrap / standard project carousels */
+    .project-media,
+    .project-carousel {
+        width: 100%;
+        max-width: 100%;
     }
 
-    .film-lightbox-figure img {
-        max-height: 72vh;
+    .project-carousel .carousel-inner {
+        aspect-ratio: 16 / 9;
     }
 
-    .film-lightbox-close {
-        top: 0.75rem;
-        right: 0.75rem;
+    .project-carousel .carousel-control-prev,
+    .project-carousel .carousel-control-next {
+        width: 8%;
+        height: 54%;
+        opacity: 0.8;
     }
 
-    .film-lightbox-nav.prev {
-        left: 0.5rem;
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 24px;
+        height: 24px;
     }
 
-    .film-lightbox-nav.next {
-        right: 0.5rem;
+    .carousel-caption-hover {
+        transform: none;
+        padding: 0.65rem 0.75rem;
+        background: rgba(0, 0, 0, 0.92);
+        max-height: 48%;
+        overflow-y: auto;
+    }
+
+    .carousel-caption-hover h5 {
+        font-size: 0.95rem;
+    }
+
+    .carousel-caption-hover p {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    .carousel-indicators-outside {
+        gap: 0.55rem;
+        margin-top: 0.65rem;
+        flex-wrap: wrap;
+    }
+
+    .carousel-thumb {
+        width: clamp(58px, 18vw, 78px);
+        height: clamp(44px, 14vw, 58px);
+    }
+
+    .carousel-thumbnails {
+        width: 100%;
+        max-width: 100% !important;
+    }
+    /* #endregion */
+
+
+    /* #region Slide gallery */
+    .slide-gallery-shell {
+        --slide-card-w: clamp(118px, 42vw, 168px);
+        --slide-card-h: calc(var(--slide-card-w) * 5 / 3);
+    }
+
+    .slide-gallery-header {
+        margin-top: 1.25rem;
+        border-left-width: 4px;
+        border-right-width: 4px;
+    }
+
+    .slide-gallery-header-band {
+        padding: 0.55rem 0.75rem;
+    }
+
+    .gallery-label {
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    .slide-gallery-viewport::before,
+    .slide-gallery-viewport::after {
+        width: 6px;
+    }
+
+    .slide-gallery-track:not(.wide) {
+        min-height: calc(var(--slide-card-h) + 1rem);
+    }
+
+    .slide-gallery-track.wide {
+        min-height: 220px;
+    }
+
+    .slide-frame {
+        width: var(--slide-card-w);
+        aspect-ratio: 3 / 5;
+        border-width: 2px;
+    }
+
+    .slide-frame.is-prev {
+        transform: translate(calc(-50% - 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.is-next {
+        transform: translate(calc(-50% + 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.is-prev:hover {
+        transform: translate(calc(-50% - 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.is-next:hover {
+        transform: translate(calc(-50% + 58%), -50%) scale(0.92);
+    }
+
+    .slide-frame.horizontal {
+        width: min(72vw, 320px);
+        aspect-ratio: 16 / 9;
+    }
+
+    .slide-frame.horizontal.is-prev {
+        transform: translate(calc(-50% - 62%), -50%) scale(0.88);
+    }
+
+    .slide-frame.horizontal.is-next {
+        transform: translate(calc(-50% + 62%), -50%) scale(0.88);
+    }
+
+    .slide-gallery-indicators {
+        flex-wrap: wrap;
+        margin-top: 0.35rem;
+        gap: 0.45rem;
+    }
+
+    .slide-dot {
+        width: 12px !important;
+        height: 12px !important;
+    }
+    /* #endregion */
+
+
+    /* #region Film strip */
+    .film-strip-mask {
+        margin-left: -0.25rem;
+        margin-right: -0.25rem;
+        padding: 0.75rem 0.25rem;
+    }
+
+    .film-strip-shell::before {
+        left: calc(-0.25rem - 2px);
+        width: 8px;
+    }
+
+    .film-strip-shell::after {
+        right: calc(-0.25rem - 2px);
+        width: 8px;
+    }
+
+    .film-frame {
+        width: min(82vw, 360px);
+        border-width: 2px;
+    }
+
+    .film-carousel-controls {
+        gap: 7rem;
+    }
+
+    .film-arrow {
+        width: 44px;
+        height: 44px;
+    }
+
+    .film-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .film-strip-slider {
+        margin-top: 0.5rem;
+    }
+    /* #endregion */
+}
+
+@media (max-width: 420px) {
+    .project-carousel .carousel-control-prev,
+    .project-carousel .carousel-control-next {
+        width: 8% !important;
+    }
+
+    .carousel-thumb {
+        width: clamp(52px, 20vw, 68px);
+        height: clamp(40px, 15vw, 52px);
+    }
+
+    .slide-gallery-track,
+    .slide-gallery-track.wide {
+        min-height: 260px;
+    }
+
+    .slide-frame {
+        width: clamp(108px, 48vw, 150px);
+    }
+
+    .slide-frame.is-prev {
+        transform: translate(calc(-50% - 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.is-next {
+        transform: translate(calc(-50% + 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.is-prev:hover {
+        transform: translate(calc(-50% - 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.is-next:hover {
+        transform: translate(calc(-50% + 50%), -50%) scale(0.82);
+    }
+
+    .slide-frame.horizontal {
+        width: min(78vw, 300px);
     }
 }

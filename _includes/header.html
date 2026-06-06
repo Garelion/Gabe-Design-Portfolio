@@ -1,0 +1,125 @@
+<header>
+  <div class="d-flex justify-content-start ps-5 pb-2">
+    <div class="d-inline-flex align-items-center">
+      <img src="assets/apple-touch-icon.png" alt="Profile Picture" class="profile-pic me-2" height="55">
+      <h4 class="text-start ps-1 hero-title mb-0">
+        <span class="hero-name">Gabriel Rodríguez</span>
+        <hr class="py-0 my-1 green-ruler-dashed header-ruler">
+        <span class="hero-portfolio"><em>Game Designer Portfolio</em></span>
+      </h4>
+    </div>
+  </div>
+
+  <p class="ps-5 pb-2 bio">
+    Hi, I’m <span class="fw-bold">Gabriel Rodríguez</span>,
+    a Technical Game Designer with experience in systems design, level design,
+    and gameplay implementation.
+  </p>
+
+  <hr class="green-ruler">
+
+  <nav class="navbar-main">
+    <button
+      type="button"
+      class="nav-toggle"
+      id="navToggle"
+      aria-label="Open menu">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <aside class="mobile-sidebar" id="mobileSidebar">
+      <div class="sidebar-header">
+        <span>Menu</span>
+        <button
+          type="button"
+          class="sidebar-close"
+          id="closeSidebar"
+          aria-label="Close menu">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <a href="index.html">
+        <span>
+          <i class="bi bi-house-fill me-2"></i>
+          Home
+        </span>
+      </a>
+
+      <div class="sidebar-dropdown">
+        <a class="sidebar-dropdown-toggle" href="#">
+          <span>
+            <i class="bi bi-grid-fill me-2"></i>
+            WORKS
+          </span>
+          <i class="bi bi-chevron-down"></i>
+        </a>
+
+        <div class="sidebar-dropdown-menu">
+          <a href="professional.html">
+            <i class="bi bi-briefcase-fill me-2"></i>
+            Professional
+          </a>
+
+          <a href="personal.html">
+            <i class="bi bi-heart-fill me-2"></i>
+            Personal
+          </a>
+        </div>
+      </div>
+
+      <a href="contact.html">
+        <span>
+          <i class="bi bi-envelope-fill me-2"></i>
+          Contact
+        </span>
+      </a>
+    </aside>
+
+    <div class="desktop-nav">
+      <a href="index.html">
+        <i class="bi bi-house-fill me-2 nav-icon"></i>
+        Home
+      </a>
+
+      <div class="nav-dropdown">
+        <a href="#" class="dropdown-toggle pe-2">
+          <i class="bi bi-grid-fill nav-icon"></i>
+          Works
+          <svg
+            class="dropdown-chevron me-1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            aria-hidden="true">
+            <path
+              d="M2 5l6 6 6-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.8"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+
+        <div class="dropdown-menu">
+          <a href="professional.html">
+            <i class="bi bi-briefcase-fill nav-icon me-1"></i>
+            Professional
+          </a>
+
+          <a href="personal.html">
+            <i class="bi bi-heart-fill nav-icon me-1"></i>
+            Personal
+          </a>
+        </div>
+      </div>
+
+      <a href="contact.html">
+        <i class="bi bi-envelope-fill me-2 nav-icon"></i>
+        Contact
+      </a>
+    </div>
+  </nav>
+</header>

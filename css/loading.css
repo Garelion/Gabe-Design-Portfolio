@@ -1,5 +1,5 @@
 :root {
-    --loader-top: 0px;
+    --header-offset: 0px;
 }
 
 html.is-transitioning,
@@ -11,28 +11,31 @@ body {
     overflow-x: hidden;
 }
 
+body.is-leaving {
+    overflow: hidden;       
+    pointer-events: none;   
+}
+
 #page-loader {
     position: fixed;
-    top: calc(var(--loader-top) - 1px);
-    right: 0;
-    bottom: 0;
+    top: calc(var(--header-offset) - 1px);
     left: 0;
+    width: 100%;
+    height: 100%;
     background: var(--teal-ink-BF);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 999;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transition: opacity 0.24s ease, visibility 0.24s ease;
-}
-
-
-
-#page-loader.is-hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+    transition: opacity 0.24s ease, visibility 0.24s ease;
+    will-change: opacity, visibility;
+}
+
+#page-loader:not(.is-hidden) {
+    opacity: 1;
+    visibility: visible;
 }
 
 .loader-bar {
@@ -48,8 +51,9 @@ body {
         var(--lime-green) 50%,
         var(--primary-green) 100%
     );
-    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
-
+    box-shadow:
+        0 1px 3px rgba(255, 255, 255, 0.05),
+        0 0 10px rgba(163, 255, 120, 0.18);
     border-bottom: 0.1rem solid var(--lime-green);
     border-image: linear-gradient(
         to right,
@@ -57,33 +61,11 @@ body {
         var(--lime-green),
         var(--easter-green)
     ) 1;
-
-}
-
-.page-wrapper {
-    opacity: 1;
-    transition: opacity 0.24s ease;
-}
-
-body.is-leaving .page-wrapper {
-    opacity: 1;
-}
-
-video,
-.carousel img {
-    display: block;
-}
-
-.media-frame video.loaded {
-    opacity: 1;
+    will-change: width;
 }
 
 @media (prefers-reduced-motion: reduce) {
     #page-loader,
-    .page-wrapper {
-        transition: none;
-    }
-
     .loader-bar {
         transition: none !important;
     }

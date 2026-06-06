@@ -1,340 +1,397 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Work - Game Designer Portfolio</title>
-
-    <link rel="icon" href="assets/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/loading.css">
-    <link rel="stylesheet" href="css/carousels.css">
-
-    <script src="js/layout.js" defer></script>
-    <script src="js/carousels.js" defer></script>
-</head>
-
-
-<body>
-    <div id="page-loader">
-        <div class="loader-bar"></div>
-    </div>
-
-    <div class="page-wrapper">
-    <div id="sharedHeader"></div>      
-    
-    <section id="professional" class="pb-1">
-        <div class="section-card">
-        <h2>Professional Work</h2>
-        <div class="project-card mt-4">
-            <h3>Marvel's Avengers</h3>
-            <p class="text-muted">Associate Designer · Crystal Dynamics</p>
-                <div class="container">
-                    <p>Action-adventure live-service title developed by Crystal Dynamics and published by Square Enix.</p>
-                    <ul>
-                        <li>Designed and implemented gameplay concepts and mechanics</li>
-                        <li>Diagnosed and fixed gameplay bugs across missions and systems</li>
-                        <li>Supported live-service feature updates and maintenance</li>
-                        <li>Created and maintained design documentation</li>
-                    </ul>
-                </div>
-
-            <div class="d-flex align-items-center justify-content-center mt-4 gap-2">
-                <div class="col-md-6">
-                    <div class="media-frame">
-                        <img src="assets/imgs/crystal-dynamics.webp" alt="Inventory and HUD" class="w-100 h-100" style="object-fit: contain;">
+---
+layout: default
+title: Professional Work - Game Designer Portfolio
+description: Professional game design work by Gabriel Rodríguez, including Marvel's Avengers, Payload, Fail Faster, C.H.A.D., and The Loneliest Artist.
+author: Gabe2231
+---
+        <section id="professional" class="pb-1">
+            <div class="section-card">
+                <h2>Professional Work</h2>
+                <div class="project-card mt-4">
+                    <h3>Marvel's Avengers</h3>
+                    <p class="text-muted">Associate Designer · Crystal Dynamics</p>
+                    <div class="container">
+                        <p>Action-adventure live-service title developed by Crystal Dynamics and published by Square
+                            Enix.</p>
+                        <ul>
+                            <li>Designed and implemented gameplay concepts and mechanics</li>
+                            <li>Diagnosed and fixed gameplay bugs across missions and systems</li>
+                            <li>Supported live-service feature updates and maintenance</li>
+                            <li>Created and maintained design documentation</li>
+                        </ul>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="media-frame">
-                        <img src="assets/imgs/marvel-avengers-war.webp" alt="Crafting system UI" class="w-100 h-100" style="object-fit: contain;">
-                    </div>
-                </div>
-            </div>
 
-        </div>
-
-        <div class="project-card mt-4">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <h3 class="mb-0">Payload</h3>
-                <a href="https://store.steampowered.com/app/1705760/Payload/" target="_blank" rel="noopener" class="btn-gameurl">
-                    <span class="btn-icon">
-                        <i class="fa-brands fa-steam"></i>
-                    </span>
-                    Play on Steam
-                </a>
-            </div>
-            <p class="text-muted">Level Designer · Black Banshee Studios</p>
-
-            
-            <div class="container">
-                <p>Retro-futuristic 3D puzzle game released on Steam and winner of <strong>Best Student Game – GGDA SIEGE 2021</strong>.</p>
-            <div class="project-media d-flex align-items-center justify-content-center mt-2 mb-4">
-                        <div class="media-frame">
-                        <video class="loaded" preload="metadata" muted loop playsinline>
-                            <source src="assets/vids/payload-vid.mp4" type="video/mp4">
-                        </video>
+                    <div class="avengers-media-row d-flex align-items-center justify-content-center mt-4 gap-2">
+                        <div class="col-md-6">
+                            <div class="media-frame">
+                                <img src="assets/imgs/crystal-dynamics.webp" alt="Inventory and HUD" class="w-100 h-100"
+                                    style="object-fit: contain;">
+                            </div>
                         </div>
-            </div>
-            <h3 class="pb-1">Key Contributions</h3>
-            <ul class="ps-4">
-                <li>Designed multiple puzzle levels focused on spatial reasoning</li>
-                <li>Iterated on difficulty and flow based on playtesting feedback</li>
-                <li>Collaborated with a small team of designers and developers</li>
-            </ul>
-            </div>  
-            
+                        <div class="col-md-6">
+                            <div class="media-frame">
+                                <img src="assets/imgs/marvel-avengers-war.webp" alt="Crafting system UI"
+                                    class="w-100 h-100" style="object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                <div class="col-7">
-                    <div class="media-frame">
-                        <div id="payloadCarousel" class="carousel slide project-carousel h-100" data-bs-ride="carousel"
-                            data-bs-interval="4000"
-                            data-bs-touch="true">
-                            <!-- Slides -->
-                            <div class="carousel-inner h-100">
-                                <div class="carousel-item active h-100">
-                                    <img src="assets/imgs/payload/payload-glitch.webp" alt="Glitch effect" class="d-block w-100 h-100">
-                                </div>
-                                <div class="carousel-item h-100">
-                                    <img src="assets/imgs/payload/payload-puzzle1.webp" alt="Puzzle mechanics" class="d-block w-100 h-100">
-                                </div>
-                                <div class="carousel-item h-100">
-                                    <img src="assets/imgs/payload/payload-puzzle2.webp" alt="Level design" class="d-block w-100 h-100">
-                                </div>
-                                <div class="carousel-item h-100">
-                                    <img src="assets/imgs/payload/payload-lvl.webp" alt="Environment" class="d-block w-100 h-100">
+                </div>
+
+                <div class="project-card mt-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <h3 class="mb-0">Payload</h3>
+                        <a href="https://store.steampowered.com/app/1705760/Payload/" target="_blank" rel="noopener" class="btn-gameurl">
+                            <span class="btn-icon" aria-hidden="true">
+                                <i class="fa-brands fa-steam"></i>
+                            </span>
+                            <span class="btn-label">Play on Steam</span>
+                        </a>
+                    </div>
+                    <p class="text-muted">Level Designer · Black Banshee Studios</p>
+
+
+                    <div class="container">
+                        <p>Retro-futuristic 3D puzzle game released on Steam and winner of <strong>Best Student Game –
+                                GGDA SIEGE 2021</strong>.</p>
+                        <div class="project-media d-flex align-items-center justify-content-center mt-2 mb-4">
+
+                            <div class="media-frame">
+                                <video
+                                    class="loaded" preload="metadata" muted autoplay loop playsinline>
+                                    <source src="assets/vids/payload-vid-web.mp4"  type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                        <h3 class="pb-1">Key Contributions</h3>
+                        <ul class="ps-4">
+                            <li>Designed multiple puzzle levels focused on spatial reasoning</li>
+                            <li>Iterated on difficulty and flow based on playtesting feedback</li>
+                            <li>Collaborated with a small team of designers and developers</li>
+                        </ul>
+                    </div>
+
+
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <div class="col-7">
+                            <div class="media-frame">
+                                <div id="payloadCarousel" class="carousel slide project-carousel h-100"
+                                    data-bs-ride="carousel" data-bs-interval="4000" data-bs-touch="true">
+                                    <!-- Slides -->
+                                    <div class="carousel-inner h-100">
+                                        <div class="carousel-item active h-100">
+                                            <img src="assets/imgs/payload/payload-glitch.webp" alt="Glitch effect"
+                                                class="d-block w-100 h-100">
+                                        </div>
+                                        <div class="carousel-item h-100">
+                                            <img src="assets/imgs/payload/payload-puzzle1.webp" alt="Puzzle mechanics"
+                                                class="d-block w-100 h-100">
+                                        </div>
+                                        <div class="carousel-item h-100">
+                                            <img src="assets/imgs/payload/payload-puzzle2.webp" alt="Level design"
+                                                class="d-block w-100 h-100">
+                                        </div>
+                                        <div class="carousel-item h-100">
+                                            <img src="assets/imgs/payload/payload-lvl.webp" alt="Environment"
+                                                class="d-block w-100 h-100">
+                                        </div>
+                                    </div>
+
+                                    <!-- Prev/Next Controls -->
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#payloadCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#payloadCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Prev/Next Controls -->
-                            <button class="carousel-control-prev" type="button" data-bs-target="#payloadCarousel" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
+                        <!-- Thumbnail Navigation -->
+                        <div class="carousel-thumbnails mt-2 d-flex gap-2 justify-content-center flex-wrap"
+                            style="max-width: 600px;">
+                            <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="0"
+                                class="carousel-thumb active">
+                                <img src="assets/imgs/payload/payload-glitch.webp" alt="Glitch">
                             </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#payloadCarousel" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
+                            <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="1"
+                                class="carousel-thumb">
+                                <img src="assets/imgs/payload/payload-puzzle1.webp" alt="Puzzle 1">
+                            </button>
+                            <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="2"
+                                class="carousel-thumb">
+                                <img src="assets/imgs/payload/payload-puzzle2.webp" alt="Puzzle 2">
+                            </button>
+                            <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="3"
+                                class="carousel-thumb">
+                                <img src="assets/imgs/payload/payload-lvl.webp" alt="Level">
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Thumbnail Navigation -->
-                <div class="carousel-thumbnails mt-2 d-flex gap-2 justify-content-center flex-wrap" style="max-width: 600px;">
-                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="0" class="carousel-thumb active">
-                        <img src="assets/imgs/payload/payload-glitch.webp" alt="Glitch">
-                    </button>
-                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="1" class="carousel-thumb">
-                        <img src="assets/imgs/payload/payload-puzzle1.webp" alt="Puzzle 1">
-                    </button>
-                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="2" class="carousel-thumb">
-                        <img src="assets/imgs/payload/payload-puzzle2.webp" alt="Puzzle 2">
-                    </button>
-                    <button type="button" data-bs-target="#payloadCarousel" data-bs-slide-to="3" class="carousel-thumb">
-                        <img src="assets/imgs/payload/payload-lvl.webp" alt="Level">
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="project-card mt-4">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <h3 class="mb-0">Fail Faster</h3>
-                <a href="https://gabe2231.itch.io/fail-faster" target="_blank" rel="noopener" class="btn-gameurl">    
-                    <span class="btn-icon">
-                        <i class="fab fa-itch-io"></i>
-                    </span>
-                    Play on itch.io
-                </a>
-            </div>
-            <p class="text-muted">Systems Designer · Game Jam</p>
-            <div class="container">
-                <p>2D platformer developed during a one-week game jam focused on speed and player mastery.</p>
-                <ul>
-                <li>Implemented trap systems (saws, spikes, wind funnels)</li>
-                <li>Designed bomb mechanics affecting movement and damage</li>
-                <li>Implemented player interaction logic</li>
-                </ul>
-            </div>
-
-            <div class="slide-gallery-shell">
-                <div class="slide-gallery-viewport">
-                    <div class="slide-gallery-track" id="failFasterGallery">
-                        <button class="slide-frame" data-index="0" data-full="assets/imgs/fail-faster/fail-main-menu.webp">
-                            <img src="assets/imgs/fail-faster/fail-main-menu.webp" alt="Fail Faster Main Menu">
-                        </button>
-                        <button class="slide-frame" data-index="1" data-full="assets/imgs/fail-faster/fail-spikes.webp">
-                            <img src="assets/imgs/fail-faster/fail-spikes.webp" alt="Fail Faster Spikes Level">
-                        </button>
-                        <button class="slide-frame" data-index="2" data-full="assets/imgs/fail-faster/fail-ascend-spikes.webp">
-                            <img src="assets/imgs/fail-faster/fail-ascend-spikes.webp" alt="Fail Faster Ascend Level">
-                        </button>
-                        <button class="slide-frame" data-index="3" data-full="assets/imgs/fail-faster/fail-falling-lvl.webp">
-                            <img src="assets/imgs/fail-faster/fail-falling-lvl.webp" alt="Fail Faster Falling Level">
-                        </button>
+                <div class="project-card mt-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <h3 class="mb-0">Fail Faster</h3>
+                        <a href="https://gabe2231.itch.io/fail-faster" target="_blank" rel="noopener"
+                            class="btn-gameurl">
+                            <span class="btn-icon">
+                                <i class="fab fa-itch-io"></i>
+                            </span>
+                            <span class="btn-label">Play on itch.io</span>
+                        </a>
                     </div>
-                </div>
+                    <p class="text-muted">Systems Designer · Game Jam</p>
+                    <div class="container">
+                        <p>2D platformer developed during a one-week game jam focused on speed and player mastery.</p>
+                        <ul>
+                            <li>Implemented trap systems (saws, spikes, wind funnels)</li>
+                            <li>Designed bomb mechanics affecting movement and damage</li>
+                            <li>Implemented player interaction logic</li>
+                        </ul>
+                    </div>
 
-                <!-- Fail Faster Indicators -->
-                <div class="slide-gallery-indicators" id="failFasterIndicators">
-                    <button class="slide-dot" data-slide="0" aria-label="View image 1"></button>
-                    <button class="slide-dot" data-slide="1" aria-label="View image 2"></button>
-                    <button class="slide-dot" data-slide="2" aria-label="View image 3"></button>
-                    <button class="slide-dot" data-slide="3" aria-label="View image 4"></button>
-                </div>
-            </div>
-        </div>
+                    <div class="slide-gallery-shell">
+                        <div class="slide-gallery-viewport">
+                            <div class="slide-gallery-track" id="failFasterGallery">
+                                <button class="slide-frame" data-index="0"
+                                    data-full="assets/imgs/fail-faster/fail-main-menu.webp">
+                                    <img src="assets/imgs/fail-faster/fail-main-menu.webp" alt="Fail Faster Main Menu">
+                                </button>
+                                <button class="slide-frame" data-index="1"
+                                    data-full="assets/imgs/fail-faster/fail-spikes.webp">
+                                    <img src="assets/imgs/fail-faster/fail-spikes.webp" alt="Fail Faster Spikes Level">
+                                </button>
+                                <button class="slide-frame" data-index="2"
+                                    data-full="assets/imgs/fail-faster/fail-ascend-spikes.webp">
+                                    <img src="assets/imgs/fail-faster/fail-ascend-spikes.webp"
+                                        alt="Fail Faster Ascend Level">
+                                </button>
+                                <button class="slide-frame" data-index="3"
+                                    data-full="assets/imgs/fail-faster/fail-falling-lvl.webp">
+                                    <img src="assets/imgs/fail-faster/fail-falling-lvl.webp"
+                                        alt="Fail Faster Falling Level">
+                                </button>
+                            </div>
+                        </div>
 
-        <div class="project-card mt-4">
-           <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <h3 class="mb-0">C.H.A.D.</h3>
-                <a href="https://gabe2231.itch.io/chad" target="_blank" rel="noopener" class="btn-gameurl">    
-                    <span class="btn-icon">
-                        <i class="fab fa-itch-io"></i>
-                    </span>
-                    Play on itch.io
-                </a>
-            </div>
-            <p class="text-muted">Systems Designer/Artist</p>
-            <div class="container">
-                <p><em>C.H.A.D.</em> is a 3D First Person Puzzle game, created during a 12 day game jam, by Black Banshee studios. 
-                In the game the player can use a tool that can change certain properties from some objects in the environment 
-                to solve puzzles and deal with obstacles.</p>
-                <ul>
-                <li>Design and Implementation of player controls.</li>
-                <li>Implementation of player animations.</li>
-                <li>Implementation of player power ups and abilities to said controls.</li>
-                <li>Player sound implementation.</li>
-                </ul>
-            </div>  
-            
-            <div class="film-roll-wrapper">
-                    <div class="film-strip-shell">
-                    <div class="film-strip-mask">
-                        <div class="film-strip-track" id="chadFilmTrack">
-                            <!-- Set 1 -->
-                            <button class="film-frame" data-index="0" data-full="assets/imgs/chad/chad-main.webp" data-caption="Main Menu">
-                                <img src="assets/imgs/chad/chad-main.webp" alt="C.H.A.D. Menu">
-                            </button>
-                            <button class="film-frame" data-index="1" data-full="assets/imgs/chad/chad-map.webp" data-caption="Map">
-                                <img src="assets/imgs/chad/chad-map.webp" alt="C.H.A.D. Model control panel">
-                            </button>
-                            <button class="film-frame" data-index="2" data-full="assets/imgs/chad/chad-hangar.webp" data-caption="Hangar">
-                                <img src="assets/imgs/chad/chad-hangar.webp" alt="C.H.A.D. Model top view 2">
-                            </button>
-                            <button class="film-frame" data-index="3" data-full="assets/imgs/chad/chad-lvl-2.webp" data-caption="Level 2">
-                                <img src="assets/imgs/chad/chad-lvl-2.webp" alt="C.H.A.D. Model top view doors">
-                            </button>
-
-                            <button class="film-frame" data-index="4" data-full="assets/imgs/chad/chad-player.webp" data-caption="Main Character Sprinting">
-                                <img src="assets/imgs/chad/chad-player.webp" alt="C.H.A.D. Model top view doors">
-                            </button>
-
-                            <button class="film-frame" data-index="5" data-full="assets/imgs/chad/chad-room.webp" data-caption="Room">
-                                <img src="assets/imgs/chad/chad-room.webp" alt="C.H.A.D. Model top view doors">
-                            </button>
-
-                            <!-- Duplicate set for seamless loop -->
-                            <button class="film-frame" data-index="0" data-full="assets/imgs/chad/chad-main.webp" data-caption="Main Menu">
-                                <img src="assets/imgs/chad/chad-main.webp" alt="C.H.A.D. Menu">
-                            </button>
-                            <button class="film-frame" data-index="1" data-full="assets/imgs/chad/chad-map.webp" data-caption="Map">
-                                <img src="assets/imgs/chad/chad-map.webp" alt="C.H.A.D. Model control panel">
-                            </button>
-                            <button class="film-frame" data-index="2" data-full="assets/imgs/chad/chad-hangar.webp" data-caption="Hangar">
-                                <img src="assets/imgs/chad/chad-hangar.webp" alt="C.H.A.D. Model top view 2">
-                            </button>
-                            <button class="film-frame" data-index="3" data-full="assets/imgs/chad/chad-lvl-2.webp" data-caption="Level 2">
-                                <img src="assets/imgs/chad/chad-lvl-2.webp" alt="C.H.A.D. Model top view doors">
-                            </button>
-
-                            <button class="film-frame" data-index="4" data-full="assets/imgs/chad/chad-player.webp" data-caption="Main Character Sprinting">
-                                <img src="assets/imgs/chad/chad-player.webp" alt="C.H.A.D. Model top view doors">
-                            </button>
-
-                            <button class="film-frame" data-index="5" data-full="assets/imgs/chad/chad-room.webp" data-caption="Room">
-                                <img src="assets/imgs/chad/chad-room.webp" alt="C.H.A.D. Model top view doors">
-                            </button>
+                        <!-- Fail Faster Indicators -->
+                        <div class="slide-gallery-indicators" id="failFasterIndicators">
+                            <button class="slide-dot" data-slide="0" aria-label="View image 1"></button>
+                            <button class="slide-dot" data-slide="1" aria-label="View image 2"></button>
+                            <button class="slide-dot" data-slide="2" aria-label="View image 3"></button>
+                            <button class="slide-dot" data-slide="3" aria-label="View image 4"></button>
                         </div>
                     </div>
+                </div>
+
+                <div class="project-card mt-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <h3 class="mb-0">C.H.A.D.</h3>
+                        <a href="https://gabe2231.itch.io/chad" target="_blank" rel="noopener" class="btn-gameurl">
+                            <span class="btn-icon">
+                                <i class="fab fa-itch-io"></i>
+                            </span>
+                            <span class="btn-label">Play on itch.io</span>
+                        </a>
+                    </div>
+                    <p class="text-muted">Systems Designer/Artist</p>
+                    <div class="container">
+                        <p><em>C.H.A.D.</em> is a 3D First Person Puzzle game, created during a 12 day game jam, by
+                            Black Banshee studios.
+                            In the game the player can use a tool that can change certain properties from some objects
+                            in the environment
+                            to solve puzzles and deal with obstacles.</p>
+                        <ul>
+                            <li>Design and Implementation of player controls.</li>
+                            <li>Implementation of player animations.</li>
+                            <li>Implementation of player power ups and abilities to said controls.</li>
+                            <li>Player sound implementation.</li>
+                        </ul>
+                    </div>
+                   
+                    <div class="film-roll-wrapper">
+                        <div class="film-strip-shell">
+                            <div class="film-strip-mask">
+                                <div class="film-strip-track" id="chadFilmTrack">
+                                    <!-- Set 1 -->
+                                    <button class="film-frame" data-index="0"
+                                        data-full="assets/imgs/chad/chad-main.webp" data-caption="Main Menu">
+                                        <img src="assets/imgs/chad/chad-main.webp" alt="C.H.A.D. Menu">
+                                    </button>
+                                    <button class="film-frame" data-index="1" data-full="assets/imgs/chad/chad-map.webp"
+                                        data-caption="Map">
+                                        <img src="assets/imgs/chad/chad-map.webp" alt="C.H.A.D. Model control panel">
+                                    </button>
+                                    <button class="film-frame" data-index="2"
+                                        data-full="assets/imgs/chad/chad-hangar.webp" data-caption="Hangar">
+                                        <img src="assets/imgs/chad/chad-hangar.webp" alt="C.H.A.D. Model top view 2">
+                                    </button>
+                                    <button class="film-frame" data-index="3"
+                                        data-full="assets/imgs/chad/chad-lvl-2.webp" data-caption="Level 2">
+                                        <img src="assets/imgs/chad/chad-lvl-2.webp" alt="C.H.A.D. Model top view doors">
+                                    </button>
+
+                                    <button class="film-frame" data-index="4"
+                                        data-full="assets/imgs/chad/chad-player.webp"
+                                        data-caption="Main Character Sprinting">
+                                        <img src="assets/imgs/chad/chad-player.webp" alt="C.H.A.D. Character Sprinting">
+                                    </button>
+
+                                    <button class="film-frame" data-index="5"
+                                        data-full="assets/imgs/chad/chad-room.webp" data-caption="Room">
+                                        <img src="assets/imgs/chad/chad-room.webp" alt="C.H.A.D. Model top view doors">
+                                    </button>
+
+                                    <!-- Duplicate set for seamless loop -->
+                                    <button class="film-frame" data-index="0"
+                                        data-full="assets/imgs/chad/chad-main.webp" data-caption="Main Menu" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-main.webp" alt="">
+                                    </button>
+                                    <button class="film-frame" data-index="1" data-full="assets/imgs/chad/chad-map.webp"
+                                        data-caption="Map" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-map.webp" alt="">
+                                    </button>
+                                    <button class="film-frame" data-index="2"
+                                        data-full="assets/imgs/chad/chad-hangar.webp" data-caption="Hangar" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-hangar.webp" alt="">
+                                    </button>
+                                    <button class="film-frame" data-index="3"
+                                        data-full="assets/imgs/chad/chad-lvl-2.webp" data-caption="Level 2" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-lvl-2.webp" alt="">
+                                    </button>
+
+                                    <button class="film-frame" data-index="4"
+                                        data-full="assets/imgs/chad/chad-player.webp"
+                                        data-caption="Main Character Sprinting" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-player.webp" alt="">
+                                    </button>
+
+                                    <button class="film-frame" data-index="5"
+                                        data-full="assets/imgs/chad/chad-room.webp" data-caption="Room" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-room.webp" alt="">
+                                    </button>
+
+
+                                    <!-- Duplicate set for seamless loop -->
+                                    <button class="film-frame" data-index="0"
+                                        data-full="assets/imgs/chad/chad-main.webp" data-caption="Main Menu" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-main.webp" alt="">
+                                    </button>
+                                    <button class="film-frame" data-index="1" data-full="assets/imgs/chad/chad-map.webp"
+                                        data-caption="Map" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-map.webp" alt="">
+                                    </button>
+                                    <button class="film-frame" data-index="2"
+                                        data-full="assets/imgs/chad/chad-hangar.webp" data-caption="Hangar" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-hangar.webp" alt="">
+                                    </button>
+                                    <button class="film-frame" data-index="3"
+                                        data-full="assets/imgs/chad/chad-lvl-2.webp" data-caption="Level 2" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-lvl-2.webp" alt="">
+                                    </button>
+
+                                    <button class="film-frame" data-index="4"
+                                        data-full="assets/imgs/chad/chad-player.webp"
+                                        data-caption="Main Character Sprinting" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-player.webp" alt="">
+                                    </button>
+
+                                    <button class="film-frame" data-index="5"
+                                        data-full="assets/imgs/chad/chad-room.webp" data-caption="Room" aria-hidden="true" tabindex="-1">
+                                        <img src="assets/imgs/chad/chad-room.webp" alt="">
+                                    </button>
+                                </div>
+                            </div>
+                                <div class="film-carousel-controls px-3">
+                            <button
+                                class="film-arrow film-arrow-prev"
+                                type="button"
+                                aria-label="Previous image">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M20 12H6" />
+                                    <path d="M12 6L6 12L12 18" />
+                                </svg>
+                            </button>
+
+                            <button
+                                class="film-arrow film-arrow-next"
+                                type="button"
+                                aria-label="Next image">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M4 12H18" />
+                                    <path d="M12 6L18 12L12 18" />
+                                </svg>
+                            </button>
+                        </div>
+                        </div>
                     </div>
                 </div>
 
-        </div>
+                <div class="project-card mt-5">
+                    <h3>The Loneliest Artist</h3>
+                    <p class="text-muted">Technical Support · Cellec Games</p>
+                    <div class="container">
+                        <p> Narrative-driven point-and-click puzzle game (unreleased).</p>
+                        <ul>
+                            <li>Performed character rigging to support animation workflows</li>
+                            <li>Implemented light gameplay logic using C#</li>
+                            <li>Supported team implementation and iteration</li>
+                        </ul>
+                    </div>
+                    <div class="slide-gallery-shell">
+                        <div class="slide-gallery-viewport">
+                            <div class="slide-gallery-track" id="loneliestGallery">
+                                <button class="slide-frame" data-index="0"
+                                    data-full="assets/imgs/loneliest/loneliest1.webp">
+                                    <img src="assets/imgs/loneliest/loneliest1.webp" alt="The Loneliest Artist scene 1">
+                                </button>
+                                <button class="slide-frame" data-index="1"
+                                    data-full="assets/imgs/loneliest/loneliest2.webp">
+                                    <img src="assets/imgs/loneliest/loneliest2.webp" alt="The Loneliest Artist scene 2">
+                                </button>
+                                <button class="slide-frame" data-index="2"
+                                    data-full="assets/imgs/loneliest/loneliest3.webp">
+                                    <img src="assets/imgs/loneliest/loneliest3.webp" alt="The Loneliest Artist scene 3">
+                                </button>
+                                <button class="slide-frame" data-index="3"
+                                    data-full="assets/imgs/loneliest/loneliest4.webp">
+                                    <img src="assets/imgs/loneliest/loneliest4.webp" alt="The Loneliest Artist scene 4">
+                                </button>
+                            </div>
+                        </div>
 
-        <div class="project-card mt-5">
-            <h3>The Loneliest Artist</h3>
-            <p class="text-muted">Technical Support · Cellec Games</p>
-            <div class="container">
-            <p> Narrative-driven point-and-click puzzle game (unreleased).</p>
-                <ul>
-                    <li>Performed character rigging to support animation workflows</li>
-                    <li>Implemented light gameplay logic using C#</li>
-                    <li>Supported team implementation and iteration</li>
-                </ul>                       
-            </div>
-            <div class="slide-gallery-shell">
-                <div class="slide-gallery-viewport">
-                    <div class="slide-gallery-track" id="loneliestGallery">
-                        <button class="slide-frame" data-index="0" data-full="assets/imgs/loneliest/loneliest1.webp">
-                            <img src="assets/imgs/loneliest/loneliest1.webp" alt="The Loneliest Artist scene 1">
-                        </button>
-                        <button class="slide-frame" data-index="1" data-full="assets/imgs/loneliest/loneliest2.webp">
-                            <img src="assets/imgs/loneliest/loneliest2.webp" alt="The Loneliest Artist scene 2">
-                        </button>
-                        <button class="slide-frame" data-index="2" data-full="assets/imgs/loneliest/loneliest3.webp">
-                            <img src="assets/imgs/loneliest/loneliest3.webp" alt="The Loneliest Artist scene 3">
-                        </button>
-                        <button class="slide-frame" data-index="3" data-full="assets/imgs/loneliest/loneliest4.webp">
-                            <img src="assets/imgs/loneliest/loneliest4.webp" alt="The Loneliest Artist scene 4">
-                        </button>
+                        <!-- Loneliest Indicators -->
+                        <div class="slide-gallery-indicators" id="loneliestIndicators">
+                            <button class="slide-dot" data-slide="0" aria-label="View image 1"></button>
+                            <button class="slide-dot" data-slide="1" aria-label="View image 2"></button>
+                            <button class="slide-dot" data-slide="2" aria-label="View image 3"></button>
+                            <button class="slide-dot" data-slide="3" aria-label="View image 4"></button>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Loneliest Indicators -->
-                <div class="slide-gallery-indicators" id="loneliestIndicators">
-                    <button class="slide-dot" data-slide="0" aria-label="View image 1"></button>
-                    <button class="slide-dot" data-slide="1" aria-label="View image 2"></button>
-                    <button class="slide-dot" data-slide="2" aria-label="View image 3"></button>
-                    <button class="slide-dot" data-slide="3" aria-label="View image 4"></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
-        <div id="sharedFooter"></div>
-</div>
+        </section>
 
 
-<!-- Lightbox -->
-<div class="film-lightbox" id="filmLightbox" aria-hidden="true">
-    <button class="film-lightbox-close" type="button" aria-label="Close image viewer"><span>&times;</span></button>
-    <button class="film-lightbox-nav prev" type="button" aria-label="Previous image">&#10094;</button>
 
-    <figure class="film-lightbox-figure">
-        <img id="filmLightboxImg" src="" alt="">
-        <figcaption id="filmLightboxCaption"></figcaption>
-    </figure>
+    <!-- Lightbox -->
+    <div class="film-lightbox" id="filmLightbox" aria-hidden="true">
+        <button class="film-lightbox-close" type="button" aria-label="Close image viewer"><span>&times;</span></button>
+        <button class="film-lightbox-nav prev" type="button" aria-label="Previous image">&#10094;</button>
 
-    <button class="film-lightbox-nav next" type="button" aria-label="Next image">&#10095;</button>
-</div>
-         
-</body>
+        <figure class="film-lightbox-figure">
+            <img id="filmLightboxImg" src="" alt="">
+            <figcaption id="filmLightboxCaption"></figcaption>
+        </figure>
 
-</html>
-
-
+        <button class="film-lightbox-nav next" type="button" aria-label="Next image">&#10095;</button>
+    </div>
 
 
