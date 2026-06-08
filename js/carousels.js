@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeGallery = [];
   let activeIndex = 0;
   let activeTrigger = null;
-  let activeTrack = null;
+  /* let activeTrack = null; */
+  let activeFilmController = null;
 
   function renderLightbox(index) {
     if (!activeGallery.length) return;
@@ -24,44 +25,44 @@ document.addEventListener('DOMContentLoaded', () => {
     lightboxCaption.textContent = item.caption || '';
   }
 
-  function openLightbox(gallery, index, triggerEl = null, trackEl = null) {
-    if (!gallery.length) return;
+function openLightbox(gallery, index, triggerEl = null, filmController = null) {
+  if (!gallery.length) return;
 
-    activeGallery = gallery;
-    activeTrigger = triggerEl;
-    activeTrack = trackEl;
+  activeGallery = gallery;
+  activeTrigger = triggerEl;
+  activeFilmController = filmController;
 
-    if (activeTrack) activeTrack.style.animationPlayState = 'paused';
+  activeFilmController?.pause();
 
-    renderLightbox(index);
+  renderLightbox(index);
 
-    document.documentElement.classList.add('lightbox-open');
-    document.body.classList.add('lightbox-open');
-    lightbox.classList.add('is-open');
-    lightbox.setAttribute('aria-hidden', 'false');
+  document.documentElement.classList.add('lightbox-open');
+  document.body.classList.add('lightbox-open');
+  lightbox.classList.add('is-open');
+  lightbox.setAttribute('aria-hidden', 'false');
 
-    requestAnimationFrame(() => closeBtn.focus());
-  }
+  requestAnimationFrame(() => closeBtn.focus());
+}
 
-  function closeLightbox() {
-    lightbox.classList.remove('is-open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    document.documentElement.classList.remove('lightbox-open');
-    document.body.classList.remove('lightbox-open');
+function closeLightbox() {
+  lightbox.classList.remove('is-open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  document.documentElement.classList.remove('lightbox-open');
+  document.body.classList.remove('lightbox-open');
 
-    if (activeTrack) activeTrack.style.animationPlayState = '';
+  lightboxImg.removeAttribute('src');
+  lightboxImg.alt = '';
+  lightboxCaption.textContent = '';
 
-    lightboxImg.removeAttribute('src');
-    lightboxImg.alt = '';
-    lightboxCaption.textContent = '';
+  activeFilmController?.resume(900);
 
-    if (activeTrigger) activeTrigger.focus();
+  if (activeTrigger) activeTrigger.focus();
 
-    activeGallery = [];
-    activeIndex = 0;
-    activeTrigger = null;
-    activeTrack = null;
-  }
+  activeGallery = [];
+  activeIndex = 0;
+  activeTrigger = null;
+  activeFilmController = null;
+}
 
 function syncBootstrapThumbs(carousel) {
   if (!carousel.id) return;
@@ -174,10 +175,9 @@ function initFilmGallery(track) {
   let dragStartTranslateX = 0;
   let dragIntent = null;
 
-  const ambientSpeed = 0.20;
+  const ambientSpeed = 0.2;
   const stepDuration = 400;
   const dragThreshold = 4;
-  const swipeThreshold = 56;
 
   mask.style.touchAction = 'pan-y';
 
@@ -203,7 +203,6 @@ function initFilmGallery(track) {
 
   function normalizePosition() {
     const singleSetWidth = getTotalWidth();
-
     if (!singleSetWidth) return;
 
     while (currentTranslateX <= -singleSetWidth * 2) {
@@ -398,11 +397,19 @@ function initFilmGallery(track) {
     });
   }
 
+  const filmController = {
+    pause() {
+      stopAmbientDrift();
+    },
+    resume(delay = 900) {
+      if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
+        startAmbientDrift(delay);
+      }
+    }
+  };
+
   function endDrag(e) {
     if (!isPointerDown) return;
-
-    const deltaX = e.clientX - dragStartX;
-    const absDeltaX = Math.abs(deltaX);
 
     mask.classList.remove('is-dragging');
 
@@ -413,17 +420,11 @@ function initFilmGallery(track) {
     }
 
     normalizePosition();
+    applyTransform(currentTranslateX);
 
     if (dragIntent === 'x' && isDragging) {
-      if (absDeltaX >= swipeThreshold) {
-        moveByFrame(deltaX < 0 ? 1 : -1);
-      } else {
-        const centeredFrame = getClosestFrameToCenter();
-        if (centeredFrame) {
-          centerFrame(centeredFrame, 180, 900);
-        } else if (!document.body.classList.contains('lightbox-open')) {
-          startAmbientDrift(900);
-        }
+      if (!document.body.classList.contains('lightbox-open')) {
+        startAmbientDrift(1400);
       }
 
       resetPointerState();
@@ -435,7 +436,12 @@ function initFilmGallery(track) {
       dragIntent !== 'y' &&
       !document.body.classList.contains('lightbox-open')
     ) {
-      openLightbox(gallery, getNormalizedIndex(pressedFrame), pressedFrame, null);
+      openLightbox(
+        gallery,
+        getNormalizedIndex(pressedFrame),
+        pressedFrame,
+        filmController
+      );
       resetPointerState();
       return;
     }
@@ -554,13 +560,13 @@ function initFilmGallery(track) {
 
       e.preventDefault();
       e.stopPropagation();
-      openLightbox(gallery, index, frame, null);
+      openLightbox(gallery, index, frame, filmController);
     });
 
     frame.addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       e.preventDefault();
-      openLightbox(gallery, index, frame, null);
+      openLightbox(gallery, index, frame, filmController);
     });
   });
 
@@ -575,6 +581,8 @@ function initFilmGallery(track) {
     startAmbientDrift(1200);
   });
 }
+
+
 function initSlideGallery(track) {
   const shell = track.closest('.slide-gallery-shell');
   const viewport = shell?.querySelector('.slide-gallery-viewport');

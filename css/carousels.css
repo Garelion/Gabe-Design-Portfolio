@@ -892,25 +892,10 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 background: var(--primary-green);
 
-/*   background: linear-gradient(
-    -60deg,
-    rgba(221, 70, 11, 1) 0%,
-    rgba(255, 133, 33, 1) 25%,
-    rgba(215, 226, 60, 1) 50%,
-    rgba(164, 223, 86, 1) 75%,
-    rgba(60, 183, 109, 1) 100%
-  );  
-  
-  
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.18),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    filter 0.18s ease;
-
-    */
+    box-shadow:
+        0 6px 10px rgba(0, 0, 0, 0.18),
+        inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .film-arrow:hover {

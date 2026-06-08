@@ -62,8 +62,75 @@ header .hero-title {
     display: none;
 }
 
-.w-95 {
-    width: 95% !important;
+
+.hero-name {
+    font-size: 24pt;
+}
+
+h4.hero-title {
+    font-size: 20pt;
+}
+
+.bio {
+    font-size: 14pt;
+    margin: 0;
+    color: var(--teal-ink);
+    letter-spacing: 1.5px;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    text-align: start;
+}
+
+nav.navbar-main {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+
+    border-bottom: 2px solid var(--primary-green);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-top: 0.5rem;
+}
+
+nav.navbar-main a {
+    color: var(--dark-emerald);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 3px;
+    border: 2px solid var(--dark-emerald-80);
+    background: var(--easter-green);
+    background-clip: padding-box;
+    transition: background 0.18s, color 0.18s;
+    font-size: 1.08rem;
+    display: inline-flex;
+    align-items: center;
+    padding: calc(0.25rem + 2px) 1.2rem;
+}
+
+.sidebar-dropdown-toggle {
+    color: inherit;
+    font: inherit;
+}
+
+nav.navbar-main a:hover,
+nav.navbar-main a:focus,
+nav.navbar-main .sidebar-dropdown-toggle:hover,
+nav.navbar-main .sidebar-dropdown-toggle:focus {
+    background: var(--text-light);
+    color: var(--dark-emerald) !important;
+    outline: none;
+}
+
+nav.navbar-main a.active,
+nav.navbar-main .sidebar-dropdown-toggle.active {
+    background: var(--dark-emerald);
+    border-color: var(--teal-ink-80);
+    color: whitesmoke;
+    pointer-events: none;
+    cursor: default;
 }
 
 .navbar-main {
@@ -100,10 +167,14 @@ header .hero-title {
     transform: none;
 }
 
+
+
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown:focus-within .dropdown-menu {
     display: block;
-}
+} 
+
+
 
 .dropdown-toggle {
     display: inline-flex;
@@ -162,7 +233,7 @@ header .hero-title {
 
 /* #region Header - <= 1000px */
 
-@media (max-width: 1000px) {
+/* @media (max-width: 1000px) {
     .hero-portfolio {
         display: block;
         font-size: 1rem;
@@ -179,9 +250,38 @@ header .hero-title {
     .green-ruler-dashed.header-ruler {
         display: block;
     }
+} */
+
+/* #endregion */
+
+
+/* #region Header - <= 767px */
+
+@media (max-width: 767px) {
+    .hero-name{
+        font-size: 2rem !important;
+    }
+
+    .hero-portfolio {
+        display: block;
+        font-size: 0.875rem;
+    }
+
+    .hero-portfolio::before {
+        content: "« ";
+    }
+
+    .hero-portfolio::after {
+        content: " »";
+    }
+
+    .green-ruler-dashed.header-ruler {
+        display: block;
+    }
 }
 
 /* #endregion */
+
 
 
 /* #region Header - <= 768px */
@@ -415,7 +515,6 @@ header .hero-title {
 }
 
 /* #endregion */
-
 /* #endregion */
 
 
@@ -435,6 +534,11 @@ footer {
     font-size: 10pt;
     letter-spacing: 1px;
     font-family: 'Space Grotesk', sans-serif;
+}
+
+footer,
+.footer-main {
+  flex-shrink: 0;
 }
 
 .footer-main {

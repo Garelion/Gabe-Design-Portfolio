@@ -84,6 +84,15 @@ function animateBarTo100(bar, duration = 420) {
     });
 }
 
+function closeDesktopDropdown() {
+    const active = document.activeElement;
+    if (active && active.closest('.nav-dropdown')) {
+        active.blur();
+    }
+}
+
+
+
 function closeMobileNav() {
     document.getElementById('mobileSidebar')?.classList.remove('active');
     document.getElementById('navOverlay')?.classList.remove('active');
@@ -97,11 +106,13 @@ function handleNavigation() {
         if (isCurrentPageLink(link)) {
             e.preventDefault();
             closeMobileNav();
+            closeDesktopDropdown();
             return;
         }
 
         e.preventDefault();
         closeMobileNav();
+        closeDesktopDropdown();
 
         const loader = document.getElementById('page-loader');
         const bar = document.querySelector('.loader-bar');
