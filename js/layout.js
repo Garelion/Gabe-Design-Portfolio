@@ -4,22 +4,56 @@ if ('scrollRestoration' in history) {
 
 let carouselsInitialized = false;
 
+function normalizePath(path) {
+    let clean = (path || '').split('#')[0].split('?')[0].trim();
+
+    if (!clean) return '/';
+
+    clean = clean.toLowerCase();
+
+    if (clean !== '/' && clean.endsWith('/')) {
+        clean = clean.slice(0, -1);
+    }
+
+    return clean || '/';
+}
+
 function getCurrentPageName() {
-    return window.location.pathname.split('/').pop() || 'index.html';
+    return normalizePath(window.location.pathname);
 }
 
 function isCurrentPageLink(link) {
     const href = link.getAttribute('href');
-    return href === getCurrentPageName();
+    if (!href || href === '#') return false;
+
+    const url = new URL(href, window.location.href);
+    return normalizePath(url.pathname) === getCurrentPageName();
 }
 
 function setActiveNav() {
-    const path = getCurrentPageName();
-
     document.querySelectorAll('.navbar-main a[href]').forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href || href === '#') return;
-        link.classList.toggle('active', href === path);
+        if (!shouldIntercept(link)) {
+            link.classList.remove('active');
+            return;
+        }
+
+        link.classList.toggle('active', isCurrentPageLink(link));
+    });
+
+    document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+    const toggle = dropdown.querySelector('.dropdown-toggle');
+    if (toggle) {
+        toggle.classList.remove('active');
+    }
+});
+
+    document.querySelectorAll('.sidebar-dropdown').forEach(dropdown => {
+        const hasActiveChild = dropdown.querySelector('.sidebar-dropdown-menu a.active');
+        const toggle = dropdown.querySelector('.sidebar-dropdown-toggle');
+
+        if (toggle) {
+            toggle.classList.toggle('active', !!hasActiveChild);
+        }
     });
 }
 
@@ -61,7 +95,6 @@ function updateHeaderOffset() {
     }
 
     const rect = header.getBoundingClientRect();
-    // If header has scrolled out of view, bottom will be <= 0, so clamp to 0
     const offset = Math.max(0, Math.ceil(rect.bottom));
     document.documentElement.style.setProperty('--header-offset', `${offset}px`);
 }
@@ -90,8 +123,6 @@ function closeDesktopDropdown() {
         active.blur();
     }
 }
-
-
 
 function closeMobileNav() {
     document.getElementById('mobileSidebar')?.classList.remove('active');
