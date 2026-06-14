@@ -50,7 +50,7 @@ header .hero-title {
     opacity: 0.45 !important;
 }
 
-.green-ruler-dashed {
+.white-ruler-dashed {
     width: 100%;
     height: 0.18rem;
     margin: 0.2rem 0;
@@ -58,7 +58,7 @@ header .hero-title {
     opacity: 1 !important;
 }
 
-.green-ruler-dashed.header-ruler {
+.white-ruler-dashed.header-ruler {
     display: none;
 }
 
@@ -247,7 +247,7 @@ nav.navbar-main .sidebar-dropdown-toggle.active {
         content: " »";
     }
 
-    .green-ruler-dashed.header-ruler {
+    .white-ruler-dashed.header-ruler {
         display: block;
     }
 } */
@@ -275,7 +275,7 @@ nav.navbar-main .sidebar-dropdown-toggle.active {
         content: " »";
     }
 
-    .green-ruler-dashed.header-ruler {
+    .white-ruler-dashed.header-ruler {
         display: block;
     }
 }

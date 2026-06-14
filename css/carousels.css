@@ -26,7 +26,6 @@
     height: 100%;
 }
 
-
 /* Dot indicators */
 .project-carousel .simple-carousel-indicators {
     margin-bottom: 0.4rem;
@@ -63,8 +62,6 @@ button.carousel-control-next {
 .bottom-border-teal {
     border-bottom: 2px solid var(--teal-ink);
 }
-
-
 
 
 .carousel-control-prev-icon,
@@ -212,7 +209,6 @@ button.carousel-control-next {
 
 
 
-
 /* Start of newest carousels css */
 
 .gallery-label {
@@ -236,7 +232,6 @@ button.carousel-control-next {
     border: 0.09rem solid #007D5865; 
     
 }
-
 
 .scraps-doc-trigger {
     width: 100%;
@@ -444,9 +439,15 @@ button.carousel-control-next {
     filter: none;
 }
 
+
+/* Only the settled center slide can show zoom cursor */
+.slide-frame.is-center.can-zoom:hover {
+    cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
+}
+
+
 .slide-frame.is-center:hover{
     border-color: var(--lime-green);
-    cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
 }
 
 /* Left */
@@ -602,7 +603,13 @@ body.lightbox-open .slide-frame:focus-visible img {
   gap: 0.5rem;
   width: max-content;
   user-select: none;
+ /* Use transform for smooth animation - will-change hints to browser */
+  will-change: transform;
+  /* Prevent layout shift during transform */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
+
 
 .film-strip-mask.is-dragging {
   cursor: grabbing;
@@ -670,132 +677,6 @@ body.lightbox-open .slide-frame:focus-visible img {
   user-select: none;
 }
 
-/* #region >> Custom Slider <<<  */
-    .film-strip-slider {
-        width: 100%;
-        margin-top: 0.7rem;
-    }
-
-.film-strip-slider.gradient-slider {
-    --track-h: 1rem;
-    --thumb-size: 1rem;
-    --progress: 0%;
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: var(--thumb-size);
-    background: transparent;
-    cursor: pointer;
-}
-
-/* ---------- Webkit ---------- */
-.film-strip-slider.gradient-slider::-webkit-slider-runnable-track {
-    height: var(--track-h);
-    border-radius: 100px;
-    border: 2px solid var(--teal-ink);
-
-    background:
-        linear-gradient(
-            to right,
-            transparent 0%,
-            transparent var(--progress),
-            var(--teal-ink)
-            var(--progress),
-            var(--teal-ink) 100%
-        ),
-        linear-gradient(
-            to right,
-            var(--blood-orange) 0%,
-            var(--primary-orange) 16%,
-            var(--lime-green) 48%,
-            var(--primary-green) 100%
-        );
-}
-
-
-/* Thumb */
-.film-strip-slider.gradient-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    margin-top: calc((var(--track-h) - var(--thumb-size)) / 2 - 1px);
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    border-radius: 50%;
-    background: white;
-    border: 1px solid rgba(0,0,0,0.15);
-    box-shadow:
-        0 1px 4px rgba(0,0,0,0.25);
-}
-
-/* ---------- Firefox ---------- */
-.film-strip-slider.gradient-slider::-moz-range-track {
-    height: var(--track-h);
-    border-radius: 999px;
-    border: 2px solid var(--teal-ink);
-    background: var(--track-cover);
-}
-
-.film-strip-slider.gradient-slider::-moz-range-progress {
-    height: var(--track-h);
-    border-radius: 999px;
-
-    background: var(--track-fill);
-}
-
-/* Firefox thumb */
-.film-strip-slider.gradient-slider::-moz-range-thumb {
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    border-radius: 50%;
-
-    background: white;
-    border: 1px solid rgba(0,0,0,0.15);
-    box-shadow:
-        0 1px 4px rgba(0,0,0,0.25);
-}
-
-
-@media (max-width: 999px) {
-    .film-strip-slider {
-        margin-top: 0.5rem;
-    }
-
-    .film-strip-slider.gradient-slider {
-        --track-h: 0.75rem;
-        --thumb-size: 0.75rem;
-        height: var(--thumb-size);
-        padding: 0;
-    }
-
-    .film-strip-slider.gradient-slider::-webkit-slider-runnable-track,
-    .film-strip-slider.gradient-slider::-moz-range-track {
-        border-width: 1.5px;
-    }
-
-    .film-strip-slider.gradient-slider::-webkit-slider-runnable-track {
-        height: var(--track-h);
-    }
-
-    .film-strip-slider.gradient-slider::-webkit-slider-thumb {
-        width: var(--thumb-size);
-        height: var(--thumb-size);
-        margin-top: -1.5px;
-    }
-
-    .film-strip-slider.gradient-slider::-moz-range-track,
-    .film-strip-slider.gradient-slider::-moz-range-progress {
-        height: var(--track-h);
-    }
-
-    .film-strip-slider.gradient-slider::-moz-range-thumb {
-        width: var(--thumb-size);
-        height: var(--thumb-size);
-    }
-}
-
-/* ---------- Slider styles end ---------- */
-/* #endregion                              */
-
 
 /* #region  ─── Film Strip Carousel ───   */
     .film-roll-wrapper {
@@ -821,15 +702,6 @@ body.lightbox-open .slide-frame:focus-visible img {
   display: none;
 }
 
-.film-strip-track {
-  display: flex;
-  gap: 1rem;
-  /* Use transform for smooth animation - will-change hints to browser */
-  will-change: transform;
-  /* Prevent layout shift during transform */
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
 
 .film-strip-mask.is-dragging {
   cursor: grabbing;
@@ -899,9 +771,11 @@ background: var(--primary-green);
 }
 
 .film-arrow:hover {
-  transform: translateY(-2px) scale(1.05);
-  filter: brightness(1.08);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px) scale(1.05);
+    filter: brightness(1.08);
+    box-shadow:
+        0 6px 12px rgba(0,0,0,.20),
+        inset 0 1px 1px rgba(255,255,255,.12);
 }
 
 .film-arrow:active {
@@ -926,12 +800,6 @@ background: var(--primary-green);
 
 /* ─── Responsive ─── */
 
-
-
-
-
-
-
 @media (max-width: 480px) {
   .film-frame {
     width: 180px;
@@ -941,7 +809,6 @@ background: var(--primary-green);
     gap: 6rem;
   }
 }
-
 
 /* #endregion */
 

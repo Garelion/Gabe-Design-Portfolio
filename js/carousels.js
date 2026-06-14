@@ -159,6 +159,10 @@ function initFilmGallery(track) {
   if (!mask) return;
 
   let currentTranslateX = 0;
+  let ambientTranslateX = 0;
+  let ambientLoopMinX = 0;
+
+  let singleSetWidth = 0;
   let isAnimating = false;
   let ambientAnimationId = null;
   let resumeTimer = null;
@@ -197,12 +201,15 @@ function initFilmGallery(track) {
     return total;
   }
 
+  function measureTrack() {
+    singleSetWidth = getTotalWidth();
+  }
+
   function applyTransform(x) {
     track.style.transform = `translate3d(${x}px, 0, 0)`;
   }
 
   function normalizePosition() {
-    const singleSetWidth = getTotalWidth();
     if (!singleSetWidth) return;
 
     while (currentTranslateX <= -singleSetWidth * 2) {
@@ -211,6 +218,20 @@ function initFilmGallery(track) {
 
     while (currentTranslateX > -singleSetWidth) {
       currentTranslateX -= singleSetWidth;
+    }
+  }
+
+  function wrapAmbientPosition() {
+    if (!singleSetWidth) return;
+
+    const min = -singleSetWidth * 2;
+    const max = -singleSetWidth;
+    const range = singleSetWidth;
+
+    currentTranslateX = ((currentTranslateX - min) % range + range) % range + min;
+
+    if (currentTranslateX >= max) {
+      currentTranslateX -= range;
     }
   }
 
@@ -227,8 +248,21 @@ function initFilmGallery(track) {
   }
 
   function getTranslateForCenteredFrame(frame) {
-    return Math.round(getMaskCenterX() - getFrameCenterX(frame));
-  }
+  return getMaskCenterX() - getFrameCenterX(frame);
+}
+
+function getEquivalentCenteredTargets(frame) {
+  const base = getTranslateForCenteredFrame(frame);
+  return [base - singleSetWidth, base, base + singleSetWidth];
+}
+
+function getNearestTargetX(frame, fromX = currentTranslateX) {
+  const candidates = getEquivalentCenteredTargets(frame);
+  return candidates.reduce((best, x) => {
+    return Math.abs(x - fromX) < Math.abs(best - fromX) ? x : best;
+  });
+}
+
 
   function getNormalizedIndex(frame) {
     const indexedValue = Number(frame.dataset.index);
@@ -257,39 +291,33 @@ function initFilmGallery(track) {
     return closestFrame;
   }
 
-  function getBestDuplicateForIndex(targetIndex) {
-    let bestFrame = null;
-    let bestDistance = Infinity;
+function getBestDuplicateForIndex(targetIndex, fromX = currentTranslateX) {
+  let bestFrame = null;
+  let bestDistance = Infinity;
 
-    allFrames.forEach(frame => {
-      if (getNormalizedIndex(frame) !== targetIndex) return;
+  allFrames.forEach(frame => {
+    if (getNormalizedIndex(frame) !== targetIndex) return;
 
-      const candidateTargetX = getTranslateForCenteredFrame(frame);
-      const distance = Math.abs(candidateTargetX - currentTranslateX);
+    const candidateTargetX = getNearestTargetX(frame, fromX);
+    const distance = Math.abs(candidateTargetX - fromX);
 
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestFrame = frame;
-      }
-    });
-
-    return bestFrame;
-  }
-
-  function settleCenteredIndex(targetIndex) {
-    const settledFrame = getBestDuplicateForIndex(targetIndex);
-    if (!settledFrame) return;
-
-    currentTranslateX = getTranslateForCenteredFrame(settledFrame);
-    normalizePosition();
-
-    const finalFrame = getBestDuplicateForIndex(targetIndex);
-    if (finalFrame) {
-      currentTranslateX = getTranslateForCenteredFrame(finalFrame);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestFrame = frame;
     }
+  });
 
-    applyTransform(currentTranslateX);
-  }
+  return bestFrame;
+}
+
+function settleCenteredIndex(targetIndex) {
+  const settledFrame = getBestDuplicateForIndex(targetIndex, currentTranslateX);
+  if (!settledFrame) return;
+
+  currentTranslateX = getNearestTargetX(settledFrame, currentTranslateX);
+  normalizePosition();
+  applyTransform(currentTranslateX);
+}
 
   function stopAmbientDrift() {
     if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
@@ -297,66 +325,77 @@ function initFilmGallery(track) {
     clearTimeout(resumeTimer);
   }
 
-  function ambientStep() {
-    if (
-      document.body.classList.contains('lightbox-open') ||
-      isAnimating ||
-      isPointerDown
-    ) {
-      ambientAnimationId = requestAnimationFrame(ambientStep);
+function ambientStep() {
+  if (
+    document.body.classList.contains('lightbox-open') ||
+    isAnimating ||
+    isPointerDown
+  ) {
+    ambientAnimationId = requestAnimationFrame(ambientStep);
+    return;
+  }
+
+  ambientTranslateX -= ambientSpeed;
+
+  // dumb seamless loop
+  if (ambientTranslateX <= ambientLoopMinX) {
+  ambientTranslateX += singleSetWidth;
+}
+
+  currentTranslateX = ambientTranslateX;
+  applyTransform(currentTranslateX);
+
+  ambientAnimationId = requestAnimationFrame(ambientStep);
+}
+
+function startAmbientDrift(delay = 0) {
+  stopAmbientDrift();
+
+  // sync smart position into dumb slideshow
+  ambientTranslateX = currentTranslateX;
+
+  resumeTimer = setTimeout(() => {
+    ambientAnimationId = requestAnimationFrame(ambientStep);
+  }, delay);
+}
+
+function animateToFrame(frame, duration = stepDuration, resumeDelay = 1200) {
+  if (!frame || isAnimating) return;
+
+  stopAmbientDrift();
+  isAnimating = true;
+
+  const targetIndex = getNormalizedIndex(frame);
+  const startX = currentTranslateX;
+  const targetFrame = getBestDuplicateForIndex(targetIndex, startX) || frame;
+  const targetX = getNearestTargetX(targetFrame, startX);
+  const startTime = performance.now();
+
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+
+    currentTranslateX = startX + (targetX - startX) * eased;
+    applyTransform(currentTranslateX);
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
       return;
     }
 
-    currentTranslateX -= ambientSpeed;
+    currentTranslateX = targetX;
     normalizePosition();
     applyTransform(currentTranslateX);
+    isAnimating = false;
 
-    ambientAnimationId = requestAnimationFrame(ambientStep);
-  }
-
-  function startAmbientDrift(delay = 0) {
-    stopAmbientDrift();
-    resumeTimer = setTimeout(() => {
-      ambientAnimationId = requestAnimationFrame(ambientStep);
-    }, delay);
-  }
-
-  function animateToFrame(frame, duration = stepDuration, resumeDelay = 1200) {
-    if (!frame || isAnimating) return;
-
-    stopAmbientDrift();
-    isAnimating = true;
-
-    const targetIndex = getNormalizedIndex(frame);
-    const startX = currentTranslateX;
-    const targetX = getTranslateForCenteredFrame(frame);
-    const startTime = performance.now();
-
-    function step(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-
-      currentTranslateX = startX + (targetX - startX) * eased;
-      applyTransform(currentTranslateX);
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-        return;
-      }
-
-      currentTranslateX = targetX;
-      normalizePosition();
-      settleCenteredIndex(targetIndex);
-      isAnimating = false;
-
-      if (!document.body.classList.contains('lightbox-open')) {
-        startAmbientDrift(resumeDelay);
-      }
+    if (!document.body.classList.contains('lightbox-open')) {
+      startAmbientDrift(resumeDelay);
     }
-
-    requestAnimationFrame(step);
   }
+
+  requestAnimationFrame(step);
+}
 
   function centerFrame(frame, duration = stepDuration, resumeDelay = 1200) {
     animateToFrame(frame, duration, resumeDelay);
@@ -377,12 +416,19 @@ function initFilmGallery(track) {
   }
 
   function initPosition() {
+    measureTrack();
+
     const firstFrame =
       allFrames.find(frame => getNormalizedIndex(frame) === 0) || uniqueFrames[0];
 
-    currentTranslateX = getTranslateForCenteredFrame(firstFrame) - getTotalWidth();
-    normalizePosition();
-    settleCenteredIndex(0);
+    currentTranslateX =
+  getTranslateForCenteredFrame(firstFrame) - singleSetWidth;
+
+// save actual seamless boundary
+ambientLoopMinX = currentTranslateX - singleSetWidth;
+
+normalizePosition();
+settleCenteredIndex(0);
   }
 
   function resetPointerState() {
@@ -571,17 +617,17 @@ function initFilmGallery(track) {
   });
 
   window.addEventListener('resize', () => {
+    measureTrack();
     const centeredFrame = getClosestFrameToCenter();
     const centeredIndex = centeredFrame ? getNormalizedIndex(centeredFrame) : 0;
     settleCenteredIndex(centeredIndex);
   });
 
-  requestAnimationFrame(() => {
-    initPosition();
-    startAmbientDrift(1200);
-  });
+window.addEventListener('load', () => {
+  initPosition();
+  startAmbientDrift(1200);
+});
 }
-
 
 function initSlideGallery(track) {
   const shell = track.closest('.slide-gallery-shell');
@@ -603,6 +649,8 @@ function initSlideGallery(track) {
 
   let currentSlide = 0;
   let autoplayId = null;
+  let shiftTimer = null;
+  let isShifting = false;
 
   let isPointerDown = false;
   let isDragging = false;
@@ -613,11 +661,29 @@ function initSlideGallery(track) {
 
   const dragThreshold = 8;
   const swipeThreshold = 50;
-
   const gestureEl = viewport || track;
   if (!gestureEl) return;
 
   gestureEl.style.touchAction = 'pan-y';
+
+  function armCenterZoom() {
+    frames.forEach(frame => frame.classList.remove('can-zoom'));
+    const centerFrame = frames[currentSlide];
+    if (centerFrame) centerFrame.classList.add('can-zoom');
+  }
+
+  function beginShift() {
+    isShifting = true;
+    track.classList.add('is-shifting');
+    frames.forEach(frame => frame.classList.remove('can-zoom'));
+    clearTimeout(shiftTimer);
+  }
+
+  function endShift() {
+    isShifting = false;
+    track.classList.remove('is-shifting');
+    armCenterZoom();
+  }
 
   function updateSlides() {
     const total = frames.length;
@@ -642,8 +708,16 @@ function initSlideGallery(track) {
   }
 
   function goToSlide(index) {
-    currentSlide = (index + frames.length) % frames.length;
+    const nextSlide = (index + frames.length) % frames.length;
+    if (nextSlide === currentSlide) return;
+
+    beginShift();
+    currentSlide = nextSlide;
     updateSlides();
+
+    shiftTimer = setTimeout(() => {
+      endShift();
+    }, 500);
   }
 
   function goNext() {
@@ -655,6 +729,7 @@ function initSlideGallery(track) {
     autoplayId = setInterval(() => {
       if (document.body.classList.contains('lightbox-open')) return;
       if (isPointerDown) return;
+      if (isShifting) return;
       goNext();
     }, 5000);
   }
@@ -742,7 +817,7 @@ function initSlideGallery(track) {
 
   frames.forEach((frame, index) => {
     frame.addEventListener('click', e => {
-      if (suppressClick) {
+      if (suppressClick || isShifting) {
         e.preventDefault();
         e.stopPropagation();
         return;
@@ -771,6 +846,8 @@ function initSlideGallery(track) {
 
       e.preventDefault();
 
+      if (isShifting) return;
+
       if (frame.classList.contains('is-center')) {
         openLightbox(gallery, index, frame, null);
         return;
@@ -790,6 +867,7 @@ function initSlideGallery(track) {
   dots.forEach((dot, index) => {
     dot.addEventListener('click', e => {
       e.preventDefault();
+      if (isShifting) return;
       goToSlide(index);
     });
   });
@@ -802,8 +880,10 @@ function initSlideGallery(track) {
   });
 
   updateSlides();
+  armCenterZoom();
   startAutoplay();
 }
+
   prevBtn.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();

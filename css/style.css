@@ -308,8 +308,7 @@ section p {
 }
 
 .project-card:hover {
-    /* box-shadow: 0 5px 20px rgba(0, 7, 44, 0.38); */
-    transform: translateY(-2px);
+    transform: translateY(-1.5px);
     box-shadow: 0 4px 2px rgba(0, 7, 44, 0.2);
 }
 
@@ -638,7 +637,7 @@ section p {
 
     .btn-gameurl {
         padding: 0.4rem;
-        gap: 0;
+        gap: 0.4rem;
     }
 
     .btn-gameurl .btn-label {
