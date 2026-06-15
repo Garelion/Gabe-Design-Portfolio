@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeGallery = [];
   let activeIndex = 0;
   let activeTrigger = null;
-  let activeTrack = null;
+  /* let activeTrack = null; */
+  let activeFilmController = null;
 
   function renderLightbox(index) {
     if (!activeGallery.length) return;
@@ -24,14 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
     lightboxCaption.textContent = item.caption || '';
   }
 
-  function openLightbox(gallery, index, triggerEl = null, trackEl = null) {
+  function openLightbox(gallery, index, triggerEl = null, filmController = null) {
     if (!gallery.length) return;
 
     activeGallery = gallery;
     activeTrigger = triggerEl;
-    activeTrack = trackEl;
+    activeFilmController = filmController;
 
-    if (activeTrack) activeTrack.style.animationPlayState = 'paused';
+    activeFilmController?.pause();
 
     renderLightbox(index);
 
@@ -49,42 +50,42 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.classList.remove('lightbox-open');
     document.body.classList.remove('lightbox-open');
 
-    if (activeTrack) activeTrack.style.animationPlayState = '';
-
     lightboxImg.removeAttribute('src');
     lightboxImg.alt = '';
     lightboxCaption.textContent = '';
+
+    activeFilmController?.resume(900);
 
     if (activeTrigger) activeTrigger.focus();
 
     activeGallery = [];
     activeIndex = 0;
     activeTrigger = null;
-    activeTrack = null;
+    activeFilmController = null;
   }
 
-function syncBootstrapThumbs(carousel) {
-  if (!carousel.id) return;
+  function syncBootstrapThumbs(carousel) {
+    if (!carousel.id) return;
 
-  const thumbs = [
-    ...document.querySelectorAll(
-      `.carousel-thumbnails .carousel-thumb[data-bs-target="#${carousel.id}"]`
-    )
-  ];
+    const thumbs = [
+      ...document.querySelectorAll(
+        `.carousel-thumbnails .carousel-thumb[data-bs-target="#${carousel.id}"]`
+      )
+    ];
 
-  if (!thumbs.length) return;
+    if (!thumbs.length) return;
 
-  function setActive(index) {
-    thumbs.forEach((thumb, i) => {
-      thumb.classList.toggle('active', i === index);
-      thumb.setAttribute('aria-current', i === index ? 'true' : 'false');
+    function setActive(index) {
+      thumbs.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+        thumb.setAttribute('aria-current', i === index ? 'true' : 'false');
+      });
+    }
+
+    carousel.addEventListener('slide.bs.carousel', (e) => {
+      setActive(e.to);
     });
   }
-
-  carousel.addEventListener('slide.bs.carousel', (e) => {
-    setActive(e.to);
-  });
-}
 
   function initStaticLightboxGallery(selector) {
     const triggers = [...document.querySelectorAll(selector)];
@@ -135,667 +136,760 @@ function syncBootstrapThumbs(carousel) {
   }
 
 
-function initFilmGallery(track) {
-  const allFrames = [...track.querySelectorAll('.film-frame')];
-  if (!allFrames.length) return;
+  function initFilmGallery(track) {
+    const allFrames = [...track.querySelectorAll('.film-frame')];
+    if (!allFrames.length) return;
 
-  const uniqueFrames = allFrames.filter(
-    frame => frame.getAttribute('aria-hidden') !== 'true'
-  );
-  if (!uniqueFrames.length) return;
+    const uniqueFrames = allFrames.filter(
+      frame => frame.getAttribute('aria-hidden') !== 'true'
+    );
+    if (!uniqueFrames.length) return;
 
-  const gallery = uniqueFrames.map(frame => ({
-    src: frame.dataset.full,
-    alt: frame.querySelector('img')?.alt || '',
-    caption: frame.dataset.caption || ''
-  }));
+    const gallery = uniqueFrames.map(frame => ({
+      src: frame.dataset.full,
+      alt: frame.querySelector('img')?.alt || '',
+      caption: frame.dataset.caption || ''
+    }));
 
-  const mask = track.closest('.film-strip-mask');
-  const shell = track.closest('.film-strip-shell');
-  const prevArrow = shell?.querySelector('.film-arrow-prev');
-  const nextArrow = shell?.querySelector('.film-arrow-next');
+    const mask = track.closest('.film-strip-mask');
+    const shell = track.closest('.film-strip-shell');
+    const prevArrow = shell?.querySelector('.film-arrow-prev');
+    const nextArrow = shell?.querySelector('.film-arrow-next');
 
-  if (!mask) return;
+    if (!mask) return;
 
-  let currentTranslateX = 0;
-  let isAnimating = false;
-  let ambientAnimationId = null;
-  let resumeTimer = null;
+    let currentTranslateX = 0;
+    let ambientTranslateX = 0;
+    let ambientLoopMinX = 0;
 
-  let isPointerDown = false;
-  let isDragging = false;
-  let suppressClick = false;
+    let singleSetWidth = 0;
+    let isAnimating = false;
+    let ambientAnimationId = null;
+    let resumeTimer = null;
 
-  let pressedFrame = null;
-  let pointerId = null;
+    let isPointerDown = false;
+    let isDragging = false;
+    let suppressClick = false;
 
-  let dragStartX = 0;
-  let dragStartY = 0;
-  let dragStartTranslateX = 0;
-  let dragIntent = null;
+    let pressedFrame = null;
+    let pointerId = null;
 
-  const ambientSpeed = 0.20;
-  const stepDuration = 400;
-  const dragThreshold = 4;
-  const swipeThreshold = 56;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragStartTranslateX = 0;
+    let dragIntent = null;
 
-  mask.style.touchAction = 'pan-y';
+    const ambientSpeed = 0.3;
+    const stepDuration = 400;
+    const dragThreshold = 4;
 
-  function getGap() {
-    return parseFloat(getComputedStyle(track).gap || 0);
-  }
+    mask.style.touchAction = 'pan-y';
 
-  function getTotalWidth() {
-    let total = 0;
-    const gap = getGap();
-
-    uniqueFrames.forEach((frame, index) => {
-      total += frame.offsetWidth;
-      if (index < uniqueFrames.length - 1) total += gap;
-    });
-
-    return total;
-  }
-
-  function applyTransform(x) {
-    track.style.transform = `translate3d(${x}px, 0, 0)`;
-  }
-
-  function normalizePosition() {
-    const singleSetWidth = getTotalWidth();
-
-    if (!singleSetWidth) return;
-
-    while (currentTranslateX <= -singleSetWidth * 2) {
-      currentTranslateX += singleSetWidth;
+    function getGap() {
+      return parseFloat(getComputedStyle(track).gap || 0);
     }
 
-    while (currentTranslateX > -singleSetWidth) {
-      currentTranslateX -= singleSetWidth;
-    }
-  }
+    function getTotalWidth() {
+      const gap = getGap();
+      let total = 0;
 
-  function getMaskCenterX() {
-    return mask.clientWidth / 2;
-  }
+      uniqueFrames.forEach(frame => {
+        total += frame.offsetWidth + gap;
+      });
 
-  function getFrameCenterX(frame) {
-    return frame.offsetLeft + frame.offsetWidth / 2;
-  }
-
-  function getFrameCenterInMask(frame, translateX = currentTranslateX) {
-    return getFrameCenterX(frame) + translateX;
-  }
-
-  function getTranslateForCenteredFrame(frame) {
-    return Math.round(getMaskCenterX() - getFrameCenterX(frame));
-  }
-
-  function getNormalizedIndex(frame) {
-    const indexedValue = Number(frame.dataset.index);
-    if (!Number.isNaN(indexedValue)) {
-      return ((indexedValue % gallery.length) + gallery.length) % gallery.length;
+      return total;
     }
 
-    const allIndex = allFrames.indexOf(frame);
-    if (allIndex === -1) return 0;
-    return allIndex % gallery.length;
-  }
+    function measureTrack() {
+      singleSetWidth = getTotalWidth();
+    }
 
-  function getClosestFrameToCenter() {
-    const maskCenter = getMaskCenterX();
-    let closestFrame = null;
-    let closestDistance = Infinity;
+    function applyTransform(x) {
+      track.style.transform = `translate3d(${x}px, 0, 0)`;
+    }
 
-    allFrames.forEach(frame => {
-      const distance = Math.abs(getFrameCenterInMask(frame) - maskCenter);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestFrame = frame;
+    function normalizePosition() {
+      if (!singleSetWidth) return;
+
+      while (currentTranslateX <= -singleSetWidth * 2) {
+        currentTranslateX += singleSetWidth;
       }
-    });
 
-    return closestFrame;
-  }
-
-  function getBestDuplicateForIndex(targetIndex) {
-    let bestFrame = null;
-    let bestDistance = Infinity;
-
-    allFrames.forEach(frame => {
-      if (getNormalizedIndex(frame) !== targetIndex) return;
-
-      const candidateTargetX = getTranslateForCenteredFrame(frame);
-      const distance = Math.abs(candidateTargetX - currentTranslateX);
-
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestFrame = frame;
+      while (currentTranslateX > -singleSetWidth) {
+        currentTranslateX -= singleSetWidth;
       }
-    });
-
-    return bestFrame;
-  }
-
-  function settleCenteredIndex(targetIndex) {
-    const settledFrame = getBestDuplicateForIndex(targetIndex);
-    if (!settledFrame) return;
-
-    currentTranslateX = getTranslateForCenteredFrame(settledFrame);
-    normalizePosition();
-
-    const finalFrame = getBestDuplicateForIndex(targetIndex);
-    if (finalFrame) {
-      currentTranslateX = getTranslateForCenteredFrame(finalFrame);
     }
 
-    applyTransform(currentTranslateX);
-  }
+    function wrapAmbientPosition() {
+      if (!singleSetWidth) return;
 
-  function stopAmbientDrift() {
-    if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
-    ambientAnimationId = null;
-    clearTimeout(resumeTimer);
-  }
+      const min = -singleSetWidth * 2;
+      const max = -singleSetWidth;
+      const range = singleSetWidth;
 
-  function ambientStep() {
-    if (
-      document.body.classList.contains('lightbox-open') ||
-      isAnimating ||
-      isPointerDown
-    ) {
-      ambientAnimationId = requestAnimationFrame(ambientStep);
-      return;
+      currentTranslateX = ((currentTranslateX - min) % range + range) % range + min;
+
+      if (currentTranslateX >= max) {
+        currentTranslateX -= range;
+      }
     }
 
-    currentTranslateX -= ambientSpeed;
-    normalizePosition();
-    applyTransform(currentTranslateX);
+    // Measure live, rendered geometry (getBoundingClientRect) 
+    function getMaskCenterX() {
+      const rect = mask.getBoundingClientRect();
+      return rect.left + rect.width / 2;
+    }
 
-    ambientAnimationId = requestAnimationFrame(ambientStep);
-  }
+    function getFrameCenterX(frame) {
+      const rect = frame.getBoundingClientRect();
+      return rect.left + rect.width / 2;
+    }
 
-  function startAmbientDrift(delay = 0) {
-    stopAmbientDrift();
-    resumeTimer = setTimeout(() => {
-      ambientAnimationId = requestAnimationFrame(ambientStep);
-    }, delay);
-  }
+    // Signed distance (px) of a frame's center from the mask's center.
+    function getFrameOffsetFromCenter(frame) {
+      return getFrameCenterX(frame) - getMaskCenterX();
+    }
 
-  function animateToFrame(frame, duration = stepDuration, resumeDelay = 1200) {
-    if (!frame || isAnimating) return;
+    // Absolute translateX that lands `frame` exactly in the mask center,
+    function getTranslateForCenteredFrame(frame) {
+      return currentTranslateX + (getMaskCenterX() - getFrameCenterX(frame));
+    }
 
-    stopAmbientDrift();
-    isAnimating = true;
+    function getEquivalentCenteredTargets(frame) {
+      const base = getTranslateForCenteredFrame(frame);
+      return [base - singleSetWidth, base, base + singleSetWidth];
+    }
 
-    const targetIndex = getNormalizedIndex(frame);
-    const startX = currentTranslateX;
-    const targetX = getTranslateForCenteredFrame(frame);
-    const startTime = performance.now();
+    function getNearestTargetX(frame, fromX = currentTranslateX) {
+      const candidates = getEquivalentCenteredTargets(frame);
+      return candidates.reduce((best, x) => {
+        return Math.abs(x - fromX) < Math.abs(best - fromX) ? x : best;
+      });
+    }
 
-    function step(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
 
-      currentTranslateX = startX + (targetX - startX) * eased;
+    function getNormalizedIndex(frame) {
+      const indexedValue = Number(frame.dataset.index);
+      if (!Number.isNaN(indexedValue)) {
+        return ((indexedValue % gallery.length) + gallery.length) % gallery.length;
+      }
+
+      const allIndex = allFrames.indexOf(frame);
+      if (allIndex === -1) return 0;
+      return allIndex % gallery.length;
+    }
+
+    function getClosestFrameToCenter() {
+      let closestFrame = null;
+      let closestDistance = Infinity;
+
+      allFrames.forEach(frame => {
+        const distance = Math.abs(getFrameOffsetFromCenter(frame));
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestFrame = frame;
+        }
+      });
+
+      return closestFrame;
+    }
+
+    function getBestDuplicateForIndex(targetIndex, fromX = currentTranslateX) {
+      let bestFrame = null;
+      let bestDistance = Infinity;
+
+      allFrames.forEach(frame => {
+        if (getNormalizedIndex(frame) !== targetIndex) return;
+
+        const candidateTargetX = getNearestTargetX(frame, fromX);
+        const distance = Math.abs(candidateTargetX - fromX);
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestFrame = frame;
+        }
+      });
+
+      return bestFrame;
+    }
+
+    function settleCenteredIndex(targetIndex) {
+      const settledFrame = getBestDuplicateForIndex(targetIndex, currentTranslateX);
+      if (!settledFrame) return;
+
+      currentTranslateX = getNearestTargetX(settledFrame, currentTranslateX);
+      normalizePosition();
       applyTransform(currentTranslateX);
+    }
 
-      if (progress < 1) {
-        requestAnimationFrame(step);
+    function stopAmbientDrift() {
+      if (ambientAnimationId) cancelAnimationFrame(ambientAnimationId);
+      ambientAnimationId = null;
+      clearTimeout(resumeTimer);
+    }
+
+    function ambientStep() {
+      if (
+        document.body.classList.contains('lightbox-open') ||
+        isAnimating ||
+        isPointerDown
+      ) {
+        ambientAnimationId = requestAnimationFrame(ambientStep);
         return;
       }
 
-      currentTranslateX = targetX;
-      normalizePosition();
-      settleCenteredIndex(targetIndex);
-      isAnimating = false;
+      ambientTranslateX -= ambientSpeed;
 
-      if (!document.body.classList.contains('lightbox-open')) {
-        startAmbientDrift(resumeDelay);
+      // dumb seamless loop
+      if (ambientTranslateX <= ambientLoopMinX) {
+        ambientTranslateX += singleSetWidth;
       }
+
+      currentTranslateX = ambientTranslateX;
+      applyTransform(currentTranslateX);
+
+      ambientAnimationId = requestAnimationFrame(ambientStep);
     }
 
-    requestAnimationFrame(step);
-  }
+    function startAmbientDrift(delay = 0) {
+      stopAmbientDrift();
 
-  function centerFrame(frame, duration = stepDuration, resumeDelay = 1200) {
-    animateToFrame(frame, duration, resumeDelay);
-  }
+      // sync smart position into dumb slideshow
+      ambientTranslateX = currentTranslateX;
 
-  function moveByFrame(direction = 1) {
-    if (isAnimating) return;
-
-    const currentFrame = getClosestFrameToCenter();
-    const currentIndex = currentFrame ? getNormalizedIndex(currentFrame) : 0;
-    const targetIndex =
-      (currentIndex + direction + gallery.length) % gallery.length;
-
-    const targetFrame = getBestDuplicateForIndex(targetIndex);
-    if (!targetFrame) return;
-
-    centerFrame(targetFrame, stepDuration, 1200);
-  }
-
-  function initPosition() {
-    const firstFrame =
-      allFrames.find(frame => getNormalizedIndex(frame) === 0) || uniqueFrames[0];
-
-    currentTranslateX = getTranslateForCenteredFrame(firstFrame) - getTotalWidth();
-    normalizePosition();
-    settleCenteredIndex(0);
-  }
-
-  function resetPointerState() {
-    isPointerDown = false;
-    isDragging = false;
-    pressedFrame = null;
-    pointerId = null;
-    dragIntent = null;
-
-    requestAnimationFrame(() => {
-      suppressClick = false;
-    });
-  }
-
-  function endDrag(e) {
-    if (!isPointerDown) return;
-
-    const deltaX = e.clientX - dragStartX;
-    const absDeltaX = Math.abs(deltaX);
-
-    mask.classList.remove('is-dragging');
-
-    if (mask.releasePointerCapture && e?.pointerId != null) {
-      try {
-        mask.releasePointerCapture(e.pointerId);
-      } catch (_) {}
+      resumeTimer = setTimeout(() => {
+        ambientAnimationId = requestAnimationFrame(ambientStep);
+      }, delay);
     }
 
-    normalizePosition();
+    function animateToFrame(frame, duration = stepDuration, resumeDelay = 1200) {
+      if (!frame || isAnimating) return;
 
-    if (dragIntent === 'x' && isDragging) {
-      if (absDeltaX >= swipeThreshold) {
-        moveByFrame(deltaX < 0 ? 1 : -1);
-      } else {
-        const centeredFrame = getClosestFrameToCenter();
-        if (centeredFrame) {
-          centerFrame(centeredFrame, 180, 900);
-        } else if (!document.body.classList.contains('lightbox-open')) {
-          startAmbientDrift(900);
+      stopAmbientDrift();
+      isAnimating = true;
+
+      const targetIndex = getNormalizedIndex(frame);
+      const startX = currentTranslateX;
+      const targetFrame = getBestDuplicateForIndex(targetIndex, startX) || frame;
+      const targetX = getNearestTargetX(targetFrame, startX);
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        currentTranslateX = startX + (targetX - startX) * eased;
+        applyTransform(currentTranslateX);
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+          return;
+        }
+
+        currentTranslateX = targetX;
+        normalizePosition();
+        // Land on a whole pixel so the arrow-centered frame renders crisp and
+        // is reliably centered (sub-pixel transforms read as a slight offset).
+        currentTranslateX = Math.round(currentTranslateX);
+        applyTransform(currentTranslateX);
+        isAnimating = false;
+
+        if (!document.body.classList.contains('lightbox-open')) {
+          startAmbientDrift(resumeDelay);
         }
       }
 
-      resetPointerState();
-      return;
+      requestAnimationFrame(step);
     }
 
-    if (
-      pressedFrame &&
-      dragIntent !== 'y' &&
-      !document.body.classList.contains('lightbox-open')
-    ) {
-      openLightbox(gallery, getNormalizedIndex(pressedFrame), pressedFrame, null);
-      resetPointerState();
-      return;
+    function centerFrame(frame, duration = stepDuration, resumeDelay = 1200) {
+      animateToFrame(frame, duration, resumeDelay);
     }
 
-    if (!document.body.classList.contains('lightbox-open')) {
-      startAmbientDrift(900);
+    function moveByFrame(direction = 1) {
+      if (isAnimating) return;
+
+      const currentFrame = getClosestFrameToCenter();
+      const currentIndex = currentFrame ? getNormalizedIndex(currentFrame) : 0;
+      const targetIndex =
+        (currentIndex + direction + gallery.length) % gallery.length;
+
+      const targetFrame = getBestDuplicateForIndex(targetIndex);
+      if (!targetFrame) return;
+
+      centerFrame(targetFrame, stepDuration, 1200);
     }
 
-    resetPointerState();
-  }
+    function initPosition() {
+      measureTrack();
 
-  prevArrow?.addEventListener('click', () => {
-    moveByFrame(-1);
-  });
+      const firstFrame =
+        allFrames.find(frame => getNormalizedIndex(frame) === 0) || uniqueFrames[0];
 
-  nextArrow?.addEventListener('click', () => {
-    moveByFrame(1);
-  });
+      currentTranslateX =
+        getTranslateForCenteredFrame(firstFrame) - singleSetWidth;
 
-  shell?.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      moveByFrame(-1);
-    } else if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      moveByFrame(1);
-    }
-  });
+      // save actual seamless boundary
+      ambientLoopMinX = currentTranslateX - singleSetWidth;
 
-  mask.addEventListener('pointerdown', e => {
-    if (isAnimating) return;
-    if (e.button !== 0 && e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
-
-    isPointerDown = true;
-    isDragging = false;
-    suppressClick = false;
-
-    pointerId = e.pointerId;
-    pressedFrame = e.target.closest('.film-frame');
-
-    dragStartX = e.clientX;
-    dragStartY = e.clientY;
-    dragStartTranslateX = currentTranslateX;
-    dragIntent = null;
-
-    stopAmbientDrift();
-    mask.classList.add('is-dragging');
-
-    if (mask.setPointerCapture) {
-      try {
-        mask.setPointerCapture(e.pointerId);
-      } catch (_) {}
-    }
-  });
-
-  mask.addEventListener('pointermove', e => {
-    if (!isPointerDown) return;
-    if (pointerId != null && e.pointerId !== pointerId) return;
-
-    const deltaX = e.clientX - dragStartX;
-    const deltaY = e.clientY - dragStartY;
-
-    if (!dragIntent) {
-      if (
-        Math.abs(deltaX) < dragThreshold &&
-        Math.abs(deltaY) < dragThreshold
-      ) {
-        return;
-      }
-
-      dragIntent = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
+      normalizePosition();
+      settleCenteredIndex(0);
     }
 
-    if (dragIntent === 'y') {
+    function resetPointerState() {
+      isPointerDown = false;
       isDragging = false;
-      return;
+      pressedFrame = null;
+      pointerId = null;
+      dragIntent = null;
+
+      requestAnimationFrame(() => {
+        suppressClick = false;
+      });
     }
 
-    isDragging = true;
-    suppressClick = true;
-    currentTranslateX = dragStartTranslateX + deltaX;
-    normalizePosition();
-    applyTransform(currentTranslateX);
-
-    e.preventDefault();
-  });
-
-  mask.addEventListener('pointerup', endDrag);
-
-  mask.addEventListener('pointercancel', () => {
-    mask.classList.remove('is-dragging');
-
-    if (!document.body.classList.contains('lightbox-open')) {
-      startAmbientDrift(900);
-    }
-
-    resetPointerState();
-  });
-
-  mask.addEventListener('mouseenter', stopAmbientDrift);
-  mask.addEventListener('mouseleave', () => {
-    if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
-      startAmbientDrift(500);
-    }
-  });
-
-  track.addEventListener('dragstart', e => e.preventDefault());
-
-  uniqueFrames.forEach((frame, index) => {
-    frame.addEventListener('click', e => {
-      if (suppressClick) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
+    const filmController = {
+      pause() {
+        stopAmbientDrift();
+      },
+      resume(delay = 900) {
+        if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
+          startAmbientDrift(delay);
+        }
       }
-
-      e.preventDefault();
-      e.stopPropagation();
-      openLightbox(gallery, index, frame, null);
-    });
-
-    frame.addEventListener('keydown', e => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      e.preventDefault();
-      openLightbox(gallery, index, frame, null);
-    });
-  });
-
-  window.addEventListener('resize', () => {
-    const centeredFrame = getClosestFrameToCenter();
-    const centeredIndex = centeredFrame ? getNormalizedIndex(centeredFrame) : 0;
-    settleCenteredIndex(centeredIndex);
-  });
-
-  requestAnimationFrame(() => {
-    initPosition();
-    startAmbientDrift(1200);
-  });
-}
-function initSlideGallery(track) {
-  const shell = track.closest('.slide-gallery-shell');
-  const viewport = shell?.querySelector('.slide-gallery-viewport');
-  const indicators = shell?.querySelector('.slide-gallery-indicators');
-  const frames = [...track.querySelectorAll('.slide-frame')];
-  const dots = indicators ? [...indicators.querySelectorAll('.slide-dot')] : [];
-
-  if (!frames.length) return;
-
-  const gallery = frames.map(frame => {
-    const img = frame.querySelector('img');
-    return {
-      src: frame.dataset.full || img?.getAttribute('src') || '',
-      alt: img?.getAttribute('alt') || '',
-      caption: frame.dataset.caption || img?.getAttribute('alt') || ''
     };
-  });
 
-  let currentSlide = 0;
-  let autoplayId = null;
+    function endDrag(e) {
+      if (!isPointerDown) return;
 
-  let isPointerDown = false;
-  let isDragging = false;
-  let suppressClick = false;
-  let dragStartX = 0;
-  let dragStartY = 0;
-  let dragIntent = null;
+      mask.classList.remove('is-dragging');
 
-  const dragThreshold = 8;
-  const swipeThreshold = 50;
+      if (mask.releasePointerCapture && e?.pointerId != null) {
+        try {
+          mask.releasePointerCapture(e.pointerId);
+        } catch (_) { }
+      }
 
-  const gestureEl = viewport || track;
-  if (!gestureEl) return;
+      normalizePosition();
+      applyTransform(currentTranslateX);
 
-  gestureEl.style.touchAction = 'pan-y';
+      if (dragIntent === 'x' && isDragging) {
+        if (!document.body.classList.contains('lightbox-open')) {
+          startAmbientDrift(1400);
+        }
 
-  function updateSlides() {
-    const total = frames.length;
+        resetPointerState();
+        return;
+      }
 
-    frames.forEach((frame, i) => {
-      frame.classList.remove('is-prev', 'is-center', 'is-next');
+      if (
+        pressedFrame &&
+        dragIntent !== 'y' &&
+        !document.body.classList.contains('lightbox-open')
+      ) {
+        openLightbox(
+          gallery,
+          getNormalizedIndex(pressedFrame),
+          pressedFrame,
+          filmController
+        );
+        resetPointerState();
+        return;
+      }
 
-      if (i === currentSlide) {
-        frame.classList.add('is-center');
-      } else if (i === (currentSlide - 1 + total) % total) {
-        frame.classList.add('is-prev');
-      } else if (i === (currentSlide + 1) % total) {
-        frame.classList.add('is-next');
+      if (!document.body.classList.contains('lightbox-open')) {
+        startAmbientDrift(900);
+      }
+
+      resetPointerState();
+    }
+
+    prevArrow?.addEventListener('click', () => {
+      moveByFrame(-1);
+    });
+
+    nextArrow?.addEventListener('click', () => {
+      moveByFrame(1);
+    });
+
+    shell?.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        moveByFrame(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        moveByFrame(1);
       }
     });
 
-    dots.forEach((dot, i) => {
-      const active = i === currentSlide;
-      dot.classList.toggle('is-active', active);
-      dot.setAttribute('aria-current', active ? 'true' : 'false');
-    });
-  }
+    mask.addEventListener('pointerdown', e => {
+      if (isAnimating) return;
+      if (e.button !== 0 && e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
 
-  function goToSlide(index) {
-    currentSlide = (index + frames.length) % frames.length;
-    updateSlides();
-  }
-
-  function goNext() {
-    goToSlide(currentSlide + 1);
-  }
-
-  function startAutoplay() {
-    stopAutoplay();
-    autoplayId = setInterval(() => {
-      if (document.body.classList.contains('lightbox-open')) return;
-      if (isPointerDown) return;
-      goNext();
-    }, 5000);
-  }
-
-  function stopAutoplay() {
-    if (autoplayId) clearInterval(autoplayId);
-    autoplayId = null;
-  }
-
-  gestureEl.addEventListener('pointerdown', e => {
-    if (e.button !== 0 && e.pointerType !== 'touch') return;
-
-    const frame = e.target.closest('.slide-frame');
-    if (!frame || !track.contains(frame)) return;
-
-    isPointerDown = true;
-    isDragging = false;
-    suppressClick = false;
-    dragStartX = e.clientX;
-    dragStartY = e.clientY;
-    dragIntent = null;
-
-    stopAutoplay();
-  });
-
-  gestureEl.addEventListener('pointermove', e => {
-    if (!isPointerDown) return;
-
-    const dx = e.clientX - dragStartX;
-    const dy = e.clientY - dragStartY;
-
-    if (!dragIntent) {
-      if (Math.abs(dx) < dragThreshold && Math.abs(dy) < dragThreshold) return;
-      dragIntent = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-    }
-
-    if (dragIntent === 'y') return;
-
-    if (Math.abs(dx) >= dragThreshold) {
-      isDragging = true;
-      e.preventDefault();
-    }
-  });
-
-  function endPointer(e) {
-    if (!isPointerDown) return;
-
-    const dx = e.clientX - dragStartX;
-
-    if (dragIntent === 'x' && Math.abs(dx) >= swipeThreshold) {
-      suppressClick = true;
-
-      if (dx < 0) {
-        goToSlide(currentSlide + 1);
-      } else {
-        goToSlide(currentSlide - 1);
-      }
-    }
-
-    isPointerDown = false;
-    isDragging = false;
-    dragIntent = null;
-
-    setTimeout(() => {
+      isPointerDown = true;
+      isDragging = false;
       suppressClick = false;
-    }, 0);
 
-    if (!document.body.classList.contains('lightbox-open')) {
-      startAutoplay();
-    }
-  }
+      pointerId = e.pointerId;
+      pressedFrame = e.target.closest('.film-frame');
 
-  gestureEl.addEventListener('pointerup', endPointer);
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      dragStartTranslateX = currentTranslateX;
+      dragIntent = null;
 
-  gestureEl.addEventListener('pointercancel', () => {
-    isPointerDown = false;
-    isDragging = false;
-    dragIntent = null;
-    suppressClick = false;
+      stopAmbientDrift();
+      mask.classList.add('is-dragging');
 
-    if (!document.body.classList.contains('lightbox-open')) {
-      startAutoplay();
-    }
-  });
+      if (mask.setPointerCapture) {
+        try {
+          mask.setPointerCapture(e.pointerId);
+        } catch (_) { }
+      }
+    });
 
-  frames.forEach((frame, index) => {
-    frame.addEventListener('click', e => {
-      if (suppressClick) {
+    mask.addEventListener('pointermove', e => {
+      if (!isPointerDown) return;
+      if (pointerId != null && e.pointerId !== pointerId) return;
+
+      const deltaX = e.clientX - dragStartX;
+      const deltaY = e.clientY - dragStartY;
+
+      if (!dragIntent) {
+        if (
+          Math.abs(deltaX) < dragThreshold &&
+          Math.abs(deltaY) < dragThreshold
+        ) {
+          return;
+        }
+
+        dragIntent = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
+      }
+
+      if (dragIntent === 'y') {
+        isDragging = false;
+        return;
+      }
+
+      isDragging = true;
+      suppressClick = true;
+      currentTranslateX = dragStartTranslateX + deltaX;
+      normalizePosition();
+      applyTransform(currentTranslateX);
+
+      e.preventDefault();
+    });
+
+    mask.addEventListener('pointerup', endDrag);
+
+    mask.addEventListener('pointercancel', () => {
+      mask.classList.remove('is-dragging');
+
+      if (!document.body.classList.contains('lightbox-open')) {
+        startAmbientDrift(900);
+      }
+
+      resetPointerState();
+    });
+
+    mask.addEventListener('mouseenter', stopAmbientDrift);
+    mask.addEventListener('mouseleave', () => {
+      if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
+        startAmbientDrift(500);
+      }
+    });
+
+    track.addEventListener('dragstart', e => e.preventDefault());
+
+    uniqueFrames.forEach((frame, index) => {
+      frame.addEventListener('click', e => {
+        if (suppressClick) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+
         e.preventDefault();
         e.stopPropagation();
-        return;
-      }
+        openLightbox(gallery, index, frame, filmController);
+      });
 
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (frame.classList.contains('is-center')) {
-        openLightbox(gallery, index, frame, null);
-        return;
-      }
-
-      if (frame.classList.contains('is-prev')) {
-        goToSlide(currentSlide - 1);
-        return;
-      }
-
-      if (frame.classList.contains('is-next')) {
-        goToSlide(currentSlide + 1);
-      }
+      frame.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        openLightbox(gallery, index, frame, filmController);
+      });
     });
 
-    frame.addEventListener('keydown', e => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-
-      e.preventDefault();
-
-      if (frame.classList.contains('is-center')) {
-        openLightbox(gallery, index, frame, null);
-        return;
-      }
-
-      if (frame.classList.contains('is-prev')) {
-        goToSlide(currentSlide - 1);
-        return;
-      }
-
-      if (frame.classList.contains('is-next')) {
-        goToSlide(currentSlide + 1);
-      }
+    window.addEventListener('resize', () => {
+      measureTrack();
+      const centeredFrame = getClosestFrameToCenter();
+      const centeredIndex = centeredFrame ? getNormalizedIndex(centeredFrame) : 0;
+      settleCenteredIndex(centeredIndex);
     });
-  });
 
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', e => {
-      e.preventDefault();
-      goToSlide(index);
+    window.addEventListener('load', () => {
+      initPosition();
+      startAmbientDrift(1200);
     });
-  });
+  }
 
-  track.addEventListener('mouseenter', stopAutoplay);
-  track.addEventListener('mouseleave', () => {
-    if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
-      startAutoplay();
+  function initSlideGallery(track) {
+    const shell = track.closest('.slide-gallery-shell');
+    const viewport = shell?.querySelector('.slide-gallery-viewport');
+    const indicators = shell?.querySelector('.slide-gallery-indicators');
+    const frames = [...track.querySelectorAll('.slide-frame')];
+    const dots = indicators ? [...indicators.querySelectorAll('.slide-dot')] : [];
+
+    if (!frames.length) return;
+
+    const gallery = frames.map(frame => {
+      const img = frame.querySelector('img');
+      return {
+        src: frame.dataset.full || img?.getAttribute('src') || '',
+        alt: img?.getAttribute('alt') || '',
+        caption: frame.dataset.caption || img?.getAttribute('alt') || ''
+      };
+    });
+
+    let currentSlide = 0;
+    let autoplayId = null;
+    let shiftTimer = null;
+    let isShifting = false;
+
+    let isPointerDown = false;
+    let isDragging = false;
+    let suppressClick = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragIntent = null;
+
+    const dragThreshold = 8;
+    const swipeThreshold = 50;
+    const gestureEl = viewport || track;
+    if (!gestureEl) return;
+
+    gestureEl.style.touchAction = 'pan-y';
+
+    function armCenterZoom() {
+      frames.forEach(frame => frame.classList.remove('can-zoom'));
+      const centerFrame = frames[currentSlide];
+      if (centerFrame) centerFrame.classList.add('can-zoom');
     }
-  });
 
-  updateSlides();
-  startAutoplay();
-}
+    function beginShift() {
+      isShifting = true;
+      track.classList.add('is-shifting');
+      frames.forEach(frame => frame.classList.remove('can-zoom'));
+      clearTimeout(shiftTimer);
+    }
+
+    function endShift() {
+      isShifting = false;
+      track.classList.remove('is-shifting');
+      armCenterZoom();
+    }
+
+    function updateSlides() {
+      const total = frames.length;
+
+      frames.forEach((frame, i) => {
+        frame.classList.remove('is-prev', 'is-center', 'is-next');
+
+        if (i === currentSlide) {
+          frame.classList.add('is-center');
+        } else if (i === (currentSlide - 1 + total) % total) {
+          frame.classList.add('is-prev');
+        } else if (i === (currentSlide + 1) % total) {
+          frame.classList.add('is-next');
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        const active = i === currentSlide;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    }
+
+    function goToSlide(index) {
+      const nextSlide = (index + frames.length) % frames.length;
+      if (nextSlide === currentSlide) return;
+
+      beginShift();
+      currentSlide = nextSlide;
+      updateSlides();
+
+      shiftTimer = setTimeout(() => {
+        endShift();
+      }, 500);
+    }
+
+    function goNext() {
+      goToSlide(currentSlide + 1);
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayId = setInterval(() => {
+        if (document.body.classList.contains('lightbox-open')) return;
+        if (isPointerDown) return;
+        if (isShifting) return;
+        goNext();
+      }, 5000);
+    }
+
+    function stopAutoplay() {
+      if (autoplayId) clearInterval(autoplayId);
+      autoplayId = null;
+    }
+
+    gestureEl.addEventListener('pointerdown', e => {
+      if (e.button !== 0 && e.pointerType !== 'touch') return;
+
+      const frame = e.target.closest('.slide-frame');
+      if (!frame || !track.contains(frame)) return;
+
+      isPointerDown = true;
+      isDragging = false;
+      suppressClick = false;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      dragIntent = null;
+
+      stopAutoplay();
+    });
+
+    gestureEl.addEventListener('pointermove', e => {
+      if (!isPointerDown) return;
+
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+
+      if (!dragIntent) {
+        if (Math.abs(dx) < dragThreshold && Math.abs(dy) < dragThreshold) return;
+        dragIntent = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      }
+
+      if (dragIntent === 'y') return;
+
+      if (Math.abs(dx) >= dragThreshold) {
+        isDragging = true;
+        e.preventDefault();
+      }
+    });
+
+    function endPointer(e) {
+      if (!isPointerDown) return;
+
+      const dx = e.clientX - dragStartX;
+
+      if (dragIntent === 'x' && Math.abs(dx) >= swipeThreshold) {
+        suppressClick = true;
+
+        if (dx < 0) {
+          goToSlide(currentSlide + 1);
+        } else {
+          goToSlide(currentSlide - 1);
+        }
+      }
+
+      isPointerDown = false;
+      isDragging = false;
+      dragIntent = null;
+
+      setTimeout(() => {
+        suppressClick = false;
+      }, 0);
+
+      if (!document.body.classList.contains('lightbox-open')) {
+        startAutoplay();
+      }
+    }
+
+    gestureEl.addEventListener('pointerup', endPointer);
+
+    gestureEl.addEventListener('pointercancel', () => {
+      isPointerDown = false;
+      isDragging = false;
+      dragIntent = null;
+      suppressClick = false;
+
+      if (!document.body.classList.contains('lightbox-open')) {
+        startAutoplay();
+      }
+    });
+
+    frames.forEach((frame, index) => {
+      frame.addEventListener('click', e => {
+        if (suppressClick || isShifting) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (frame.classList.contains('is-center')) {
+          openLightbox(gallery, index, frame, null);
+          return;
+        }
+
+        if (frame.classList.contains('is-prev')) {
+          goToSlide(currentSlide - 1);
+          return;
+        }
+
+        if (frame.classList.contains('is-next')) {
+          goToSlide(currentSlide + 1);
+        }
+      });
+
+      frame.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+
+        e.preventDefault();
+
+        if (isShifting) return;
+
+        if (frame.classList.contains('is-center')) {
+          openLightbox(gallery, index, frame, null);
+          return;
+        }
+
+        if (frame.classList.contains('is-prev')) {
+          goToSlide(currentSlide - 1);
+          return;
+        }
+
+        if (frame.classList.contains('is-next')) {
+          goToSlide(currentSlide + 1);
+        }
+      });
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', e => {
+        e.preventDefault();
+        if (isShifting) return;
+        goToSlide(index);
+      });
+    });
+
+    track.addEventListener('mouseenter', stopAutoplay);
+    track.addEventListener('mouseleave', () => {
+      if (!isPointerDown && !document.body.classList.contains('lightbox-open')) {
+        startAutoplay();
+      }
+    });
+
+    updateSlides();
+    armCenterZoom();
+    startAutoplay();
+  }
+
   prevBtn.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();
@@ -826,22 +920,21 @@ function initSlideGallery(track) {
   });
 
   document.querySelectorAll('.carousel').forEach((carouselEl) => {
-  const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carouselEl, {
-    interval: Number(carouselEl.dataset.bsInterval) || 5000,
-    ride: 'carousel',
-    pause: false,
-    touch: true,
-    wrap: true
+    const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carouselEl, {
+      interval: Number(carouselEl.dataset.bsInterval) || 5000,
+      ride: 'carousel',
+      pause: false,
+      touch: true,
+      wrap: true
+    });
+
+    carouselInstance.cycle();
+    syncBootstrapThumbs(carouselEl);
+    initBootstrapCarouselLightbox(carouselEl);
   });
 
-  carouselInstance.cycle();
-  syncBootstrapThumbs(carouselEl);
-  initBootstrapCarouselLightbox(carouselEl);
-});
-
-
-initStaticLightboxGallery('.scraps-doc-trigger');
-document.querySelectorAll('.film-strip-track').forEach(initFilmGallery);
-document.querySelectorAll('.slide-gallery-track').forEach(initSlideGallery);
+  initStaticLightboxGallery('.scraps-doc-trigger');
+  document.querySelectorAll('.film-strip-track').forEach(initFilmGallery);
+  document.querySelectorAll('.slide-gallery-track').forEach(initSlideGallery);
 
 });

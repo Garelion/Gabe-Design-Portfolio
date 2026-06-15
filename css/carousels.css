@@ -1,3 +1,10 @@
+/* ===============
+   CAROUSELS.CSS
+================== */
+
+
+/* #region Project / Bootstrap Carousel */
+
 .project-media,
 .project-carousel {
     max-width: 640px;
@@ -25,7 +32,6 @@
     width: 100%;
     height: 100%;
 }
-
 
 /* Dot indicators */
 .project-carousel .simple-carousel-indicators {
@@ -59,13 +65,9 @@ button.carousel-control-next {
     padding-left: 0.5rem;
 }
 
-
 .bottom-border-teal {
     border-bottom: 2px solid var(--teal-ink);
 }
-
-
-
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
@@ -82,12 +84,9 @@ button.carousel-control-next {
     padding-left: 0.5rem;
 }
 
-
 .bottom-border-teal {
     border-bottom: 2px solid var(--teal-ink);
 }
-
-
 
 .project-carousel .carousel-item {
     height: 100%;
@@ -137,11 +136,10 @@ button.carousel-control-next {
     line-height: 1.4;
 }
 
-.simple-carousel-indicators [data-bs-target]{
+.simple-carousel-indicators [data-bs-target] {
     height: 10px;
-    width: 10px;;
+    width: 10px;
 }
-
 
 .carousel-image-wrapper:hover .carousel-caption-hover {
     transform: translateY(0);
@@ -176,10 +174,7 @@ button.carousel-control-next {
 .carousel-indicators-outside button.active {
     opacity: 1;
     background-color: var(--text-light);
-    
 }
-
-
 
 .project-carousel .carousel-control-prev,
 .project-carousel .carousel-control-next {
@@ -187,14 +182,13 @@ button.carousel-control-next {
     top: 50%;
     transform: translateY(-50%);
     height: 40%;
-    width: 5.5%;        
+    width: 5.5%;
     opacity: 0.6;
     align-items: center;
     justify-content: center;
     display: flex;
     padding: 0;
 }
-
 
 .project-carousel .carousel-control-prev {
     left: 0;
@@ -204,17 +198,65 @@ button.carousel-control-next {
     right: 0;
 }
 
-
 .project-carousel .carousel-control-prev:hover,
 .project-carousel .carousel-control-next:hover {
     opacity: 1;
 }
 
+/* Bootstrap carousel images that open the lightbox */
+#islandCarousel .carousel-item img,
+#scrapsCarousel .carousel-item img {
+    cursor: pointer;
+}
+
+/* #endregion */
 
 
+/* #region Carousel Thumbnails */
 
-/* Start of newest carousels css */
+.carousel-thumb {
+    width: 80px;
+    height: 60px;
+    border: 2px solid var(--teal-ink);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    transition: border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    opacity: 0.5;
+}
 
+.carousel-thumb.active {
+    border-color: var(--primary-orange);
+    opacity: 1;
+}
+
+.carousel-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-thumb:hover {
+    border-color: var(--easter-green);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    .carousel-thumb {
+        width: 85px;
+        height: 65px;
+    }
+}
+
+/* #endregion */
+
+
+/* #region Slide Gallery (Coverflow) */
+
+/* Section header + static doc triggers */
 .gallery-label {
     margin: 0;
     letter-spacing: 0.3em;
@@ -233,10 +275,8 @@ button.carousel-control-next {
     width: 100%;
     padding: 0.65rem 1rem;
     background: rgba(0, 28, 35, 0.45);
-    border: 0.09rem solid #007D5865; 
-    
+    border: 0.09rem solid #007D5865;
 }
-
 
 .scraps-doc-trigger {
     width: 100%;
@@ -256,50 +296,7 @@ button.carousel-control-next {
     border-radius: 0.75rem;
 }
 
-
-    .carousel-thumb {
-        width: 80px;
-        height: 60px;
-        border: 2px solid var(--teal-ink);
-        border-radius: 2px;
-        overflow: hidden;
-        cursor: pointer;
-        padding: 0;
-        transition: border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        opacity: 0.5;
-    }
-
-    .carousel-thumb.active {
-        border-color: var(--primary-orange);
-        opacity: 1;
-    }
-
-    .carousel-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .carousel-thumb:hover {
-        border-color: var(--easter-green);
-        opacity: 1;
-        transform: scale(1.05);
-    }
-
-    @media (max-width: 600px) {
-        .carousel-thumb {
-            width: 85px;
-            height: 65px;
-        }
-    }
-
-#islandCarousel .carousel-item img,
-#scrapsCarousel .carousel-item img {
-    cursor: pointer;
-}
-
-
+/* Shell / viewport / track */
 .slide-gallery-shell {
     position: relative;
 }
@@ -354,36 +351,37 @@ button.carousel-control-next {
 .slide-gallery-shell,
 .slide-gallery-viewport,
 .slide-gallery-track {
-  position: relative;
+    position: relative;
 }
 
 .slide-gallery-viewport::before,
 .slide-gallery-viewport::after {
-  pointer-events: none;
+    pointer-events: none;
 }
 
+/* Slide frames */
 .slide-frame {
-  position: absolute;
-  pointer-events: none;
+    position: absolute;
+    pointer-events: none;
 }
 
 .slide-frame.is-prev,
 .slide-frame.is-next,
 .slide-frame.is-center {
-  pointer-events: auto;
+    pointer-events: auto;
 }
 
 .slide-frame.is-center {
-  z-index: 30;
+    z-index: 30;
 }
 
 .slide-frame.is-prev,
 .slide-frame.is-next {
-  z-index: 20;
+    z-index: 20;
 }
 
 .slide-frame img {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 /* Horizontal version of slide frames (for Lights Out) */
@@ -427,7 +425,7 @@ button.carousel-control-next {
 .slide-frame img {
     width: 100%;
     height: 100%;
-    object-fit: cover;      /* change to contain if you want full model visible */
+    object-fit: cover; /* change to contain if you want full model visible */
     object-position: center top;
     display: block;
     transition: transform 0.35s ease, opacity 0.35s ease;
@@ -444,9 +442,13 @@ button.carousel-control-next {
     filter: none;
 }
 
-.slide-frame.is-center:hover{
-    border-color: var(--lime-green);
+/* Only the settled center slide can show zoom cursor */
+.slide-frame.is-center.can-zoom:hover {
     cursor: url("/assets/cursor-zoom-in.svg") 8 8, zoom-in;
+}
+
+.slide-frame.is-center:hover {
+    border-color: var(--lime-green);
 }
 
 /* Left */
@@ -471,13 +473,11 @@ button.carousel-control-next {
 
 .slide-frame.is-prev:hover {
     opacity: 1;
-
     border-color: var(--lime-green);
 }
 
 .slide-frame.is-next:hover {
     opacity: 1;
-
     border-color: var(--lime-green);
 }
 
@@ -496,8 +496,6 @@ button.carousel-control-next {
     transition: none !important;
 }
 
-
-
 body.lightbox-open .slide-frame img,
 body.lightbox-open .slide-frame:hover img,
 body.lightbox-open .slide-frame:focus-visible img {
@@ -509,6 +507,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     outline-offset: 4px;
 }
 
+/* Indicators / dots */
 .slide-gallery-indicators {
     display: flex;
     justify-content: center;
@@ -541,20 +540,21 @@ body.lightbox-open .slide-frame:focus-visible img {
     transform: scale(1.2);
 }
 
-.slide-dot.is-active, .slide-dot[aria-current="true"],
+.slide-dot.is-active,
+.slide-dot[aria-current="true"],
 .carousel-indicators-outside .active {
     /* background: var(--primary-orange); */
     border-color: var(--primary-orange);
     opacity: 1;
 }
 
+/* #endregion */
 
 
+/* #region Film Strip Carousel */
 
-/* Film strip styles */
 .film-strip-shell {
-  position: relative;
-
+    position: relative;
 }
 
 .film-strip-shell::before,
@@ -581,31 +581,34 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 /* scroll container */
 .film-strip-mask {
-  position: relative;
-  z-index: 1;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 1.1rem 1rem;
-  cursor: grab;
-  touch-action: pan-y;
+    position: relative;
+    z-index: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 1.1rem 1rem;
+    cursor: grab;
+    touch-action: pan-y;
 }
 
 .film-strip-mask::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .film-strip-track {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: max-content;
-  user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: max-content;
+    user-select: none;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .film-strip-mask.is-dragging {
-  cursor: grabbing;
+    cursor: grabbing;
 }
 
 .film-carousel-controls {
@@ -665,315 +668,141 @@ body.lightbox-open .slide-frame:focus-visible img {
 }
 
 .film-frame img {
-  display: block;
-  pointer-events: none;
-  user-select: none;
+    display: block;
+    pointer-events: none;
+    user-select: none;
 }
 
-/* #region >> Custom Slider <<<  */
-    .film-strip-slider {
-        width: 100%;
-        margin-top: 0.7rem;
-    }
-
-.film-strip-slider.gradient-slider {
-    --track-h: 1rem;
-    --thumb-size: 1rem;
-    --progress: 0%;
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: var(--thumb-size);
-    background: transparent;
-    cursor: pointer;
-}
-
-/* ---------- Webkit ---------- */
-.film-strip-slider.gradient-slider::-webkit-slider-runnable-track {
-    height: var(--track-h);
-    border-radius: 100px;
-    border: 2px solid var(--teal-ink);
-
-    background:
-        linear-gradient(
-            to right,
-            transparent 0%,
-            transparent var(--progress),
-            var(--teal-ink)
-            var(--progress),
-            var(--teal-ink) 100%
-        ),
-        linear-gradient(
-            to right,
-            var(--blood-orange) 0%,
-            var(--primary-orange) 16%,
-            var(--lime-green) 48%,
-            var(--primary-green) 100%
-        );
-}
-
-
-/* Thumb */
-.film-strip-slider.gradient-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    margin-top: calc((var(--track-h) - var(--thumb-size)) / 2 - 1px);
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    border-radius: 50%;
-    background: white;
-    border: 1px solid rgba(0,0,0,0.15);
-    box-shadow:
-        0 1px 4px rgba(0,0,0,0.25);
-}
-
-/* ---------- Firefox ---------- */
-.film-strip-slider.gradient-slider::-moz-range-track {
-    height: var(--track-h);
-    border-radius: 999px;
-    border: 2px solid var(--teal-ink);
-    background: var(--track-cover);
-}
-
-.film-strip-slider.gradient-slider::-moz-range-progress {
-    height: var(--track-h);
-    border-radius: 999px;
-
-    background: var(--track-fill);
-}
-
-/* Firefox thumb */
-.film-strip-slider.gradient-slider::-moz-range-thumb {
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    border-radius: 50%;
-
-    background: white;
-    border: 1px solid rgba(0,0,0,0.15);
-    box-shadow:
-        0 1px 4px rgba(0,0,0,0.25);
-}
-
-
-@media (max-width: 999px) {
-    .film-strip-slider {
-        margin-top: 0.5rem;
-    }
-
-    .film-strip-slider.gradient-slider {
-        --track-h: 0.75rem;
-        --thumb-size: 0.75rem;
-        height: var(--thumb-size);
-        padding: 0;
-    }
-
-    .film-strip-slider.gradient-slider::-webkit-slider-runnable-track,
-    .film-strip-slider.gradient-slider::-moz-range-track {
-        border-width: 1.5px;
-    }
-
-    .film-strip-slider.gradient-slider::-webkit-slider-runnable-track {
-        height: var(--track-h);
-    }
-
-    .film-strip-slider.gradient-slider::-webkit-slider-thumb {
-        width: var(--thumb-size);
-        height: var(--thumb-size);
-        margin-top: -1.5px;
-    }
-
-    .film-strip-slider.gradient-slider::-moz-range-track,
-    .film-strip-slider.gradient-slider::-moz-range-progress {
-        height: var(--track-h);
-    }
-
-    .film-strip-slider.gradient-slider::-moz-range-thumb {
-        width: var(--thumb-size);
-        height: var(--thumb-size);
-    }
-}
-
-/* ---------- Slider styles end ---------- */
-/* #endregion                              */
-
-
-/* #region  ─── Film Strip Carousel ───   */
-    .film-roll-wrapper {
+/* ─── Film Strip Carousel (refined definitions) ─── */
+.film-roll-wrapper {
     width: 100%;
     padding: 1rem 0;
-    }
+}
 
 .film-strip-shell {
-  position: relative;
-  width: 100%;
+    position: relative;
+    width: 100%;
 }
 
 .film-strip-mask {
-  overflow: hidden;
-  width: 100%;
-  position: relative;
-  /* Hide scrollbar for transform-based animation */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    /* Hide scrollbar for transform-based animation */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .film-strip-mask::-webkit-scrollbar {
-  display: none;
-}
-
-.film-strip-track {
-  display: flex;
-  gap: 1rem;
-  /* Use transform for smooth animation - will-change hints to browser */
-  will-change: transform;
-  /* Prevent layout shift during transform */
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+    display: none;
 }
 
 .film-strip-mask.is-dragging {
-  cursor: grabbing;
+    cursor: grabbing;
 }
 
 .film-strip-mask.is-dragging .film-frame {
-  cursor: grabbing;
+    cursor: grabbing;
 }
 
 /* ─── Film Frame ─── */
 .film-frame {
-  flex-shrink: 0;
-  width: 280px;
-  aspect-ratio: 4 / 3;
-  border: none;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+    width: 280px;
+    aspect-ratio: 4 / 3;
+    border: none;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .film-frame:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .film-frame:focus-visible {
-  outline: 2px solid var(--blood-orange, #dd460b);
-  outline-offset: 3px;
+    outline: 2px solid var(--blood-orange, #dd460b);
+    outline-offset: 3px;
 }
 
 .film-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 /* ─── Film Carousel Controls ─── */
 .film-carousel-controls {
-  display: flex;
-  justify-content: center;
-  gap: 18rem;
+    display: flex;
+    justify-content: center;
+    gap: 18rem;
 }
 
 .film-arrow {
-  width: 48px;
-  height: 48px;
-  border: 2px solid var(--easter-green, #a4df56cc);
-  border-radius: 999px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--easter-green, #a4df56cc);
+    border-radius: 999px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-background: var(--primary-green);
+    background: var(--primary-green);
 
-/*   background: linear-gradient(
-    -60deg,
-    rgba(221, 70, 11, 1) 0%,
-    rgba(255, 133, 33, 1) 25%,
-    rgba(215, 226, 60, 1) 50%,
-    rgba(164, 223, 86, 1) 75%,
-    rgba(60, 183, 109, 1) 100%
-  );  
-  
-  
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.18),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    filter 0.18s ease;
-
-    */
+    box-shadow:
+        0 6px 10px rgba(0, 0, 0, 0.18),
+        inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .film-arrow:hover {
-  transform: translateY(-2px) scale(1.05);
-  filter: brightness(1.08);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px) scale(1.05);
+    filter: brightness(1.08);
+    box-shadow:
+        0 6px 12px rgba(0,0,0,.20),
+        inset 0 1px 1px rgba(255,255,255,.12);
 }
 
 .film-arrow:active {
-  transform: scale(0.94);
+    transform: scale(0.94);
 }
 
 .film-arrow:focus-visible {
-  outline: 2px solid white;
-  outline-offset: 3px;
+    outline: 2px solid white;
+    outline-offset: 3px;
 }
 
 .film-arrow path {
-  width: 24px;
-  height: 24px;
-  stroke: var(--lime-green);
+    width: 24px;
+    height: 24px;
+    stroke: var(--lime-green);
     stroke-width: 2;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
-
-/* ─── Responsive ─── */
-
-
-
-
-
-
-
-@media (max-width: 480px) {
-  .film-frame {
-    width: 180px;
-  }
-  
-  .film-carousel-controls {
-    gap: 6rem;
-  }
-}
-
-
-/* #endregion */
-
-
 .film-strip-mask {
-  scroll-behavior: auto;
-  overscroll-behavior-x: contain;
+    scroll-behavior: auto;
+    overscroll-behavior-x: contain;
 }
 
 .film-strip-track {
-  will-change: contents;
+    will-change: contents;
 }
 
 .film-strip-mask.is-dragging .film-frame {
-  pointer-events: none;
+    pointer-events: none;
 }
-
 
 /* Film frames */
 .film-frame {
@@ -1003,7 +832,6 @@ background: var(--primary-green);
     transition: opacity 0.2s ease;
 }
 
-
 .film-frame:hover,
 .film-frame:focus-visible {
     border-color: var(--primary-orange);
@@ -1014,7 +842,6 @@ background: var(--primary-green);
     opacity: 0.96;
 }
 
-
 .film-strip-mask::selection {
     background: transparent;
 }
@@ -1024,9 +851,27 @@ background: var(--primary-green);
     to { transform: translateX(calc(-50% - 0.5rem)); }
 }
 
-/* ==============================
-   Responsive carousel galleries
-   ============================== */
+/* #endregion */
+
+
+/* ==================================
+   #region Responsive Adjustments
+===================================== */
+
+@media (max-width: 480px) {
+
+    /* #region Film strip */
+    .film-frame {
+        width: 180px;
+    }
+
+    .film-carousel-controls {
+        gap: 6rem;
+    }
+    /* #endregion */
+}
+
+
 @media (max-width: 1000px) and (min-width: 769px) {
 
     /* #region Slide gallery */
@@ -1051,9 +896,9 @@ background: var(--primary-green);
 }
 
 
-
 @media (max-width: 768px) {
-    /* #region Bootstrap / standard project carousels */
+
+    /* #region Project / Bootstrap Carousel */
     .project-media,
     .project-carousel {
         width: 100%;
@@ -1099,7 +944,10 @@ background: var(--primary-green);
         margin-top: 0.65rem;
         flex-wrap: wrap;
     }
+    /* #endregion */
 
+
+    /* #region Carousel Thumbnails */
     .carousel-thumb {
         width: clamp(58px, 18vw, 78px);
         height: clamp(44px, 14vw, 58px);
@@ -1208,7 +1056,7 @@ background: var(--primary-green);
     }
 
     .film-strip-shell::after {
-        right: calc(-0.25rem - 2px);
+        right: calc(-0.25rem + 4px);
         width: 8px;
     }
 
@@ -1237,17 +1085,26 @@ background: var(--primary-green);
     /* #endregion */
 }
 
+
 @media (max-width: 420px) {
+
+    /* #region Project / Bootstrap Carousel */
     .project-carousel .carousel-control-prev,
     .project-carousel .carousel-control-next {
         width: 8% !important;
     }
+    /* #endregion */
 
+
+    /* #region Carousel Thumbnails */
     .carousel-thumb {
         width: clamp(52px, 20vw, 68px);
         height: clamp(40px, 15vw, 52px);
     }
+    /* #endregion */
 
+
+    /* #region Slide gallery */
     .slide-gallery-track,
     .slide-gallery-track.wide {
         min-height: 260px;
@@ -1276,4 +1133,7 @@ background: var(--primary-green);
     .slide-frame.horizontal {
         width: min(78vw, 300px);
     }
+    /* #endregion */
 }
+
+/* #endregion */
