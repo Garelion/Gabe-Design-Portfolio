@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="magn"
+   width="20" height="20" viewBox="0 0 16.782457 16.780151"
+   fill="currentColor"
+   class="bi bi-search"
+   version="1.1"
+   sodipodi:docname="magn.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient5"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#6da496;stop-opacity:1;"
+         offset="0"
+         id="stop5" />
+      <stop
+         style="stop-color:#4d859f;stop-opacity:1;"
+         offset="1"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#457ea1;stop-opacity:1;"
+         offset="0"
+         id="stop3" />
+      <stop
+         style="stop-color:#74ab94;stop-opacity:1;"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient4"
+       x1="16.317608"
+       y1="7.9772196"
+       x2="-0.36646795"
+       y2="7.9772196"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0.26966506,0.2668643)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5"
+       id="linearGradient6"
+       x1="2.2"
+       y1="6.5"
+       x2="10.841726"
+       y2="6.5"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="51.88396"
+     inkscape:cx="3.5656492"
+     inkscape:cy="9.9452702"
+     inkscape:window-width="2560"
+     inkscape:window-height="1476"
+     inkscape:window-x="-12"
+     inkscape:window-y="-12"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="16.487314"
+       height="16.48501"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <circle
+     style="fill:#dfe6e9;fill-opacity:0.814208;stroke:none;stroke-width:0.961534;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+     id="path3"
+     cx="6.7625484"
+     cy="6.7627711"
+     inkscape:export-filename="..\Documents\VS Code\repos\gdesigner-portfolio\assets\cursor-zoom-in.svg"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96"
+     r="5.5"
+     sodipodi:insensitive="true" />
+  <path
+     d="m 12.011665,10.610864 a 6.5,6.5 0 1 0 -1.397,1.398 h -0.001 q 0.044,0.06 0.098,0.115 l 3.85,3.85 a 1.0002026,1.0002026 0 0 0 1.415,-1.414 l -3.85,-3.85 a 1,1 0 0 0 -0.115,-0.1 z m 0.258,-3.8439997 a 5.5,5.5 0 1 1 -10.9999999,0 5.5,5.5 0 0 1 10.9999999,0"
+     id="path1"
+     style="fill:url(#linearGradient4);fill-opacity:1;stroke:#001c23;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+     inkscape:export-filename="..\Documents\VS Code\repos\gdesigner-portfolio\assets\cursor-zoom-in.svg"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Layer 1"
+     transform="translate(0.26966506,0.2668643)">
+    <path
+       d="m 2.5,6.5 c 0,0 1.5,-2.75 4,-2.75 2.5,0 4,2.75 4,2.75 0,0 -1.5,2.75 -4,2.75 -2.5,0 -4,-2.75 -4,-2.75 m 4,1.75 a 1.75,1.75 0 1 0 0,-3.5 1.75,1.75 0 0 0 0,3.5"
+       id="path2"
+       style="fill:#001c23;fill-opacity:1;stroke:url(#linearGradient6);stroke-width:0.6;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
+    <path
+       d="m 7.75,6.5 a 1.25,1.25 0 1 1 -2.5,0 1.25,1.25 0 0 1 2.5,0"
+       id="path1-4"
+       style="fill:#001c23;fill-opacity:1;stroke:#f3f4f4;stroke-width:1;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
+  </g>
+</svg>
