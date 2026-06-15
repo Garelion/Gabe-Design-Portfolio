@@ -85,8 +85,6 @@ h4.hero-title {
 nav.navbar-main {
     display: flex;
     justify-content: center;
-    gap: 2.5rem;
-
     border-bottom: 2px solid var(--primary-green);
     font-family: 'Inter Tight', sans-serif;
     font-weight: 700;
@@ -94,6 +92,13 @@ nav.navbar-main {
     letter-spacing: 2px;
     padding-top: 0.5rem;
 }
+
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 
 nav.navbar-main a {
     color: var(--dark-emerald);
@@ -129,6 +134,10 @@ nav.navbar-main .sidebar-dropdown-toggle.active {
     background: var(--dark-emerald);
     border-color: var(--teal-ink-80);
     color: whitesmoke;
+}
+
+/* Only disable real page links */
+nav.navbar-main a.active {
     pointer-events: none;
     cursor: default;
 }
@@ -335,7 +344,7 @@ nav.navbar-main .sidebar-dropdown-toggle.active {
     }
 
     .desktop-nav {
-        display: none;
+         display: none; 
     }
 
     .mobile-sidebar * {
