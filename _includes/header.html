@@ -50,25 +50,29 @@
       </a>
 
       <div class="sidebar-dropdown">
-        <a href="#" class="sidebar-dropdown-toggle pe-2" aria-expanded="false">
-          <span>
-            <i class="bi bi-grid-fill me-2"></i>
-            WORKS
-          </span>
-          <i class="bi bi-chevron-down"></i>
-        </a>
+        <button
+  type="button"
+  class="sidebar-dropdown-toggle pe-2"
+  aria-expanded="false"
+  aria-controls="worksSubmenu">
+  <span>
+    <i class="bi bi-grid-fill me-2"></i>
+    WORKS
+  </span>
+  <i class="bi bi-chevron-down"></i>
+</button>
 
-        <div class="sidebar-dropdown-menu">
-          <a href="{{ '/professional/' | relative_url }}">
-            <i class="bi bi-briefcase-fill me-2"></i>
-            Professional
-          </a>
+<div class="sidebar-dropdown-menu" id="worksSubmenu">
+  <a href="{{ '/professional/' | relative_url }}">
+    <i class="bi bi-briefcase-fill me-2"></i>
+    Professional
+  </a>
 
-          <a href="{{ '/personal/' | relative_url }}">
-            <i class="bi bi-heart-fill me-2"></i>
-            Personal
-          </a>
-        </div>
+  <a href="{{ '/personal/' | relative_url }}">
+    <i class="bi bi-heart-fill me-2"></i>
+    Personal
+  </a>
+</div>
       </div>
 
       <a href="{{ '/contact/' | relative_url }}">

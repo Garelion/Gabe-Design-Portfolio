@@ -617,15 +617,15 @@ section p {
         padding: 1.2rem;
     }
 
-    header {
-        padding: 2rem 0.5rem 1rem 0.5rem;
-    }
+    /* Header padding is owned entirely by header-footer.css; the rule that
+       used to live here was overridden by it (loaded later) and is removed
+       to avoid a dead/conflicting declaration. */
 }
 
 @media (max-width: 600px) {
-    header h1 {
-        font-size: 2rem;
-    }
+    /* The header title is an <h4>, not an <h1>; the old `header h1` rule
+       matched nothing and has been removed. Header type scaling now lives
+       solely in header-footer.css. */
 
     main {
         padding: 0.7rem;

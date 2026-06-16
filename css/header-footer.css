@@ -60,6 +60,10 @@ header .hero-title {
 
 .white-ruler-dashed.header-ruler {
     display: none;
+    /* Scale the underline with the viewport so it never looks tiny next to
+       a large empty gap on wider screens. Capped so it can't overflow. */
+    width: min(72vw, 40rem);
+    max-width: 100%;
 }
 
 
@@ -99,6 +103,16 @@ nav.navbar-main {
     gap: 1rem;
 }
 
+
+nav.navbar-main button {
+    padding: calc(0.25rem + 2px) 1.2rem;
+    color: var(--dark-emerald);
+    font-weight: 600;
+    text-decoration: none;
+    
+}
+
+button.sidebar-dropdown-toggle { font-size: 1.08rem;}
 
 nav.navbar-main a {
     color: var(--dark-emerald);
@@ -240,26 +254,39 @@ nav.navbar-main a.active {
 /* #endregion */
 
 
-/* #region Header - <= 1000px */
+/* #region Header - <= 1100px : stack title onto two lines */
 
-/* @media (max-width: 1000px) {
+/* Above this width the name + portfolio fit on one inline line.
+   Below it, the inline "name — portfolio" no longer fits and was
+   wrapping mid-phrase (e.g. "... GAME / DESIGNER PORTFOLIO"), so we
+   drop the portfolio cleanly onto its own line under the dashed ruler. */
+@media (max-width: 1100px) {
+.hero-title {
+    padding-left: 1rem;
+}
+
     .hero-portfolio {
         display: block;
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 
     .hero-portfolio::before {
-        content: "« ";
+        content: "« " !important;
     }
 
     .hero-portfolio::after {
         content: " »";
     }
 
+    /* Remove the inline em-dash now that the portfolio is on its own line. */
+    .hero-portfolio::before {
+        content: none;
+    }
+
     .white-ruler-dashed.header-ruler {
         display: block;
     }
-} */
+}
 
 /* #endregion */
 
@@ -267,7 +294,9 @@ nav.navbar-main a.active {
 /* #region Header - <= 767px */
 
 @media (max-width: 767px) {
-    .hero-name{
+
+    
+    .hero-name {
         font-size: 2rem !important;
     }
 
