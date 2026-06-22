@@ -23,6 +23,7 @@ html.lightbox-open {
     transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
 
+
 .film-lightbox.is-open {
     opacity: 1;
     visibility: visible;

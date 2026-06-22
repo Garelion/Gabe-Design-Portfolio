@@ -616,17 +616,9 @@ section p {
         margin: 1.5rem 1rem;
         padding: 1.2rem;
     }
-
-    /* Header padding is owned entirely by header-footer.css; the rule that
-       used to live here was overridden by it (loaded later) and is removed
-       to avoid a dead/conflicting declaration. */
 }
 
 @media (max-width: 600px) {
-    /* The header title is an <h4>, not an <h1>; the old `header h1` rule
-       matched nothing and has been removed. Header type scaling now lives
-       solely in header-footer.css. */
-
     main {
         padding: 0.7rem;
     }
@@ -657,8 +649,6 @@ section p {
 /* ==============================
    Responsive project pages
    ============================== */
-
-
 @media (max-width: 992px) {
   .page-wrapper,
   main,
@@ -683,8 +673,6 @@ section p {
 		overflow-x: hidden;
 	}
 }
-
-
 
 @media (max-width: 768px) {
     body {

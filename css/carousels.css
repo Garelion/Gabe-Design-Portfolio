@@ -705,6 +705,8 @@ body.lightbox-open .slide-frame:focus-visible img {
     cursor: grabbing;
 }
 
+
+
 /* ─── Film Frame ─── */
 .film-frame {
     flex-shrink: 0;
@@ -718,6 +720,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 
 .film-frame:hover {
     transform: scale(1.03);
@@ -859,16 +862,11 @@ body.lightbox-open .slide-frame:focus-visible img {
 ===================================== */
 
 @media (max-width: 480px) {
-
-    /* #region Film strip */
-    .film-frame {
-        width: 180px;
-    }
-
     .film-carousel-controls {
         gap: 6rem;
     }
-    /* #endregion */
+
+
 }
 
 
@@ -992,7 +990,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     }
 
     .slide-gallery-track.wide {
-        min-height: 220px;
+        min-height: 190px;
     }
 
     .slide-frame {
@@ -1052,12 +1050,12 @@ body.lightbox-open .slide-frame:focus-visible img {
 
     .film-strip-shell::before {
         left: calc(-0.25rem - 2px);
-        width: 8px;
+        width: 10px !important;
     }
 
     .film-strip-shell::after {
         right: calc(-0.25rem + 4px);
-        width: 8px;
+        width: 10px !important;
     }
 
     .film-frame {
@@ -1105,8 +1103,7 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 
     /* #region Slide gallery */
-    .slide-gallery-track,
-    .slide-gallery-track.wide {
+    .slide-gallery-track {
         min-height: 260px;
     }
 

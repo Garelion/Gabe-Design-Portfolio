@@ -44,8 +44,6 @@ h4.hero-title {
     content: " | ";
 }
 
-/* Top bar: on desktop this is simply [logo][title] left-aligned, matching the
-   original layout. It becomes the reflowed compact bar at <= 992px. */
 .header-top {
     display: flex;
     align-items: center;
@@ -90,8 +88,6 @@ h4.hero-title {
     border-top: 0.12rem dashed #ccc;
     opacity: 1 !important;
 }
-
-
 
 
 .bio {
@@ -215,12 +211,10 @@ nav.navbar-main a.active {
 }
 
 
-
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown:focus-within .dropdown-menu {
     display: block;
 }
-
 
 
 .dropdown-toggle {
@@ -278,11 +272,7 @@ nav.navbar-main a.active {
 /* #endregion */
 
 
-/* #region Header - <= 992px : compact layout
-   Row 1 = logo (left) + hamburger (right). Row 2 = divider. Row 3 = name +
-   portfolio (inline if they fit, wrapping only when too narrow). Row 4 = bio.
-   This frees the title from sharing horizontal space with the logo, which is
-   what caused the name/portfolio to wrap word-by-word on ~853px screens. */
+/* #region Header - <= 992px */
 @media (max-width: 992px) {
     .header-top {
         flex-wrap: wrap;
@@ -309,9 +299,6 @@ nav.navbar-main a.active {
         margin: 0.6rem 0 0.5rem;
     }
 
-    /* Name + portfolio take their own full-width row and stay inline
-       ("NAME | Portfolio") as long as they fit; text-wrap: balance keeps the
-       wrap tidy on the narrowest screens. */
     .header-top .hero-title {
         order: 4;
         flex-basis: 100%;
@@ -343,11 +330,8 @@ nav.navbar-main a.active {
 /* #endregion */
 
 
-/* #region Header - <= 480px : too narrow for side-by-side, so stack */
-
+/* #region Header - <= 480px  */
 @media (max-width: 480px) {
-    /* Selector matches the <=992px rule's specificity so this smaller, stacked
-       sizing wins on the narrowest screens. */
     .header-top .hero-title {
         font-size: clamp(1.1rem, 7vw, 1.6rem) !important;
         text-align: start;
@@ -375,9 +359,7 @@ nav.navbar-main a.active {
 /* #endregion */
 
 
-/* #region Header - <= 992px : compact nav (drawer) + spacing
-   Same breakpoint as the compact reflow above so the hamburger/sidebar and the
-   reduced bio size kick in across the whole compact range (incl. ~853px). */
+/* #region Header - <= 992px : */
 @media (max-width: 992px) {
     header {
         padding: 1rem 0.75rem 0.35rem;
@@ -665,7 +647,7 @@ footer,
     width: 1em;
     height: 0.8em;
     color: var(--dark-emerald) !important;
-    margin: 0.22rem 0.1rem;
+    margin: 0.2rem 0rem 0.3rem;
     display: inline-block;
     vertical-align: middle;
 }
