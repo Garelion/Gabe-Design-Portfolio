@@ -1,7 +1,6 @@
 /* #region Header */
 
 /* #region Header - Base */
-
 header {
     background: var(--primary-green);
     color: #f1f1f1;
@@ -22,7 +21,6 @@ header .hero-title {
 
 .hero-name {
     font-size: 24pt;
-    /* text-transform: uppercase; */
 }
 
 h4.hero-title {
@@ -271,7 +269,6 @@ nav.navbar-main a.active {
 
 /* #endregion */
 
-
 /* #region Header - <= 992px */
 @media (max-width: 992px) {
     .header-top {
@@ -326,7 +323,6 @@ nav.navbar-main a.active {
         display: none;
     }
 }
-
 /* #endregion */
 
 
@@ -561,16 +557,14 @@ nav.navbar-main a.active {
         transition: transform 0.22s ease;
     }
 }
-
-/* #endregion */
 /* #endregion */
 
+/* #endregion */
 
 
 /* #region Footer */
 
 /* #region Footer - Base */
-
 footer {
     background: var(--primary-green);
     color: white;
@@ -704,8 +698,13 @@ footer,
 /* #endregion */
 
 
-/* #region Footer - <= 768px */
+/* #region Footer - <= 900px */
+@media (max-width: 900px) {
+    .footer-content-pad { padding-left: 2rem !important; }
+}
+/* #endregion */
 
+/* #region Footer - <= 768px */
 @media (max-width: 768px) {
     footer {
         margin-top: 0;
@@ -763,12 +762,10 @@ footer,
         margin: 0;
     }
 }
-
 /* #endregion */
 
 
 /* #region Footer - <= 480px */
-
 @media (max-width: 480px) {
     .footer-main .container {
         padding-left: 0 !important;
@@ -784,7 +781,6 @@ footer,
         gap: 0.6rem;
     }
 }
-
 /* #endregion */
 
 /* #endregion */
