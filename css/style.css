@@ -658,6 +658,34 @@ section p {
    Responsive project pages
    ============================== */
 
+
+@media (max-width: 992px) {
+  .page-wrapper,
+  main,
+  .section-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  main {
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .section-card {
+    margin: 1rem 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 992px) {
+	.page-wrapper {
+		overflow-x: hidden;
+	}
+}
+
+
+
 @media (max-width: 768px) {
     body {
         overflow-x: hidden;
@@ -823,3 +851,4 @@ section p {
         
     }
 }
+

@@ -1,24 +1,8 @@
 <header>
-  <div class="d-flex justify-content-start ps-5 pb-2">
-    <div class="d-inline-flex align-items-center">
-      <img src="{{ '/assets/apple-touch-icon.png' | relative_url }}" alt="Profile Picture" class="profile-pic me-2" height="55">
-      <h4 class="text-start ps-1 hero-title mb-0">
-        <span class="hero-name">Gabriel Rodríguez</span>
-        <hr class="py-0 my-1 white-ruler-dashed header-ruler">
-        <span class="hero-portfolio"><em>Game Designer Portfolio</em></span>
-      </h4>
-    </div>
-  </div>
+  <div class="header-top ps-5 pb-2">
+    <img src="{{ '/assets/apple-touch-icon.png' | relative_url }}" alt="Profile Picture" class="profile-pic header-logo me-2" height="55">
 
-  <p class="ps-5 pb-2 bio">
-    Hi, I’m <span class="fw-bold">Gabriel Rodríguez</span>,
-    a Technical Game Designer with experience in systems design, level design,
-    and gameplay implementation.
-  </p>
-
-  <hr class="green-ruler">
-
-  <nav class="navbar-main">
+    <!-- Hamburger lives in the top bar now; only visible in the compact layout. -->
     <button
       type="button"
       class="nav-toggle"
@@ -27,6 +11,24 @@
       <i class="bi bi-list"></i>
     </button>
 
+    <!-- Divider under the logo/hamburger row; only visible in the compact layout. -->
+    <hr class="green-ruler header-divider" aria-hidden="true">
+
+    <h4 class="text-start ps-1 hero-title mb-0">
+      <span class="hero-name">Gabriel Rodríguez</span>
+      <span class="hero-portfolio"><em>Game Designer Portfolio</em></span>
+    </h4>
+  </div>
+
+  <p class="ps-5 pb-2 bio">
+    Hi, I’m <span class="fw-bold">Gabriel Rodríguez</span>,
+    a Technical Game Designer with experience in systems design, level design,
+    and gameplay implementation.
+  </p>
+
+  <hr class="green-ruler bottom-ruler">
+
+  <nav class="navbar-main">
     <div class="nav-overlay" id="navOverlay"></div>
 
     <!-- Mobile navigation (Hamburger SideNavbar) -->
@@ -42,7 +44,7 @@
         </button>
       </div>
 
-      <a href="{{ '/' | relative_url }}">
+      <a href="{{ '/' | relative_url }}" class="menu-border-bottom">
         <span>
           <i class="bi bi-house-fill me-2"></i>
           Home
@@ -75,7 +77,7 @@
 </div>
       </div>
 
-      <a href="{{ '/contact/' | relative_url }}">
+      <a href="{{ '/contact/' | relative_url }}" class="menu-border-bottom">
         <span>
           <i class="bi bi-envelope-fill me-2"></i>
           Contact
@@ -108,7 +110,6 @@
               stroke-linejoin="round" />
           </svg>
         </a>
-
         <div class="dropdown-menu">
           <a href="{{ '/professional/' | relative_url }}">
             <i class="bi bi-briefcase-fill nav-icon me-1"></i>
