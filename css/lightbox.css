@@ -1,3 +1,13 @@
+
+/* Scrollbar adjustmets */
+html.lightbox-open,
+body.lightbox-open {
+    overflow: hidden;
+}
+
+html.lightbox-open {
+    scrollbar-gutter: auto;
+}
 /* Shared image lightbox */
 .film-lightbox {
     position: fixed;

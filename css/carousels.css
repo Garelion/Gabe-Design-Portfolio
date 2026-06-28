@@ -1,10 +1,8 @@
-/* ===============
-   CAROUSELS.CSS
-================== */
-
+/* ---------------
+   carousels.css
+------------------ */
 
 /* #region Project / Bootstrap Carousel */
-
 .project-media,
 .project-carousel {
     max-width: 640px;
@@ -48,25 +46,6 @@
 
 .project-carousel .simple-carousel-indicators .active {
     opacity: 0.8;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    width: 20px;
-    height: 20px;
-}
-
-/* Pull arrows to the frame edges */
-button.carousel-control-prev {
-    padding-right: 0.5rem;
-}
-
-button.carousel-control-next {
-    padding-left: 0.5rem;
-}
-
-.bottom-border-teal {
-    border-bottom: 2px solid var(--teal-ink);
 }
 
 .carousel-control-prev-icon,
@@ -145,6 +124,13 @@ button.carousel-control-next {
     transform: translateY(0);
 }
 
+.project-carousel .carousel-indicators.carousel-indicators-outside {
+    position: static;
+    margin: 0.85rem auto 0;
+    padding: 0;
+    list-style: none;
+}
+
 /* Outside indicators */
 .carousel-indicators-outside {
     position: static !important;
@@ -208,12 +194,10 @@ button.carousel-control-next {
 #scrapsCarousel .carousel-item img {
     cursor: pointer;
 }
-
 /* #endregion */
 
 
 /* #region Carousel Thumbnails */
-
 .carousel-thumb {
     width: 80px;
     height: 60px;
@@ -250,12 +234,10 @@ button.carousel-control-next {
         height: 65px;
     }
 }
-
 /* #endregion */
 
 
 /* #region Slide Gallery (Coverflow) */
-
 /* Section header + static doc triggers */
 .gallery-label {
     margin: 0;
@@ -299,6 +281,10 @@ button.carousel-control-next {
 /* Shell / viewport / track */
 .slide-gallery-shell {
     position: relative;
+    padding: 1rem 0px;
+    --slide-card-w: clamp(160px, 20vw, 290px);
+    --slide-card-h: calc(var(--slide-card-w) * 5 / 3);
+    --slide-track-gap: 1rem;
 }
 
 .slide-gallery-viewport {
@@ -330,7 +316,7 @@ button.carousel-control-next {
 
 .slide-gallery-track {
     position: relative;
-    min-height: 500px;
+    min-height: calc(var(--slide-card-h, 433px) + var(--slide-track-gap, 1rem));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,9 +324,12 @@ button.carousel-control-next {
     touch-action: pan-y;
 }
 
+/* Wide variant uses landscape (16/9) cards. */
 .slide-gallery-track.wide {
+    --slide-card-w: clamp(260px, 35vw, 520px);
+    --slide-card-h: calc(var(--slide-card-w) * 9 / 16);
     position: relative;
-    min-height: 340px;
+    min-height: calc(var(--slide-card-h, 293px) + var(--slide-track-gap, 1rem));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -384,7 +373,7 @@ button.carousel-control-next {
     pointer-events: none;
 }
 
-/* Horizontal version of slide frames (for Lights Out) */
+/* Horizontal version of slide frames (for Lights Out / wide galleries) */
 .slide-frame.horizontal {
     width: clamp(260px, 35vw, 520px) !important;
     aspect-ratio: 16 / 9;
@@ -395,7 +384,7 @@ button.carousel-control-next {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: clamp(190px, 20vw, 260px);
+    width: var(--slide-card-w, clamp(190px, 20vw, 260px));
     aspect-ratio: 3 / 5;
     overflow: hidden;
     padding: 0;
@@ -404,16 +393,13 @@ button.carousel-control-next {
     border-radius: 0.25rem;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     z-index: 1;
-
     transition:
         transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
         opacity 0.3s ease,
@@ -425,7 +411,7 @@ button.carousel-control-next {
 .slide-frame img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* change to contain if you want full model visible */
+    object-fit: cover; 
     object-position: center top;
     display: block;
     transition: transform 0.35s ease, opacity 0.35s ease;
@@ -485,7 +471,6 @@ button.carousel-control-next {
     transform: scale(1.03);
 }
 
-/* Opening fix */
 .slide-frame.is-opening {
     pointer-events: none;
 }
@@ -512,6 +497,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     display: flex;
     justify-content: center;
     gap: 0.6rem;
+    margin-top: 0.95rem;
 }
 
 .slide-dot,
@@ -543,16 +529,13 @@ body.lightbox-open .slide-frame:focus-visible img {
 .slide-dot.is-active,
 .slide-dot[aria-current="true"],
 .carousel-indicators-outside .active {
-    /* background: var(--primary-orange); */
     border-color: var(--primary-orange);
     opacity: 1;
 }
-
 /* #endregion */
 
 
 /* #region Film Strip Carousel */
-
 .film-strip-shell {
     position: relative;
 }
@@ -579,7 +562,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     background: linear-gradient(to left, var(--dark-emerald) 0, var(--dark-emerald) 3px, transparent 100%);
 }
 
-/* scroll container */
+/* Scroll container */
 .film-strip-mask {
     position: relative;
     z-index: 1;
@@ -688,7 +671,6 @@ body.lightbox-open .slide-frame:focus-visible img {
     overflow: hidden;
     width: 100%;
     position: relative;
-    /* Hide scrollbar for transform-based animation */
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -755,9 +737,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: var(--primary-green);
-
     box-shadow:
         0 6px 10px rgba(0, 0, 0, 0.18),
         inset 0 1px 1px rgba(255, 255, 255, 0.15);
@@ -850,42 +830,27 @@ body.lightbox-open .slide-frame:focus-visible img {
     from { transform: translateX(0); }
     to { transform: translateX(calc(-50% - 0.5rem)); }
 }
-
 /* #endregion */
 
 
-/* ==================================
-   #region Responsive Adjustments
-===================================== */
-
+/* #region Responsive Adjustments */
 @media (max-width: 480px) {
-
-    /* #region Film strip */
-    .film-frame {
-        width: 180px;
-    }
-
     .film-carousel-controls {
         gap: 6rem;
     }
-    /* #endregion */
 }
 
 
 @media (max-width: 1000px) and (min-width: 769px) {
-
     /* #region Slide gallery */
     .slide-gallery-shell {
         --slide-card-w: clamp(150px, 18vw, 185px);
         --slide-card-h: calc(var(--slide-card-w) * 5 / 3);
     }
 
-    .slide-gallery-track:not(.wide) {
-        min-height: max(350px, calc(var(--slide-card-h) + 1rem));
-    }
-
+    .slide-gallery-track:not(.wide),
     .slide-gallery-track.wide {
-        min-height: 220px;
+        min-height: calc(var(--slide-card-h) + var(--slide-track-gap, 1rem));
     }
 
     .slide-gallery-indicators {
@@ -897,7 +862,6 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 
 @media (max-width: 768px) {
-
     /* #region Project / Bootstrap Carousel */
     .project-media,
     .project-carousel {
@@ -987,12 +951,9 @@ body.lightbox-open .slide-frame:focus-visible img {
         width: 6px;
     }
 
-    .slide-gallery-track:not(.wide) {
-        min-height: calc(var(--slide-card-h) + 1rem);
-    }
-
+    .slide-gallery-track:not(.wide),
     .slide-gallery-track.wide {
-        min-height: 220px;
+        min-height: calc(var(--slide-card-h) + var(--slide-track-gap, 1rem));
     }
 
     .slide-frame {
@@ -1052,12 +1013,12 @@ body.lightbox-open .slide-frame:focus-visible img {
 
     .film-strip-shell::before {
         left: calc(-0.25rem - 2px);
-        width: 8px;
+        width: 10px !important;
     }
 
     .film-strip-shell::after {
         right: calc(-0.25rem + 4px);
-        width: 8px;
+        width: 10px !important;
     }
 
     .film-frame {
@@ -1085,9 +1046,7 @@ body.lightbox-open .slide-frame:focus-visible img {
     /* #endregion */
 }
 
-
 @media (max-width: 420px) {
-
     /* #region Project / Bootstrap Carousel */
     .project-carousel .carousel-control-prev,
     .project-carousel .carousel-control-next {
@@ -1105,13 +1064,9 @@ body.lightbox-open .slide-frame:focus-visible img {
 
 
     /* #region Slide gallery */
-    .slide-gallery-track,
-    .slide-gallery-track.wide {
-        min-height: 260px;
-    }
-
-    .slide-frame {
-        width: clamp(108px, 48vw, 150px);
+    .slide-gallery-shell {
+        --slide-card-w: clamp(108px, 48vw, 150px);
+        --slide-card-h: calc(var(--slide-card-w) * 5 / 3);
     }
 
     .slide-frame.is-prev {
@@ -1135,5 +1090,4 @@ body.lightbox-open .slide-frame:focus-visible img {
     }
     /* #endregion */
 }
-
 /* #endregion */

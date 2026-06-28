@@ -1,7 +1,6 @@
 /* #region Header */
 
 /* #region Header - Base */
-
 header {
     background: var(--primary-green);
     color: #f1f1f1;
@@ -12,21 +11,61 @@ header {
     border-radius: 0;
 }
 
-header .hero-title {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 20pt !important;
-    margin-bottom: 0.5rem;
-    letter-spacing: 3px;
-    font-weight: 700;
-    text-transform: uppercase;
+header .hero-title,
+h4.hero-title {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(1.65rem, 1.2vw + 1.25rem, 2rem) !important;
+  line-height: 1.12;
+  margin-bottom: 0.5rem;
+  letter-spacing: clamp(1.5px, 0.2vw, 3px);
+  font-weight: 700;
+  font-synthesis: none;
+}
+
+.hero-name {
+  font-size: 1.08em;
+}
+
+.hero-portfolio {
+  display: inline;
+  font-size: 0.92em;
+  font-style: italic;
+  text-transform: none;
 }
 
 .hero-portfolio {
     display: inline;
+    font-style: italic;
+    text-transform: none;
 }
 
+/* Separator for fullscreen (inline) layouts. */
 .hero-portfolio::before {
-    content: " — ";
+    font-style: normal !important;
+    color: var(--lime-green);
+    opacity: 0.75;
+    font-weight: 400 !important;
+    content: " | ";
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.header-logo {
+    flex: 0 0 auto;
+}
+
+/* Top bar (logo + hamburger). */
+.navbar-top {
+    display: contents;
+}
+
+/* Ruler above the bio — only used in the compact layout. */
+.top-ruler {
+    display: none;
 }
 
 .nav-toggle,
@@ -58,22 +97,10 @@ header .hero-title {
     opacity: 1 !important;
 }
 
-.white-ruler-dashed.header-ruler {
-    display: none;
-}
-
-
-.hero-name {
-    font-size: 24pt;
-}
-
-h4.hero-title {
-    font-size: 20pt;
-}
 
 .bio {
     font-size: 14pt;
-    margin: 0;
+    margin: 0.5rem 0;
     color: var(--teal-ink);
     letter-spacing: 1.5px;
     font-family: 'Inter Tight', sans-serif;
@@ -99,6 +126,21 @@ nav.navbar-main {
     gap: 1rem;
 }
 
+
+nav.navbar-main button {
+    padding: calc(0.25rem + 2px) 1.2rem;
+    color: var(--dark-emerald);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+button.sidebar-dropdown-toggle {
+    font-size: 1.08rem;
+}
+
+#mobileSidebar>a.menu-border-bottom {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
 
 nav.navbar-main a {
     color: var(--dark-emerald);
@@ -176,14 +218,10 @@ nav.navbar-main a.active {
     transform: none;
 }
 
-
-
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown:focus-within .dropdown-menu {
     display: block;
-} 
-
-
+}
 
 .dropdown-toggle {
     display: inline-flex;
@@ -236,95 +274,111 @@ nav.navbar-main a.active {
     text-align: center;
     flex: 0 0 1rem;
 }
-
 /* #endregion */
 
-
-/* #region Header - <= 1000px */
-
-/* @media (max-width: 1000px) {
-    .hero-portfolio {
-        display: block;
-        font-size: 1rem;
-    }
-
-    .hero-portfolio::before {
-        content: "« ";
-    }
-
-    .hero-portfolio::after {
-        content: " »";
-    }
-
-    .white-ruler-dashed.header-ruler {
-        display: block;
-    }
-} */
-
-/* #endregion */
-
-
-/* #region Header - <= 767px */
-
-@media (max-width: 767px) {
-    .hero-name{
-        font-size: 2rem !important;
-    }
-
-    .hero-portfolio {
-        display: block;
-        font-size: 0.875rem;
-    }
-
-    .hero-portfolio::before {
-        content: "« ";
-    }
-
-    .hero-portfolio::after {
-        content: " »";
-    }
-
-    .white-ruler-dashed.header-ruler {
-        display: block;
-    }
-}
-
-/* #endregion */
-
-
-
-/* #region Header - <= 768px */
-
-@media (max-width: 768px) {
-    header {
-        padding: 1rem 0 0.35rem;
-    }
-
-    header > .d-flex {
-        justify-content: space-between !important;
+/* #region Header - <= 992px */
+@media (max-width: 992px) {
+    .header-top {
+        flex-wrap: wrap;
+        justify-content: space-between;
         align-items: center;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        padding-bottom: 0.75rem !important;
+        column-gap: 0.5rem;
+        padding: 0 !important;
     }
 
-    header .d-inline-flex {
-        min-width: 0;
-        align-items: center !important;
+    .header-logo { order: 1;}
+
+    .nav-toggle { order: 2;}
+
+    .navbar-top {
+        order: 1;
+        flex-basis: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--easter-green-80);
+        border-bottom: 1.5px solid var(--dark-emerald-BF);
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.5rem;
     }
 
-    header .hero-title {
-        font-size: clamp(0.95rem, 4.2vw, 1.25rem) !important;
+    .top-ruler { display: block; }
+
+    .header-top .hero-title {
+        order: 4;
+        flex-basis: 100%;
+        width: 100%;
+        text-align: start;
+        padding-left: 0 !important;
+        margin: 0;
         line-height: 1.15;
         letter-spacing: 1.2px;
-        overflow-wrap: anywhere;
+        text-wrap: balance;
+        font-size: clamp(1.1rem, 3.4vw, 1.9rem) !important;
+    }
+
+    .hero-name { font-size: 1em !important;}
+
+    .hero-portfolio {
+        display: inline;
+        font-size: 0.9em;
+    }
+
+    .bottom-ruler { display: none; }
+}
+/* #endregion */
+
+
+/* #region Header - <= 480px  */
+@media (max-width: 480px) {
+    .header-top .hero-title {
+        font-size: clamp(1.1rem, 7vw, 1.6rem) !important;
+        text-align: start;
     }
 
     .hero-name {
-        font-size: inherit !important;
+        display: block;
+        font-size: 0.82em !important;
+        line-height: 1.1;
     }
 
-    .profile-pic {
+    .hero-portfolio {
+        display: block;
+        margin-top: 0.3rem;
+        font-size: 0.7em;
+        text-wrap: balance;
+    }
+
+    /* No separator when stacked — just the line break. */
+    .hero-portfolio::before,
+    .hero-portfolio::after {
+        content: none;
+    }
+}
+/* #endregion */
+
+
+/* #region Header - <= 992px : */
+@media (max-width: 992px) {
+    header { padding: 0;}
+
+    .header-top .hero-title {
+    font-size: clamp(1.25rem, 3.4vw, 1.9rem) !important;
+    line-height: 1.15;
+    letter-spacing: 1.2px;
+    margin: 0;
+  }
+
+  .hero-name {
+    font-size: 1em !important;
+  }
+
+  .hero-portfolio {
+    font-size: 0.85em;
+  }
+
+    .pic {
         width: 48px;
         height: 48px;
         flex: 0 0 48px;
@@ -344,7 +398,7 @@ nav.navbar-main a.active {
     }
 
     .desktop-nav {
-         display: none; 
+        display: none;
     }
 
     .mobile-sidebar * {
@@ -377,7 +431,7 @@ nav.navbar-main a.active {
             padding-left 0.18s ease;
     }
 
-    .mobile-sidebar > a {
+    .mobile-sidebar>a {
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -396,7 +450,7 @@ nav.navbar-main a.active {
         font: inherit;
     }
 
-    .sidebar-dropdown-toggle > span {
+    .sidebar-dropdown-toggle>span {
         align-items: center;
     }
 
@@ -421,8 +475,8 @@ nav.navbar-main a.active {
         width: 36px;
         height: 36px;
         margin-left: auto;
-        background: var(--teal-ink-80);
-        border: 2px solid var(--teal-ink-80);
+        background: var(--teal-ink-BF);
+        border: 2px solid var(--teal-ink-BF);
         border-radius: 4px;
         color: white !important;
         font-size: 2rem;
@@ -470,7 +524,7 @@ nav.navbar-main a.active {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1.25rem;
+        padding: 1rem 0 0.75rem 1.25rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         font-size: 1.15rem;
         font-weight: 600;
@@ -492,11 +546,9 @@ nav.navbar-main a.active {
     .sidebar-dropdown-menu {
         display: none;
         padding: 0.35rem 0 0.5rem;
-        background: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.10),
-            rgba(0, 0, 0, 0.05)
-        );
+        background: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.10),
+                rgba(0, 0, 0, 0.05));
     }
 
     .sidebar-dropdown-menu a {
@@ -522,16 +574,14 @@ nav.navbar-main a.active {
         transition: transform 0.22s ease;
     }
 }
-
-/* #endregion */
 /* #endregion */
 
+/* #endregion */
 
 
 /* #region Footer */
 
 /* #region Footer - Base */
-
 footer {
     background: var(--primary-green);
     color: white;
@@ -547,7 +597,7 @@ footer {
 
 footer,
 .footer-main {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 .footer-main {
@@ -608,7 +658,7 @@ footer,
     width: 1em;
     height: 0.8em;
     color: var(--dark-emerald) !important;
-    margin: 0.22rem 0.1rem;
+    margin: 0.2rem 0rem 0.3rem;
     display: inline-block;
     vertical-align: middle;
 }
@@ -661,12 +711,16 @@ footer,
     font-size: 1rem;
     line-height: 1;
 }
-
 /* #endregion */
 
 
-/* #region Footer - <= 768px */
+/* #region Footer - <= 900px */
+@media (max-width: 900px) {
+    .footer-content-pad { padding-left: 2rem !important; }
+}
+/* #endregion */
 
+/* #region Footer - <= 768px */
 @media (max-width: 768px) {
     footer {
         margin-top: 0;
@@ -724,12 +778,10 @@ footer,
         margin: 0;
     }
 }
-
 /* #endregion */
 
 
 /* #region Footer - <= 480px */
-
 @media (max-width: 480px) {
     .footer-main .container {
         padding-left: 0 !important;
@@ -745,7 +797,6 @@ footer,
         gap: 0.6rem;
     }
 }
-
 /* #endregion */
 
 /* #endregion */
