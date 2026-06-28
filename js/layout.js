@@ -2,6 +2,34 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 
+/* Reserve scrollbar gutter only when the page actually needs vertical scrolling. */
+(function () {
+    var root = document.documentElement;
+
+    function updateScrollbarGutter() {
+        var needsScroll = root.scrollHeight > root.clientHeight;
+        root.classList.toggle('has-vscroll', needsScroll);
+    }
+
+    function observeBody() {
+        if (window.ResizeObserver && document.body) {
+            new ResizeObserver(updateScrollbarGutter).observe(document.body);
+        }
+    }
+
+    updateScrollbarGutter();
+
+    window.addEventListener('load', updateScrollbarGutter);
+    window.addEventListener('resize', updateScrollbarGutter);
+    window.addEventListener('pageshow', updateScrollbarGutter);
+
+    if (document.body) {
+        observeBody();
+    } else {
+        document.addEventListener('DOMContentLoaded', observeBody, { once: true });
+    }
+})();
+
 let carouselsInitialized = false;
 
 function normalizePath(path) {
@@ -250,3 +278,4 @@ document.addEventListener('click', e => {
     return;
   }
 });
+

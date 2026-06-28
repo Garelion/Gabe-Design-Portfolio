@@ -11,20 +11,26 @@ header {
     border-radius: 0;
 }
 
-header .hero-title {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 22pt !important;
-    margin-bottom: 0.5rem;
-    letter-spacing: 3px;
-    font-weight: 700;
+header .hero-title,
+h4.hero-title {
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(1.65rem, 1.2vw + 1.25rem, 2rem) !important;
+  line-height: 1.12;
+  margin-bottom: 0.5rem;
+  letter-spacing: clamp(1.5px, 0.2vw, 3px);
+  font-weight: 700;
+  font-synthesis: none;
 }
 
 .hero-name {
-    font-size: 24pt;
+  font-size: 1.08em;
 }
 
-h4.hero-title {
-    font-size: 20pt;
+.hero-portfolio {
+  display: inline;
+  font-size: 0.92em;
+  font-style: italic;
+  text-transform: none;
 }
 
 .hero-portfolio {
@@ -212,12 +218,10 @@ nav.navbar-main a.active {
     transform: none;
 }
 
-
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown:focus-within .dropdown-menu {
     display: block;
 }
-
 
 .dropdown-toggle {
     display: inline-flex;
@@ -270,7 +274,6 @@ nav.navbar-main a.active {
     text-align: center;
     flex: 0 0 1rem;
 }
-
 /* #endregion */
 
 /* #region Header - <= 992px */
@@ -283,13 +286,9 @@ nav.navbar-main a.active {
         padding: 0 !important;
     }
 
-    .header-logo {
-        order: 1;
-    }
+    .header-logo { order: 1;}
 
-    .nav-toggle {
-        order: 2;
-    }
+    .nav-toggle { order: 2;}
 
     .navbar-top {
         order: 1;
@@ -304,9 +303,7 @@ nav.navbar-main a.active {
         margin-bottom: 0.5rem;
     }
 
-    .top-ruler {
-        display: block;
-    }
+    .top-ruler { display: block; }
 
     .header-top .hero-title {
         order: 4;
@@ -321,18 +318,14 @@ nav.navbar-main a.active {
         font-size: clamp(1.1rem, 3.4vw, 1.9rem) !important;
     }
 
-    .hero-name {
-        font-size: 1em !important;
-    }
+    .hero-name { font-size: 1em !important;}
 
     .hero-portfolio {
         display: inline;
         font-size: 0.9em;
     }
 
-    .bottom-ruler {
-        display: none;
-    }
+    .bottom-ruler { display: none; }
 }
 /* #endregion */
 
@@ -368,11 +361,24 @@ nav.navbar-main a.active {
 
 /* #region Header - <= 992px : */
 @media (max-width: 992px) {
-    header {
-        padding: 0;
-    }
+    header { padding: 0;}
 
-    .profile-pic {
+    .header-top .hero-title {
+    font-size: clamp(1.25rem, 3.4vw, 1.9rem) !important;
+    line-height: 1.15;
+    letter-spacing: 1.2px;
+    margin: 0;
+  }
+
+  .hero-name {
+    font-size: 1em !important;
+  }
+
+  .hero-portfolio {
+    font-size: 0.85em;
+  }
+
+    .pic {
         width: 48px;
         height: 48px;
         flex: 0 0 48px;
@@ -705,7 +711,6 @@ footer,
     font-size: 1rem;
     line-height: 1;
 }
-
 /* #endregion */
 
 
