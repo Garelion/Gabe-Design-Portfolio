@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeGallery = [];
   let activeIndex = 0;
   let activeTrigger = null;
-  /* let activeTrack = null; */
   let activeFilmController = null;
+  let lightboxOpenedAt = 0;
 
   function renderLightbox(index) {
     if (!activeGallery.length) return;
@@ -36,12 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderLightbox(index);
 
+    lightboxOpenedAt = (typeof performance !== 'undefined' ? performance.now() : Date.now());
+
     document.documentElement.classList.add('lightbox-open');
     document.body.classList.add('lightbox-open');
     lightbox.classList.add('is-open');
     lightbox.setAttribute('aria-hidden', 'false');
 
-    requestAnimationFrame(() => closeBtn.focus());
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        try { closeBtn.focus({ preventScroll: true }); } catch (_) { closeBtn.focus(); }
+      });
+    });
   }
 
   function closeLightbox() {
@@ -389,8 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentTranslateX = targetX;
         normalizePosition();
-        // Land on a whole pixel so the arrow-centered frame renders crisp and
-        // is reliably centered (sub-pixel transforms read as a slight offset).
+
         currentTranslateX = Math.round(currentTranslateX);
         applyTransform(currentTranslateX);
         isAnimating = false;
@@ -488,12 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
         dragIntent !== 'y' &&
         !document.body.classList.contains('lightbox-open')
       ) {
-        openLightbox(
-          gallery,
-          getNormalizedIndex(pressedFrame),
-          pressedFrame,
-          filmController
-        );
+        const normalizedIndex = getNormalizedIndex(pressedFrame);
+        const focusTrigger = uniqueFrames[normalizedIndex] || pressedFrame;
+        
+        openLightbox(gallery, normalizedIndex, focusTrigger, filmController);
         resetPointerState();
         return;
       }
@@ -533,6 +536,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       pointerId = e.pointerId;
       pressedFrame = e.target.closest('.film-frame');
+
+      if (pressedFrame && pressedFrame.getAttribute('aria-hidden') === 'true') {
+        e.preventDefault();
+      }
 
       dragStartX = e.clientX;
       dragStartY = e.clientY;
@@ -809,7 +816,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     gestureEl.addEventListener('pointerup', endPointer);
-
     gestureEl.addEventListener('pointercancel', () => {
       isPointerDown = false;
       isDragging = false;
@@ -909,7 +915,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   lightbox.addEventListener('click', e => {
-    if (e.target === lightbox) closeLightbox();
+    // Only the backdrop itself should close the lightbox.
+    if (e.target !== lightbox) return;
+
+    // Ignore the synthesized "ghost" click that browsers dispatch shortly
+    // after a touch tap. On touch, the film-strip opens on `pointerup`, then
+    // the ghost click arrives at the original tap point — which is now the
+    // full-screen backdrop — and would close the lightbox before it's seen.
+    const now = (typeof performance !== 'undefined' ? performance.now() : Date.now());
+    if (now - lightboxOpenedAt < 500) return;
+
+    closeLightbox();
   });
 
   document.addEventListener('keydown', e => {

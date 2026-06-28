@@ -15,9 +15,11 @@
     --dark-emerald-E6: #003835E6;
     --dark-emerald-BF: #003835BF;
     --dark-emerald-80: #00383580;
+    --dark-emerald-4D: #0038354D;
     --teal-ink: #001C23;
     --teal-ink-BF: #001C23BF;
     --teal-ink-80: #001C2380;
+    --dark-teak-ink: #001C23;
     --primary-dark: #0a0a0a;
     --secondary-dark: #1a1a1a;
     --tertiary-dark: #2a2a2a;
@@ -68,10 +70,6 @@ body {
   flex: 1 0 auto;
 }
 
-.w-95 {
-    width: 95% !important;
-}
-
 .tiny-pt { font-size: 6pt !important; }
 
 .xsmall-pt { font-size: 7pt !important; }
@@ -114,8 +112,6 @@ a:hover {
     font-weight: 600;
 }
 
-
-
 section {
     margin-bottom: 1rem;
 }
@@ -124,7 +120,7 @@ section h2 {
     color: white;
     font-size: 1.7rem;
     margin-bottom: 0.5rem;
-    border-left: 5.5px solid white;
+    border-left: 5px solid white;
     padding-left: 0.8rem !important;
     font-weight: 700;
     padding: 7px;
@@ -136,11 +132,10 @@ section h2 {
 section p {
     font-size: 14pt;
     line-height: 1.6;
-    color: var(--teal-ink);
+    color: black;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
 }
-
 
 .section-card {
     width: min(95%, 1100px);
@@ -158,7 +153,6 @@ section p {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
 }
-
 
 .recent-work-list {
   display: flex;
@@ -192,7 +186,6 @@ section p {
     margin-top: 2px;
 }
 
-
 .material-symbols-outlined {
     font-size: 16pt;
     color: var(--easter-green);
@@ -209,7 +202,6 @@ section p {
   min-width: 0;
 }
 
-
 .work-copy p {
   color: #eaeaea;
   line-height: 1.35;
@@ -222,10 +214,7 @@ section p {
   padding-right: 0.75rem;
 }
 
-.work-meta {
-  color: #b9c3be;
-}
-
+.work-meta { color: #b9c3be; }
 
 .work-date {
   margin-left: auto;
@@ -235,7 +224,6 @@ section p {
   flex-shrink: 0;
 }
 
-
 .skills-grid {
   display: grid;
   letter-spacing: 0.8px;
@@ -244,14 +232,11 @@ section p {
   padding-top: 0.35rem;
 }
 
-
 .skills-grid div {
   position: relative;
   padding-left: 0.9rem;
-  /* text-decoration: underline rgba(54, 179, 126, 0.5) 2px; */
-
-  text-decoration: underline rgba(215, 226, 60, 0.65) 2px;
-  text-underline-offset: 6px; 
+  text-decoration: underline rgba(215, 226, 60, 0.6) 1.5px;
+  text-underline-offset: 6.5px; 
   
 }
 
@@ -265,8 +250,6 @@ section p {
   border-radius: 50%;
   background: #36b37e;
 }
-
-
 
 .skills-badges {
   display: flex;
@@ -414,9 +397,6 @@ section p {
     
 }
 
-
-
-
 .btn-gameurl {
     display: inline-flex;
     align-items: center;
@@ -465,7 +445,6 @@ section p {
 }
 
 @keyframes itch-glow {
-
     0%,
     100% {
         border-color: var(--primary-orange);
@@ -501,8 +480,6 @@ section p {
     border: 2px solid var(--teal-green);
     background: #000;
 }
-
-
 
 .project-media {
     margin: 0.5rem auto;
@@ -555,7 +532,6 @@ section p {
     display: block;
 }
 
-
 .media-frame-lg,
 .media-frame-sm {
     width: 100%;
@@ -583,8 +559,6 @@ section p {
     display: block;
 }
 
-
-
 .simpletanks-video-frame {
     position: relative;
     width: 100%;
@@ -603,7 +577,6 @@ section p {
     object-position: center 50%;
 }
 
-
 @media (max-width: 576px) {
     .simpletanks-video-frame {
         height: 220px; 
@@ -616,17 +589,9 @@ section p {
         margin: 1.5rem 1rem;
         padding: 1.2rem;
     }
-
-    header {
-        padding: 2rem 0.5rem 1rem 0.5rem;
-    }
 }
 
 @media (max-width: 600px) {
-    header h1 {
-        font-size: 2rem;
-    }
-
     main {
         padding: 0.7rem;
     }
@@ -657,6 +622,30 @@ section p {
 /* ==============================
    Responsive project pages
    ============================== */
+@media (max-width: 992px) {
+  .page-wrapper,
+  main,
+  .section-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  main {
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .section-card {
+    margin: 1rem 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 992px) {
+	.page-wrapper {
+		overflow-x: hidden;
+	}
+}
 
 @media (max-width: 768px) {
     body {
@@ -678,11 +667,11 @@ section p {
     }
 
     section h2 {
+        font-size: 14pt;
         letter-spacing: 1.2px;
-        padding: 8px;
-        background: var(--dark-emerald-80);
+        padding: 12px;
         padding-left: 0.55rem;
-        font-size: inherit;
+        
     }
 
     .section-card .container,
@@ -800,6 +789,12 @@ section p {
     }
 }
 
+@media (min-width: 768px) {
+    .container {
+        max-width: 100% !important;
+    }
+}
+
 @media (max-width: 480px) {
     body {
         overflow-x: hidden;
@@ -816,9 +811,9 @@ section p {
     }
 
     section h2 {
+        font-size: 14pt;
         letter-spacing: 1.2px;
-        padding: 8px;
-        background: var(--dark-emerald-80);
+        padding: 12px;
         padding-left: 0.55rem;
         
     }
