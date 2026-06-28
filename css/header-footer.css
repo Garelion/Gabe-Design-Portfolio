@@ -46,15 +46,19 @@ h4.hero-title {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 0.25rem;
 }
 
 .header-logo {
     flex: 0 0 auto;
 }
 
-/* Divider under the logo/hamburger row — only used in the compact layout. */
-.header-divider {
+/* Top bar (logo + hamburger). */
+.navbar-top {
+    display: contents;
+}
+
+/* Ruler above the bio — only used in the compact layout. */
+.top-ruler {
     display: none;
 }
 
@@ -90,7 +94,7 @@ h4.hero-title {
 
 .bio {
     font-size: 14pt;
-    margin: 0;
+    margin: 0.5rem 0;
     color: var(--teal-ink);
     letter-spacing: 1.5px;
     font-family: 'Inter Tight', sans-serif;
@@ -276,8 +280,7 @@ nav.navbar-main a.active {
         justify-content: space-between;
         align-items: center;
         column-gap: 0.5rem;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+        padding: 0 !important;
     }
 
     .header-logo {
@@ -288,12 +291,21 @@ nav.navbar-main a.active {
         order: 2;
     }
 
-    .header-divider {
-        order: 3;
-        display: block;
+    .navbar-top {
+        order: 1;
         flex-basis: 100%;
         width: 100%;
-        margin: 0.6rem 0 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--easter-green-80);
+        border-bottom: 1.5px solid var(--dark-emerald-BF);
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .top-ruler {
+        display: block;
     }
 
     .header-top .hero-title {
@@ -318,7 +330,6 @@ nav.navbar-main a.active {
         font-size: 0.9em;
     }
 
-    /* Bottom ruler is redundant in the compact layout (nav is a drawer). */
     .bottom-ruler {
         display: none;
     }
@@ -358,7 +369,7 @@ nav.navbar-main a.active {
 /* #region Header - <= 992px : */
 @media (max-width: 992px) {
     header {
-        padding: 1rem 0.75rem 0.35rem;
+        padding: 0;
     }
 
     .profile-pic {
@@ -458,8 +469,8 @@ nav.navbar-main a.active {
         width: 36px;
         height: 36px;
         margin-left: auto;
-        background: var(--teal-ink-80);
-        border: 2px solid var(--teal-ink-80);
+        background: var(--teal-ink-BF);
+        border: 2px solid var(--teal-ink-BF);
         border-radius: 4px;
         color: white !important;
         font-size: 2rem;

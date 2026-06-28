@@ -12,12 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeGallery = [];
   let activeIndex = 0;
   let activeTrigger = null;
-  /* let activeTrack = null; */
   let activeFilmController = null;
-
-  // Timestamp of the last time the lightbox was opened. Used to ignore the
-  // synthesized "ghost" click that fires ~300ms after a touch tap, which would
-  // otherwise land on the freshly-opened backdrop and close it immediately.
   let lightboxOpenedAt = 0;
 
   function renderLightbox(index) {
@@ -48,8 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.classList.add('is-open');
     lightbox.setAttribute('aria-hidden', 'false');
 
-    // Avoid stealing scroll/focus on mobile; only move focus once the open
-    // transition has settled and a stray pointer/ghost event can't fire.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         try { closeBtn.focus({ preventScroll: true }); } catch (_) { closeBtn.focus(); }
@@ -402,8 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentTranslateX = targetX;
         normalizePosition();
-        // Land on a whole pixel so the arrow-centered frame renders crisp and
-        // is reliably centered (sub-pixel transforms read as a slight offset).
+
         currentTranslateX = Math.round(currentTranslateX);
         applyTransform(currentTranslateX);
         isAnimating = false;
@@ -502,11 +494,8 @@ document.addEventListener('DOMContentLoaded', () => {
         !document.body.classList.contains('lightbox-open')
       ) {
         const normalizedIndex = getNormalizedIndex(pressedFrame);
-        // The pressed frame may be a duplicate (aria-hidden) clone. Hand the
-        // lightbox a real, focusable frame as the trigger so that when the
-        // lightbox closes and restores focus, it lands on an element that's
-        // visible to assistive tech instead of a hidden clone.
         const focusTrigger = uniqueFrames[normalizedIndex] || pressedFrame;
+        
         openLightbox(gallery, normalizedIndex, focusTrigger, filmController);
         resetPointerState();
         return;
@@ -548,12 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
       pointerId = e.pointerId;
       pressedFrame = e.target.closest('.film-frame');
 
-      // The duplicated frames are correctly hidden from assistive tech with
-      // aria-hidden, but they're still <button>s that grab focus on press.
-      // A focused element inside an aria-hidden subtree is an accessibility
-      // violation that browsers block (the "Blocked aria-hidden ..." warning).
-      // Clones never need focus — taps open the lightbox through this delegated
-      // handler — so suppress the default focus when pressing a clone.
       if (pressedFrame && pressedFrame.getAttribute('aria-hidden') === 'true') {
         e.preventDefault();
       }
@@ -833,7 +816,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     gestureEl.addEventListener('pointerup', endPointer);
-
     gestureEl.addEventListener('pointercancel', () => {
       isPointerDown = false;
       isDragging = false;

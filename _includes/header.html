@@ -1,31 +1,34 @@
 <header>
-  <div class="header-top ps-5 pb-2">
-    <img src="{{ '/assets/apple-touch-icon.png' | relative_url }}" alt="Profile Picture" class="profile-pic header-logo me-2" height="55">
+  <div class="header-top ps-5 pb-0">
+    <div class="navbar-top shadow-sm">
+      <img src="{{ '/assets/apple-touch-icon.png' | relative_url }}"
+           alt="Profile Picture"
+           class="profile-pic header-logo"
+           height="55">
 
-    <!-- Hamburger lives in the top bar now; only visible in the compact layout. -->
-    <button
-      type="button"
-      class="nav-toggle"
-      id="navToggle"
-      aria-label="Open menu">
-      <i class="bi bi-list"></i>
-    </button>
+      <button
+        type="button"
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="Open menu">
+        <i class="bi bi-list"></i>
+      </button>
+    </div>
 
-    <!-- Divider under the logo/hamburger row; only visible in the compact layout. -->
-    <hr class="green-ruler header-divider" aria-hidden="true">
-
-    <h4 class="text-start ps-1 hero-title mb-0">
+    <h4 class="hero-title text-start my-2 mx-3">
       <span class="hero-name">Gabriel Rodríguez</span>
       <span class="hero-portfolio"><em>Game Designer Portfolio</em></span>
     </h4>
   </div>
+
+  <hr class="green-ruler top-ruler" aria-hidden="true">
 
   <p class="ps-5 pb-2 bio">
     Hi, I’m <span class="fw-bold">Gabriel Rodríguez</span>,
     a Technical Game Designer with experience in systems design, level design,
     and gameplay implementation.
   </p>
-
+  
   <hr class="green-ruler bottom-ruler">
 
   <nav class="navbar-main">
